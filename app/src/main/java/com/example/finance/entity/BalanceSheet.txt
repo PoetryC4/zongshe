@@ -1,0 +1,1304 @@
+package com.companypowernode.sys.entity
+
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
+import java.io.Serializable
+import java.time.LocalDate
+
+/**
+ * <p>
+ * 资产负债表
+ * </p>
+ *
+ * @author ly
+ * @since 2023-03-21
+ */
+@TableName("balance_sheet")
+public class BalanceSheet implements Serializable {
+
+    private static final long serialVersionUID = 1L
+
+    @TableId(value = "ts_code", type = IdType.AUTO)
+    private String tsCode
+    private Float totalShare
+    private Float capRese
+    private Float undistrPorfit
+    private Float surplusRese
+    private Float specialRese
+    private Float moneyCap
+    private Float tradAsset
+    private Float notesReceiv
+    private Float accountsReceiv
+    private Float othReceiv
+    private Float prepayment
+    private Float divReceiv
+    private Float intReceiv
+    private Float inventories
+    private Float amorExp
+    private Float ncaWithin1y
+    private Float settRsrv
+    private Float loantoOthBankFi
+    private Float premiumReceiv
+    private Float reinsurReceiv
+    private Float reinsurResReceiv
+    private Float purResaleFa
+    private Float othCurAssets
+    private Float totalCurAssets
+    private Float faAvailForSale
+    private Float htmInvest
+    private Float ltEqtInvest
+    private Float investRealEstate
+    private Float timeDeposits
+    private Float othAssets
+    private Float ltRec
+    private Float fixAssets
+    private Float cip
+    private Float constMaterials
+    private Float fixedAssetsDisp
+    private Float producBioAssets
+    private Float oilAndGasAssets
+    private Float intanAssets
+    private Float rAndD
+    private Float goodwill
+    private Float ltAmorExp
+    private Float deferTaxAssets
+    private Float decrInDisbur
+    private Float othNca
+    private Float totalNca
+    private Float cashReserCb
+    private Float deposInOthBfi
+    private Float precMetals
+    private Float derivAssets
+    private Float rrReinsUnePrem
+    private Float rrReinsOutstdCla
+    private Float rrReinsLinsLiab
+    private Float rrReinsLthinsLiab
+    private Float refundDepos
+    private Float phPledgeLoans
+    private Float refundCapDepos
+    private Float indepAcctAssets
+    private Float clientDepos
+    private Float clientProv
+    private Float transacSeatFee
+    private Float investAsReceiv
+    private Float totalAssets
+    private Float ltBorr
+    private Float stBorr
+    private Float cbBorr
+    private Float deposIbDeposits
+    private Float loanOthBank
+    private Float tradingFl
+    private Float notesPayable
+    private Float acctPayable
+    private Float advReceipts
+    private Float soldForRepurFa
+    private Float commPayable
+    private Float payrollPayable
+    private Float taxesPayable
+    private Float intPayable
+    private Float divPayable
+    private Float othPayable
+    private Float accExp
+    private Float deferredInc
+    private Float stBondsPayable
+    private Float payableToReinsurer
+    private Float rsrvInsurCont
+    private Float actingTradingSec
+    private Float actingUwSec
+    private Float nonCurLiabDue1y
+    private Float othCurLiab
+    private Float totalCurLiab
+    private Float bondPayable
+    private Float ltPayable
+    private Float specificPayables
+    private Float estimatedLiab
+    private Float deferTaxLiab
+    private Float deferIncNonCurLiab
+    private Float othNcl
+    private Float totalNcl
+    private Float deposOthBfi
+    private Float derivLiab
+    private Float depos
+    private Float agencyBusLiab
+    private Float othLiab
+    private Float premReceivAdva
+    private Float deposReceived
+    private Float phInvest
+    private Float reserUnePrem
+    private Float reserOutstdClaims
+    private Float reserLinsLiab
+    private Float reserLthinsLiab
+    private Float indeptAccLiab
+    private Float pledgeBorr
+    private Float indemPayable
+    private Float policyDivPayable
+    private Float totalLiab
+    private Float treasuryShare
+    private Float ordinRiskReser
+    private Float forexDiffer
+    private Float totalSharinvestLossUnconfe22
+    private Float minorityInt
+    private Float totalHldrEqyExcMinInt
+    private Float totalHldrEqyIncMinInt
+    private Float totalLiabHldrEqy
+    private Float ltPayrollPayable
+    private Float othCompIncome
+    private Float othEqtTools
+    private Float othEqtToolsPShr
+    private Float lendingFunds
+    private Float accReceivable
+    private Float stFinPayable
+    private Float payables
+    private Float hfsAssets
+    private Float hfsSales
+    private Float costFinAssets
+    private Float fairValueFinAssets
+    private Float cipTotal
+    private Float othPayTotal
+    private Float longPayTotal
+    private Float debtInvest
+    private Float othDebtInvest
+    private LocalDate annDate
+    private LocalDate endDate
+    public String getTsCode() {
+        return tsCode
+    }
+
+    public void setTsCode(String tsCode) {
+        this.tsCode = tsCode
+    }
+    public Float getTotalShare() {
+        return totalShare
+    }
+
+    public void setTotalShare(Float totalShare) {
+        this.totalShare = totalShare
+    }
+    public Float getCapRese() {
+        return capRese
+    }
+
+    public void setCapRese(Float capRese) {
+        this.capRese = capRese
+    }
+    public Float getUndistrPorfit() {
+        return undistrPorfit
+    }
+
+    public void setUndistrPorfit(Float undistrPorfit) {
+        this.undistrPorfit = undistrPorfit
+    }
+    public Float getSurplusRese() {
+        return surplusRese
+    }
+
+    public void setSurplusRese(Float surplusRese) {
+        this.surplusRese = surplusRese
+    }
+    public Float getSpecialRese() {
+        return specialRese
+    }
+
+    public void setSpecialRese(Float specialRese) {
+        this.specialRese = specialRese
+    }
+    public Float getMoneyCap() {
+        return moneyCap
+    }
+
+    public void setMoneyCap(Float moneyCap) {
+        this.moneyCap = moneyCap
+    }
+    public Float getTradAsset() {
+        return tradAsset
+    }
+
+    public void setTradAsset(Float tradAsset) {
+        this.tradAsset = tradAsset
+    }
+    public Float getNotesReceiv() {
+        return notesReceiv
+    }
+
+    public void setNotesReceiv(Float notesReceiv) {
+        this.notesReceiv = notesReceiv
+    }
+    public Float getAccountsReceiv() {
+        return accountsReceiv
+    }
+
+    public void setAccountsReceiv(Float accountsReceiv) {
+        this.accountsReceiv = accountsReceiv
+    }
+    public Float getOthReceiv() {
+        return othReceiv
+    }
+
+    public void setOthReceiv(Float othReceiv) {
+        this.othReceiv = othReceiv
+    }
+    public Float getPrepayment() {
+        return prepayment
+    }
+
+    public void setPrepayment(Float prepayment) {
+        this.prepayment = prepayment
+    }
+    public Float getDivReceiv() {
+        return divReceiv
+    }
+
+    public void setDivReceiv(Float divReceiv) {
+        this.divReceiv = divReceiv
+    }
+    public Float getIntReceiv() {
+        return intReceiv
+    }
+
+    public void setIntReceiv(Float intReceiv) {
+        this.intReceiv = intReceiv
+    }
+    public Float getInventories() {
+        return inventories
+    }
+
+    public void setInventories(Float inventories) {
+        this.inventories = inventories
+    }
+    public Float getAmorExp() {
+        return amorExp
+    }
+
+    public void setAmorExp(Float amorExp) {
+        this.amorExp = amorExp
+    }
+    public Float getNcaWithin1y() {
+        return ncaWithin1y
+    }
+
+    public void setNcaWithin1y(Float ncaWithin1y) {
+        this.ncaWithin1y = ncaWithin1y
+    }
+    public Float getSettRsrv() {
+        return settRsrv
+    }
+
+    public void setSettRsrv(Float settRsrv) {
+        this.settRsrv = settRsrv
+    }
+    public Float getLoantoOthBankFi() {
+        return loantoOthBankFi
+    }
+
+    public void setLoantoOthBankFi(Float loantoOthBankFi) {
+        this.loantoOthBankFi = loantoOthBankFi
+    }
+    public Float getPremiumReceiv() {
+        return premiumReceiv
+    }
+
+    public void setPremiumReceiv(Float premiumReceiv) {
+        this.premiumReceiv = premiumReceiv
+    }
+    public Float getReinsurReceiv() {
+        return reinsurReceiv
+    }
+
+    public void setReinsurReceiv(Float reinsurReceiv) {
+        this.reinsurReceiv = reinsurReceiv
+    }
+    public Float getReinsurResReceiv() {
+        return reinsurResReceiv
+    }
+
+    public void setReinsurResReceiv(Float reinsurResReceiv) {
+        this.reinsurResReceiv = reinsurResReceiv
+    }
+    public Float getPurResaleFa() {
+        return purResaleFa
+    }
+
+    public void setPurResaleFa(Float purResaleFa) {
+        this.purResaleFa = purResaleFa
+    }
+    public Float getOthCurAssets() {
+        return othCurAssets
+    }
+
+    public void setOthCurAssets(Float othCurAssets) {
+        this.othCurAssets = othCurAssets
+    }
+    public Float getTotalCurAssets() {
+        return totalCurAssets
+    }
+
+    public void setTotalCurAssets(Float totalCurAssets) {
+        this.totalCurAssets = totalCurAssets
+    }
+    public Float getFaAvailForSale() {
+        return faAvailForSale
+    }
+
+    public void setFaAvailForSale(Float faAvailForSale) {
+        this.faAvailForSale = faAvailForSale
+    }
+    public Float getHtmInvest() {
+        return htmInvest
+    }
+
+    public void setHtmInvest(Float htmInvest) {
+        this.htmInvest = htmInvest
+    }
+    public Float getLtEqtInvest() {
+        return ltEqtInvest
+    }
+
+    public void setLtEqtInvest(Float ltEqtInvest) {
+        this.ltEqtInvest = ltEqtInvest
+    }
+    public Float getInvestRealEstate() {
+        return investRealEstate
+    }
+
+    public void setInvestRealEstate(Float investRealEstate) {
+        this.investRealEstate = investRealEstate
+    }
+    public Float getTimeDeposits() {
+        return timeDeposits
+    }
+
+    public void setTimeDeposits(Float timeDeposits) {
+        this.timeDeposits = timeDeposits
+    }
+    public Float getOthAssets() {
+        return othAssets
+    }
+
+    public void setOthAssets(Float othAssets) {
+        this.othAssets = othAssets
+    }
+    public Float getLtRec() {
+        return ltRec
+    }
+
+    public void setLtRec(Float ltRec) {
+        this.ltRec = ltRec
+    }
+    public Float getFixAssets() {
+        return fixAssets
+    }
+
+    public void setFixAssets(Float fixAssets) {
+        this.fixAssets = fixAssets
+    }
+    public Float getCip() {
+        return cip
+    }
+
+    public void setCip(Float cip) {
+        this.cip = cip
+    }
+    public Float getConstMaterials() {
+        return constMaterials
+    }
+
+    public void setConstMaterials(Float constMaterials) {
+        this.constMaterials = constMaterials
+    }
+    public Float getFixedAssetsDisp() {
+        return fixedAssetsDisp
+    }
+
+    public void setFixedAssetsDisp(Float fixedAssetsDisp) {
+        this.fixedAssetsDisp = fixedAssetsDisp
+    }
+    public Float getProducBioAssets() {
+        return producBioAssets
+    }
+
+    public void setProducBioAssets(Float producBioAssets) {
+        this.producBioAssets = producBioAssets
+    }
+    public Float getOilAndGasAssets() {
+        return oilAndGasAssets
+    }
+
+    public void setOilAndGasAssets(Float oilAndGasAssets) {
+        this.oilAndGasAssets = oilAndGasAssets
+    }
+    public Float getIntanAssets() {
+        return intanAssets
+    }
+
+    public void setIntanAssets(Float intanAssets) {
+        this.intanAssets = intanAssets
+    }
+    public Float getrAndD() {
+        return rAndD
+    }
+
+    public void setrAndD(Float rAndD) {
+        this.rAndD = rAndD
+    }
+    public Float getGoodwill() {
+        return goodwill
+    }
+
+    public void setGoodwill(Float goodwill) {
+        this.goodwill = goodwill
+    }
+    public Float getLtAmorExp() {
+        return ltAmorExp
+    }
+
+    public void setLtAmorExp(Float ltAmorExp) {
+        this.ltAmorExp = ltAmorExp
+    }
+    public Float getDeferTaxAssets() {
+        return deferTaxAssets
+    }
+
+    public void setDeferTaxAssets(Float deferTaxAssets) {
+        this.deferTaxAssets = deferTaxAssets
+    }
+    public Float getDecrInDisbur() {
+        return decrInDisbur
+    }
+
+    public void setDecrInDisbur(Float decrInDisbur) {
+        this.decrInDisbur = decrInDisbur
+    }
+    public Float getOthNca() {
+        return othNca
+    }
+
+    public void setOthNca(Float othNca) {
+        this.othNca = othNca
+    }
+    public Float getTotalNca() {
+        return totalNca
+    }
+
+    public void setTotalNca(Float totalNca) {
+        this.totalNca = totalNca
+    }
+    public Float getCashReserCb() {
+        return cashReserCb
+    }
+
+    public void setCashReserCb(Float cashReserCb) {
+        this.cashReserCb = cashReserCb
+    }
+    public Float getDeposInOthBfi() {
+        return deposInOthBfi
+    }
+
+    public void setDeposInOthBfi(Float deposInOthBfi) {
+        this.deposInOthBfi = deposInOthBfi
+    }
+    public Float getPrecMetals() {
+        return precMetals
+    }
+
+    public void setPrecMetals(Float precMetals) {
+        this.precMetals = precMetals
+    }
+    public Float getDerivAssets() {
+        return derivAssets
+    }
+
+    public void setDerivAssets(Float derivAssets) {
+        this.derivAssets = derivAssets
+    }
+    public Float getRrReinsUnePrem() {
+        return rrReinsUnePrem
+    }
+
+    public void setRrReinsUnePrem(Float rrReinsUnePrem) {
+        this.rrReinsUnePrem = rrReinsUnePrem
+    }
+    public Float getRrReinsOutstdCla() {
+        return rrReinsOutstdCla
+    }
+
+    public void setRrReinsOutstdCla(Float rrReinsOutstdCla) {
+        this.rrReinsOutstdCla = rrReinsOutstdCla
+    }
+    public Float getRrReinsLinsLiab() {
+        return rrReinsLinsLiab
+    }
+
+    public void setRrReinsLinsLiab(Float rrReinsLinsLiab) {
+        this.rrReinsLinsLiab = rrReinsLinsLiab
+    }
+    public Float getRrReinsLthinsLiab() {
+        return rrReinsLthinsLiab
+    }
+
+    public void setRrReinsLthinsLiab(Float rrReinsLthinsLiab) {
+        this.rrReinsLthinsLiab = rrReinsLthinsLiab
+    }
+    public Float getRefundDepos() {
+        return refundDepos
+    }
+
+    public void setRefundDepos(Float refundDepos) {
+        this.refundDepos = refundDepos
+    }
+    public Float getPhPledgeLoans() {
+        return phPledgeLoans
+    }
+
+    public void setPhPledgeLoans(Float phPledgeLoans) {
+        this.phPledgeLoans = phPledgeLoans
+    }
+    public Float getRefundCapDepos() {
+        return refundCapDepos
+    }
+
+    public void setRefundCapDepos(Float refundCapDepos) {
+        this.refundCapDepos = refundCapDepos
+    }
+    public Float getIndepAcctAssets() {
+        return indepAcctAssets
+    }
+
+    public void setIndepAcctAssets(Float indepAcctAssets) {
+        this.indepAcctAssets = indepAcctAssets
+    }
+    public Float getClientDepos() {
+        return clientDepos
+    }
+
+    public void setClientDepos(Float clientDepos) {
+        this.clientDepos = clientDepos
+    }
+    public Float getClientProv() {
+        return clientProv
+    }
+
+    public void setClientProv(Float clientProv) {
+        this.clientProv = clientProv
+    }
+    public Float getTransacSeatFee() {
+        return transacSeatFee
+    }
+
+    public void setTransacSeatFee(Float transacSeatFee) {
+        this.transacSeatFee = transacSeatFee
+    }
+    public Float getInvestAsReceiv() {
+        return investAsReceiv
+    }
+
+    public void setInvestAsReceiv(Float investAsReceiv) {
+        this.investAsReceiv = investAsReceiv
+    }
+    public Float getTotalAssets() {
+        return totalAssets
+    }
+
+    public void setTotalAssets(Float totalAssets) {
+        this.totalAssets = totalAssets
+    }
+    public Float getLtBorr() {
+        return ltBorr
+    }
+
+    public void setLtBorr(Float ltBorr) {
+        this.ltBorr = ltBorr
+    }
+    public Float getStBorr() {
+        return stBorr
+    }
+
+    public void setStBorr(Float stBorr) {
+        this.stBorr = stBorr
+    }
+    public Float getCbBorr() {
+        return cbBorr
+    }
+
+    public void setCbBorr(Float cbBorr) {
+        this.cbBorr = cbBorr
+    }
+    public Float getDeposIbDeposits() {
+        return deposIbDeposits
+    }
+
+    public void setDeposIbDeposits(Float deposIbDeposits) {
+        this.deposIbDeposits = deposIbDeposits
+    }
+    public Float getLoanOthBank() {
+        return loanOthBank
+    }
+
+    public void setLoanOthBank(Float loanOthBank) {
+        this.loanOthBank = loanOthBank
+    }
+    public Float getTradingFl() {
+        return tradingFl
+    }
+
+    public void setTradingFl(Float tradingFl) {
+        this.tradingFl = tradingFl
+    }
+    public Float getNotesPayable() {
+        return notesPayable
+    }
+
+    public void setNotesPayable(Float notesPayable) {
+        this.notesPayable = notesPayable
+    }
+    public Float getAcctPayable() {
+        return acctPayable
+    }
+
+    public void setAcctPayable(Float acctPayable) {
+        this.acctPayable = acctPayable
+    }
+    public Float getAdvReceipts() {
+        return advReceipts
+    }
+
+    public void setAdvReceipts(Float advReceipts) {
+        this.advReceipts = advReceipts
+    }
+    public Float getSoldForRepurFa() {
+        return soldForRepurFa
+    }
+
+    public void setSoldForRepurFa(Float soldForRepurFa) {
+        this.soldForRepurFa = soldForRepurFa
+    }
+    public Float getCommPayable() {
+        return commPayable
+    }
+
+    public void setCommPayable(Float commPayable) {
+        this.commPayable = commPayable
+    }
+    public Float getPayrollPayable() {
+        return payrollPayable
+    }
+
+    public void setPayrollPayable(Float payrollPayable) {
+        this.payrollPayable = payrollPayable
+    }
+    public Float getTaxesPayable() {
+        return taxesPayable
+    }
+
+    public void setTaxesPayable(Float taxesPayable) {
+        this.taxesPayable = taxesPayable
+    }
+    public Float getIntPayable() {
+        return intPayable
+    }
+
+    public void setIntPayable(Float intPayable) {
+        this.intPayable = intPayable
+    }
+    public Float getDivPayable() {
+        return divPayable
+    }
+
+    public void setDivPayable(Float divPayable) {
+        this.divPayable = divPayable
+    }
+    public Float getOthPayable() {
+        return othPayable
+    }
+
+    public void setOthPayable(Float othPayable) {
+        this.othPayable = othPayable
+    }
+    public Float getAccExp() {
+        return accExp
+    }
+
+    public void setAccExp(Float accExp) {
+        this.accExp = accExp
+    }
+    public Float getDeferredInc() {
+        return deferredInc
+    }
+
+    public void setDeferredInc(Float deferredInc) {
+        this.deferredInc = deferredInc
+    }
+    public Float getStBondsPayable() {
+        return stBondsPayable
+    }
+
+    public void setStBondsPayable(Float stBondsPayable) {
+        this.stBondsPayable = stBondsPayable
+    }
+    public Float getPayableToReinsurer() {
+        return payableToReinsurer
+    }
+
+    public void setPayableToReinsurer(Float payableToReinsurer) {
+        this.payableToReinsurer = payableToReinsurer
+    }
+    public Float getRsrvInsurCont() {
+        return rsrvInsurCont
+    }
+
+    public void setRsrvInsurCont(Float rsrvInsurCont) {
+        this.rsrvInsurCont = rsrvInsurCont
+    }
+    public Float getActingTradingSec() {
+        return actingTradingSec
+    }
+
+    public void setActingTradingSec(Float actingTradingSec) {
+        this.actingTradingSec = actingTradingSec
+    }
+    public Float getActingUwSec() {
+        return actingUwSec
+    }
+
+    public void setActingUwSec(Float actingUwSec) {
+        this.actingUwSec = actingUwSec
+    }
+    public Float getNonCurLiabDue1y() {
+        return nonCurLiabDue1y
+    }
+
+    public void setNonCurLiabDue1y(Float nonCurLiabDue1y) {
+        this.nonCurLiabDue1y = nonCurLiabDue1y
+    }
+    public Float getOthCurLiab() {
+        return othCurLiab
+    }
+
+    public void setOthCurLiab(Float othCurLiab) {
+        this.othCurLiab = othCurLiab
+    }
+    public Float getTotalCurLiab() {
+        return totalCurLiab
+    }
+
+    public void setTotalCurLiab(Float totalCurLiab) {
+        this.totalCurLiab = totalCurLiab
+    }
+    public Float getBondPayable() {
+        return bondPayable
+    }
+
+    public void setBondPayable(Float bondPayable) {
+        this.bondPayable = bondPayable
+    }
+    public Float getLtPayable() {
+        return ltPayable
+    }
+
+    public void setLtPayable(Float ltPayable) {
+        this.ltPayable = ltPayable
+    }
+    public Float getSpecificPayables() {
+        return specificPayables
+    }
+
+    public void setSpecificPayables(Float specificPayables) {
+        this.specificPayables = specificPayables
+    }
+    public Float getEstimatedLiab() {
+        return estimatedLiab
+    }
+
+    public void setEstimatedLiab(Float estimatedLiab) {
+        this.estimatedLiab = estimatedLiab
+    }
+    public Float getDeferTaxLiab() {
+        return deferTaxLiab
+    }
+
+    public void setDeferTaxLiab(Float deferTaxLiab) {
+        this.deferTaxLiab = deferTaxLiab
+    }
+    public Float getDeferIncNonCurLiab() {
+        return deferIncNonCurLiab
+    }
+
+    public void setDeferIncNonCurLiab(Float deferIncNonCurLiab) {
+        this.deferIncNonCurLiab = deferIncNonCurLiab
+    }
+    public Float getOthNcl() {
+        return othNcl
+    }
+
+    public void setOthNcl(Float othNcl) {
+        this.othNcl = othNcl
+    }
+    public Float getTotalNcl() {
+        return totalNcl
+    }
+
+    public void setTotalNcl(Float totalNcl) {
+        this.totalNcl = totalNcl
+    }
+    public Float getDeposOthBfi() {
+        return deposOthBfi
+    }
+
+    public void setDeposOthBfi(Float deposOthBfi) {
+        this.deposOthBfi = deposOthBfi
+    }
+    public Float getDerivLiab() {
+        return derivLiab
+    }
+
+    public void setDerivLiab(Float derivLiab) {
+        this.derivLiab = derivLiab
+    }
+    public Float getDepos() {
+        return depos
+    }
+
+    public void setDepos(Float depos) {
+        this.depos = depos
+    }
+    public Float getAgencyBusLiab() {
+        return agencyBusLiab
+    }
+
+    public void setAgencyBusLiab(Float agencyBusLiab) {
+        this.agencyBusLiab = agencyBusLiab
+    }
+    public Float getOthLiab() {
+        return othLiab
+    }
+
+    public void setOthLiab(Float othLiab) {
+        this.othLiab = othLiab
+    }
+    public Float getPremReceivAdva() {
+        return premReceivAdva
+    }
+
+    public void setPremReceivAdva(Float premReceivAdva) {
+        this.premReceivAdva = premReceivAdva
+    }
+    public Float getDeposReceived() {
+        return deposReceived
+    }
+
+    public void setDeposReceived(Float deposReceived) {
+        this.deposReceived = deposReceived
+    }
+    public Float getPhInvest() {
+        return phInvest
+    }
+
+    public void setPhInvest(Float phInvest) {
+        this.phInvest = phInvest
+    }
+    public Float getReserUnePrem() {
+        return reserUnePrem
+    }
+
+    public void setReserUnePrem(Float reserUnePrem) {
+        this.reserUnePrem = reserUnePrem
+    }
+    public Float getReserOutstdClaims() {
+        return reserOutstdClaims
+    }
+
+    public void setReserOutstdClaims(Float reserOutstdClaims) {
+        this.reserOutstdClaims = reserOutstdClaims
+    }
+    public Float getReserLinsLiab() {
+        return reserLinsLiab
+    }
+
+    public void setReserLinsLiab(Float reserLinsLiab) {
+        this.reserLinsLiab = reserLinsLiab
+    }
+    public Float getReserLthinsLiab() {
+        return reserLthinsLiab
+    }
+
+    public void setReserLthinsLiab(Float reserLthinsLiab) {
+        this.reserLthinsLiab = reserLthinsLiab
+    }
+    public Float getIndeptAccLiab() {
+        return indeptAccLiab
+    }
+
+    public void setIndeptAccLiab(Float indeptAccLiab) {
+        this.indeptAccLiab = indeptAccLiab
+    }
+    public Float getPledgeBorr() {
+        return pledgeBorr
+    }
+
+    public void setPledgeBorr(Float pledgeBorr) {
+        this.pledgeBorr = pledgeBorr
+    }
+    public Float getIndemPayable() {
+        return indemPayable
+    }
+
+    public void setIndemPayable(Float indemPayable) {
+        this.indemPayable = indemPayable
+    }
+    public Float getPolicyDivPayable() {
+        return policyDivPayable
+    }
+
+    public void setPolicyDivPayable(Float policyDivPayable) {
+        this.policyDivPayable = policyDivPayable
+    }
+    public Float getTotalLiab() {
+        return totalLiab
+    }
+
+    public void setTotalLiab(Float totalLiab) {
+        this.totalLiab = totalLiab
+    }
+    public Float getTreasuryShare() {
+        return treasuryShare
+    }
+
+    public void setTreasuryShare(Float treasuryShare) {
+        this.treasuryShare = treasuryShare
+    }
+    public Float getOrdinRiskReser() {
+        return ordinRiskReser
+    }
+
+    public void setOrdinRiskReser(Float ordinRiskReser) {
+        this.ordinRiskReser = ordinRiskReser
+    }
+    public Float getForexDiffer() {
+        return forexDiffer
+    }
+
+    public void setForexDiffer(Float forexDiffer) {
+        this.forexDiffer = forexDiffer
+    }
+    public Float getTotalSharinvestLossUnconfe22() {
+        return totalSharinvestLossUnconfe22
+    }
+
+    public void setTotalSharinvestLossUnconfe22(Float totalSharinvestLossUnconfe22) {
+        this.totalSharinvestLossUnconfe22 = totalSharinvestLossUnconfe22
+    }
+    public Float getMinorityInt() {
+        return minorityInt
+    }
+
+    public void setMinorityInt(Float minorityInt) {
+        this.minorityInt = minorityInt
+    }
+    public Float getTotalHldrEqyExcMinInt() {
+        return totalHldrEqyExcMinInt
+    }
+
+    public void setTotalHldrEqyExcMinInt(Float totalHldrEqyExcMinInt) {
+        this.totalHldrEqyExcMinInt = totalHldrEqyExcMinInt
+    }
+    public Float getTotalHldrEqyIncMinInt() {
+        return totalHldrEqyIncMinInt
+    }
+
+    public void setTotalHldrEqyIncMinInt(Float totalHldrEqyIncMinInt) {
+        this.totalHldrEqyIncMinInt = totalHldrEqyIncMinInt
+    }
+    public Float getTotalLiabHldrEqy() {
+        return totalLiabHldrEqy
+    }
+
+    public void setTotalLiabHldrEqy(Float totalLiabHldrEqy) {
+        this.totalLiabHldrEqy = totalLiabHldrEqy
+    }
+    public Float getLtPayrollPayable() {
+        return ltPayrollPayable
+    }
+
+    public void setLtPayrollPayable(Float ltPayrollPayable) {
+        this.ltPayrollPayable = ltPayrollPayable
+    }
+    public Float getOthCompIncome() {
+        return othCompIncome
+    }
+
+    public void setOthCompIncome(Float othCompIncome) {
+        this.othCompIncome = othCompIncome
+    }
+    public Float getOthEqtTools() {
+        return othEqtTools
+    }
+
+    public void setOthEqtTools(Float othEqtTools) {
+        this.othEqtTools = othEqtTools
+    }
+    public Float getOthEqtToolsPShr() {
+        return othEqtToolsPShr
+    }
+
+    public void setOthEqtToolsPShr(Float othEqtToolsPShr) {
+        this.othEqtToolsPShr = othEqtToolsPShr
+    }
+    public Float getLendingFunds() {
+        return lendingFunds
+    }
+
+    public void setLendingFunds(Float lendingFunds) {
+        this.lendingFunds = lendingFunds
+    }
+    public Float getAccReceivable() {
+        return accReceivable
+    }
+
+    public void setAccReceivable(Float accReceivable) {
+        this.accReceivable = accReceivable
+    }
+    public Float getStFinPayable() {
+        return stFinPayable
+    }
+
+    public void setStFinPayable(Float stFinPayable) {
+        this.stFinPayable = stFinPayable
+    }
+    public Float getPayables() {
+        return payables
+    }
+
+    public void setPayables(Float payables) {
+        this.payables = payables
+    }
+    public Float getHfsAssets() {
+        return hfsAssets
+    }
+
+    public void setHfsAssets(Float hfsAssets) {
+        this.hfsAssets = hfsAssets
+    }
+    public Float getHfsSales() {
+        return hfsSales
+    }
+
+    public void setHfsSales(Float hfsSales) {
+        this.hfsSales = hfsSales
+    }
+    public Float getCostFinAssets() {
+        return costFinAssets
+    }
+
+    public void setCostFinAssets(Float costFinAssets) {
+        this.costFinAssets = costFinAssets
+    }
+    public Float getFairValueFinAssets() {
+        return fairValueFinAssets
+    }
+
+    public void setFairValueFinAssets(Float fairValueFinAssets) {
+        this.fairValueFinAssets = fairValueFinAssets
+    }
+    public Float getCipTotal() {
+        return cipTotal
+    }
+
+    public void setCipTotal(Float cipTotal) {
+        this.cipTotal = cipTotal
+    }
+    public Float getOthPayTotal() {
+        return othPayTotal
+    }
+
+    public void setOthPayTotal(Float othPayTotal) {
+        this.othPayTotal = othPayTotal
+    }
+    public Float getLongPayTotal() {
+        return longPayTotal
+    }
+
+    public void setLongPayTotal(Float longPayTotal) {
+        this.longPayTotal = longPayTotal
+    }
+    public Float getDebtInvest() {
+        return debtInvest
+    }
+
+    public void setDebtInvest(Float debtInvest) {
+        this.debtInvest = debtInvest
+    }
+    public Float getOthDebtInvest() {
+        return othDebtInvest
+    }
+
+    public void setOthDebtInvest(Float othDebtInvest) {
+        this.othDebtInvest = othDebtInvest
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID
+    }
+
+    public LocalDate getAnnDate() {
+        return annDate
+    }
+
+    public void setAnnDate(LocalDate annDate) {
+        this.annDate = annDate
+    }
+
+    public LocalDate getEndDate() {
+        return endDate
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate
+    }
+
+    @Override
+    public String toString() {
+        return "BalanceSheet{" +
+                "tsCode='" + tsCode + '\'' +
+                ", totalShare=" + totalShare +
+                ", capRese=" + capRese +
+                ", undistrPorfit=" + undistrPorfit +
+                ", surplusRese=" + surplusRese +
+                ", specialRese=" + specialRese +
+                ", moneyCap=" + moneyCap +
+                ", tradAsset=" + tradAsset +
+                ", notesReceiv=" + notesReceiv +
+                ", accountsReceiv=" + accountsReceiv +
+                ", othReceiv=" + othReceiv +
+                ", prepayment=" + prepayment +
+                ", divReceiv=" + divReceiv +
+                ", intReceiv=" + intReceiv +
+                ", inventories=" + inventories +
+                ", amorExp=" + amorExp +
+                ", ncaWithin1y=" + ncaWithin1y +
+                ", settRsrv=" + settRsrv +
+                ", loantoOthBankFi=" + loantoOthBankFi +
+                ", premiumReceiv=" + premiumReceiv +
+                ", reinsurReceiv=" + reinsurReceiv +
+                ", reinsurResReceiv=" + reinsurResReceiv +
+                ", purResaleFa=" + purResaleFa +
+                ", othCurAssets=" + othCurAssets +
+                ", totalCurAssets=" + totalCurAssets +
+                ", faAvailForSale=" + faAvailForSale +
+                ", htmInvest=" + htmInvest +
+                ", ltEqtInvest=" + ltEqtInvest +
+                ", investRealEstate=" + investRealEstate +
+                ", timeDeposits=" + timeDeposits +
+                ", othAssets=" + othAssets +
+                ", ltRec=" + ltRec +
+                ", fixAssets=" + fixAssets +
+                ", cip=" + cip +
+                ", constMaterials=" + constMaterials +
+                ", fixedAssetsDisp=" + fixedAssetsDisp +
+                ", producBioAssets=" + producBioAssets +
+                ", oilAndGasAssets=" + oilAndGasAssets +
+                ", intanAssets=" + intanAssets +
+                ", rAndD=" + rAndD +
+                ", goodwill=" + goodwill +
+                ", ltAmorExp=" + ltAmorExp +
+                ", deferTaxAssets=" + deferTaxAssets +
+                ", decrInDisbur=" + decrInDisbur +
+                ", othNca=" + othNca +
+                ", totalNca=" + totalNca +
+                ", cashReserCb=" + cashReserCb +
+                ", deposInOthBfi=" + deposInOthBfi +
+                ", precMetals=" + precMetals +
+                ", derivAssets=" + derivAssets +
+                ", rrReinsUnePrem=" + rrReinsUnePrem +
+                ", rrReinsOutstdCla=" + rrReinsOutstdCla +
+                ", rrReinsLinsLiab=" + rrReinsLinsLiab +
+                ", rrReinsLthinsLiab=" + rrReinsLthinsLiab +
+                ", refundDepos=" + refundDepos +
+                ", phPledgeLoans=" + phPledgeLoans +
+                ", refundCapDepos=" + refundCapDepos +
+                ", indepAcctAssets=" + indepAcctAssets +
+                ", clientDepos=" + clientDepos +
+                ", clientProv=" + clientProv +
+                ", transacSeatFee=" + transacSeatFee +
+                ", investAsReceiv=" + investAsReceiv +
+                ", totalAssets=" + totalAssets +
+                ", ltBorr=" + ltBorr +
+                ", stBorr=" + stBorr +
+                ", cbBorr=" + cbBorr +
+                ", deposIbDeposits=" + deposIbDeposits +
+                ", loanOthBank=" + loanOthBank +
+                ", tradingFl=" + tradingFl +
+                ", notesPayable=" + notesPayable +
+                ", acctPayable=" + acctPayable +
+                ", advReceipts=" + advReceipts +
+                ", soldForRepurFa=" + soldForRepurFa +
+                ", commPayable=" + commPayable +
+                ", payrollPayable=" + payrollPayable +
+                ", taxesPayable=" + taxesPayable +
+                ", intPayable=" + intPayable +
+                ", divPayable=" + divPayable +
+                ", othPayable=" + othPayable +
+                ", accExp=" + accExp +
+                ", deferredInc=" + deferredInc +
+                ", stBondsPayable=" + stBondsPayable +
+                ", payableToReinsurer=" + payableToReinsurer +
+                ", rsrvInsurCont=" + rsrvInsurCont +
+                ", actingTradingSec=" + actingTradingSec +
+                ", actingUwSec=" + actingUwSec +
+                ", nonCurLiabDue1y=" + nonCurLiabDue1y +
+                ", othCurLiab=" + othCurLiab +
+                ", totalCurLiab=" + totalCurLiab +
+                ", bondPayable=" + bondPayable +
+                ", ltPayable=" + ltPayable +
+                ", specificPayables=" + specificPayables +
+                ", estimatedLiab=" + estimatedLiab +
+                ", deferTaxLiab=" + deferTaxLiab +
+                ", deferIncNonCurLiab=" + deferIncNonCurLiab +
+                ", othNcl=" + othNcl +
+                ", totalNcl=" + totalNcl +
+                ", deposOthBfi=" + deposOthBfi +
+                ", derivLiab=" + derivLiab +
+                ", depos=" + depos +
+                ", agencyBusLiab=" + agencyBusLiab +
+                ", othLiab=" + othLiab +
+                ", premReceivAdva=" + premReceivAdva +
+                ", deposReceived=" + deposReceived +
+                ", phInvest=" + phInvest +
+                ", reserUnePrem=" + reserUnePrem +
+                ", reserOutstdClaims=" + reserOutstdClaims +
+                ", reserLinsLiab=" + reserLinsLiab +
+                ", reserLthinsLiab=" + reserLthinsLiab +
+                ", indeptAccLiab=" + indeptAccLiab +
+                ", pledgeBorr=" + pledgeBorr +
+                ", indemPayable=" + indemPayable +
+                ", policyDivPayable=" + policyDivPayable +
+                ", totalLiab=" + totalLiab +
+                ", treasuryShare=" + treasuryShare +
+                ", ordinRiskReser=" + ordinRiskReser +
+                ", forexDiffer=" + forexDiffer +
+                ", totalSharinvestLossUnconfe22=" + totalSharinvestLossUnconfe22 +
+                ", minorityInt=" + minorityInt +
+                ", totalHldrEqyExcMinInt=" + totalHldrEqyExcMinInt +
+                ", totalHldrEqyIncMinInt=" + totalHldrEqyIncMinInt +
+                ", totalLiabHldrEqy=" + totalLiabHldrEqy +
+                ", ltPayrollPayable=" + ltPayrollPayable +
+                ", othCompIncome=" + othCompIncome +
+                ", othEqtTools=" + othEqtTools +
+                ", othEqtToolsPShr=" + othEqtToolsPShr +
+                ", lendingFunds=" + lendingFunds +
+                ", accReceivable=" + accReceivable +
+                ", stFinPayable=" + stFinPayable +
+                ", payables=" + payables +
+                ", hfsAssets=" + hfsAssets +
+                ", hfsSales=" + hfsSales +
+                ", costFinAssets=" + costFinAssets +
+                ", fairValueFinAssets=" + fairValueFinAssets +
+                ", cipTotal=" + cipTotal +
+                ", othPayTotal=" + othPayTotal +
+                ", longPayTotal=" + longPayTotal +
+                ", debtInvest=" + debtInvest +
+                ", othDebtInvest=" + othDebtInvest +
+                ", annDate=" + annDate +
+                ", endDate=" + endDate +
+                '}'
+    }
+}

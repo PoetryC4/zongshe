@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".PredictorPage"
+    android:orientation="vertical"
+    android:id="@+id/predictor_body"
+    android:background="#FFFDFD">
+
+    <include layout="@layout/tool_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:orientation="vertical">
+<!--
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="10dp"
+            android:translationY="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/fa_chevron_left"
+            android:textColor="#ffffff"
+            android:textSize="23sp"/>-->
+        <TextView
+            android:id="@+id/predictor_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_predictor"
+            android:textColor="@color/gray_1"
+            android:textSize="23sp"
+            android:translationX="20dp"
+            android:translationY="15dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:id="@+id/predictor_line"
+            android:translationX="0dp"
+            android:translationY="26dp"
+            android:background="@color/gray_1"/>
+
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1545dp">
+
+        <AbsoluteLayout
+            android:translationX="30dp"
+            android:layout_width="340dp"
+            android:layout_height="1600dp"
+            android:translationZ="2dp"
+            android:elevation="2dp"
+            android:id="@+id/predictor_panel"
+            android:background="@drawable/rounded_rect_1_white">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:translationY="60dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/name_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:translationX="30dp"
+                    android:text="@string/any_stock_code"
+                    android:textColor="@color/gray_1"
+                    android:textSize="21sp"/>
+
+                <EditText
+                    android:id="@+id/name_input"
+                    android:background="@drawable/edittext_bg_gray"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:translationX="80dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_1"
+                    android:textColorHint="@color/gray_1"
+                    android:hint="请输入要预测的股票"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:translationY="120dp"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/days_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:translationX="30dp"
+                    android:text="@string/predictor_days_to_predict"
+                    android:textColor="@color/gray_1"
+                    android:textSize="21sp"/>
+
+                <EditText
+                    android:id="@+id/days_input"
+                    style="@style/myEditText"
+                    android:layout_width="170dp"
+                    android:layout_height="40dp"
+                    android:hint="请输入要预测的天数"
+                    android:inputType="number"
+                    android:textColor="@color/gray_1"
+                    android:textColorHint="@color/gray_1"
+                    android:textSize="12sp"
+                    android:translationX="60dp"/>
+
+
+            </LinearLayout>
+
+
+            <android.widget.Button
+                android:id="@+id/predict_button"
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:translationX="100dp"
+                android:translationY="143dp"
+                android:background="@drawable/rounded_button"
+                android:layoutDirection="locale"
+                android:text="@string/predictor_predict"
+                android:textColor="#FFE4E1"
+                android:textSize="25sp"/>
+            <WebView
+                android:id="@+id/KMap"
+                android:layout_width="match_parent"
+                android:layout_height="900dp"
+                android:translationX="0dp"
+                android:translationY="250dp" />
+        </AbsoluteLayout>
+
+    </ScrollView>
+</LinearLayout>

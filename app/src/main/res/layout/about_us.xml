@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/aboutUs_body"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    tools:context=".AboutUs">
+
+    <include layout="@layout/tool_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+<!--
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/fa_chevron_left"
+            android:textColor="@color/gray_1"
+            android:textSize="23sp"
+            android:translationX="10dp"
+            android:translationY="14dp"/>-->
+
+        <TextView
+            android:id="@+id/aboutUs_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_about_us"
+            android:textColor="@color/gray_1"
+            android:textSize="23sp"
+            android:translationX="35dp"
+            android:translationY="9dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:id="@+id/aboutUs_line"
+            android:background="@color/gray_1"
+            android:translationY="21dp"/>
+
+        <TextView
+            android:id="@+id/aboutUs_content"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_1"
+            android:textSize="16sp"
+            android:text="\u3000我们是一个"
+            android:translationX="15dp"
+            android:translationY="33dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

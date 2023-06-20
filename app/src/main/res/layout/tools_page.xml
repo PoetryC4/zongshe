@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ToolsPage"
+    android:orientation="vertical"
+    android:id="@+id/tools_body"
+    android:background="@color/white">
+
+
+    <include layout="@layout/tool_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/tools_head"
+        android:background="#FF9090">
+
+
+
+        <TextView
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="23dp"
+            android:translationY="29dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/fa_search"
+            android:textColor="#ffffff"
+            android:textSize="30sp"/>
+        <TextView
+            android:id="@+id/upperBar"
+            android:paddingStart="10dp"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:elevation="2dp"
+            android:translationZ="2dp"
+            android:textSize="20sp"
+            android:textColor="@color/gray_1"
+            android:gravity="center_vertical"
+            android:hint="查询公司或股票"
+            android:textColorHint="#757575"
+            android:translationX="74dp"
+            android:translationY="29dp"
+            android:background="@drawable/rounded_rect_3_white"  />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:translationX="30dp"
+        android:translationY="30dp"
+        android:layout_width="340dp"
+        android:layout_height="200dp"
+        android:translationZ="2dp"
+        android:elevation="2dp"
+        android:id="@+id/tools_box"
+        android:background="@drawable/rounded_rect_1_white"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="265dp"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:translationY="-260dp">
+
+        <AbsoluteLayout
+            android:id="@+id/tools_predictor"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:translationX="68dp"
+            android:translationY="47dp">
+
+            <TextView
+                android:id="@+id/predictor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fa_line_chart"
+                android:textColor="#FF8181"
+                android:textSize="37sp"
+                android:translationX="15dp"/>
+
+            <TextView
+                android:id="@+id/predictor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_predictor"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                android:translationY="50dp"/>
+        </AbsoluteLayout>
+
+        <AbsoluteLayout
+            android:id="@+id/tools_warning"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:translationX="68dp"
+            android:translationY="47dp">
+
+            <TextView
+                android:id="@+id/warnings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fa_warning"
+                android:textColor="#FF8181"
+                android:textSize="37sp"
+                android:translationX="15dp"/>
+
+            <TextView
+                android:id="@+id/warnings_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_warnings"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                android:translationY="50dp"/>
+        </AbsoluteLayout>
+
+
+        <AbsoluteLayout
+            android:id="@+id/tools_notes"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:translationX="68dp"
+            android:translationY="47dp">
+
+            <TextView
+                android:id="@+id/notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fa_pencil"
+                android:textColor="#FF8181"
+                android:textSize="37sp"
+                android:translationX="15dp"/>
+
+            <TextView
+                android:id="@+id/notes_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_notes"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                android:translationY="50dp"/>
+        </AbsoluteLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/switchBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:background="#FFA49C">
+
+        <TextView
+            android:id="@+id/tool_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_calculator"
+            android:textColor="#FF5E5E"
+            android:textSize="30sp"
+            android:translationX="55dp"
+            android:translationY="4dp"/>
+
+        <TextView
+            android:id="@+id/tool_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_tools"
+            android:textColor="#FF5E5E"
+            android:textSize="20sp"
+            android:translationX="20dp"
+            android:translationY="32dp"/>
+
+        <TextView
+            android:id="@+id/main_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_money"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:translationX="125dp"
+            android:translationY="4dp"/>
+
+        <TextView
+            android:id="@+id/main_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_mainpage"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:translationX="90dp"
+            android:translationY="32dp"/>
+
+        <TextView
+            android:id="@+id/user_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_user_circle"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:translationX="180dp"
+            android:translationY="4dp"/>
+
+        <TextView
+            android:id="@+id/user_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_user"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:translationX="145dp"
+            android:translationY="32dp"/>
+
+
+    </LinearLayout>
+</LinearLayout>

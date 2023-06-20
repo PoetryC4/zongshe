@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/topic_body"
+    android:background="@color/white"
+    tools:context=".TopicPage">
+    <include layout="@layout/tool_bar" />
+<AbsoluteLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"><!--
+    <TextView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationX="10dp"
+        android:translationY="0dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/fa_chevron_left"
+        android:textColor="@color/gray_1"
+        android:textSize="23sp"/>-->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationX="13dp"
+        android:textSize="33sp"
+        android:text="Title1"
+        android:textColor="@color/gray_1"/>
+    <TextView
+        android:id="@+id/channel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationX="263dp"
+        android:textSize="25sp"
+        android:translationY="6dp"
+        android:text="chhhhh"
+        android:textColor="@color/gray_1"/>
+</AbsoluteLayout>
+
+    <TextView
+        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:id="@+id/topic_line"
+        android:background="@color/gray_1"/>
+
+    <TextView
+        android:id="@+id/topic_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="\u30002021"
+        android:textColor="@color/gray_1"
+        android:textSize="17sp"
+        android:translationX="10dp"/>
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="\u3000CONTTTTTTTTTent"
+        android:textColor="@color/gray_1"
+        android:textSize="20sp"
+        android:translationX="15dp"/>
+</LinearLayout>

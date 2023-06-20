@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.finance">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+
+    <!-- Needed only if your app looks for Bluetooth devices.
+         You must add an attribute to this permission, or declare the
+         ACCESS_FINE_LOCATION permission, depending on the results when you
+         check location usage in your app. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+
+    <!-- Needed only if your app makes the device discoverable to Bluetooth
+         devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
+    <!-- Needed only if your app communicates with already-paired Bluetooth
+         devices. -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/appicon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/appicon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Design.NoActionBar"
+        tools:targetApi="31"
+        android:usesCleartextTraffic="true">
+
+
+        <activity
+            android:name="com.example.finance.LoginPage"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name="com.example.finance.RegisterPage"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name="com.example.finance.StockMainPage"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.StockSearchPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.StockSearchResult"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.StockDataPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.UserHistory"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.UserFavorites"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.TopicsPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.NoteRead"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.UserSetting"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.ChangePwdVerify"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.ChangePwd"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.AboutUs"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.NoteModify"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.UserNotes"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.ToolsPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.PredictorPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.TopicPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.UserPageSimple"
+            android:theme="@style/Theme.Design.NoActionBar"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name="com.example.finance.StartSplash"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+    </application>
+
+</manifest>

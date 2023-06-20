@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_setting_body"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".UserSetting"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/tool_bar" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="vertical">
+<!--
+    <TextView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationX="10dp"
+        android:translationY="14dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/fa_chevron_left"
+        android:textColor="#656565"
+        android:textSize="23sp"/>-->
+    <TextView
+        android:id="@+id/userSetting_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="9dp"
+        android:text="@string/user_setting"
+        android:textColor="#656565"
+        android:textSize="23sp"
+        android:translationX="35dp"/>
+
+
+    <TextView
+        android:id="@+id/userSetting_lineTitle"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:translationY="18dp"
+        android:background="#656565"/>
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/appearance_switch_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationX="14dp"
+        android:translationY="6dp"
+        android:text="@string/any_dark_mode"
+        android:textColor="#656565"
+        android:textSize="19sp" />
+
+    <Switch
+        android:id="@+id/appearance_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:track="@drawable/switch_button_track"
+        android:thumb="@drawable/switch_button_thumb"
+        android:switchTextAppearance="@style/SwitchTextAppearanceBlack"
+        android:translationX="328dp"
+        android:translationY="-24dp"
+        android:textOn="@string/any_on"
+        android:textOff="@string/any_off"
+        android:textSize="1sp"
+        android:showText="true"
+        />
+    <TextView
+        android:id="@+id/userSetting_lineAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:translationY="-16dp"
+        android:background="#656565"/>
+</LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/operation_switch_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="14dp"
+            android:translationY="2dp"
+            android:text="@string/user_friendlyMode"
+            android:textColor="#656565"
+            android:textSize="19sp" />
+
+        <Switch
+            android:id="@+id/operation_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:track="@drawable/switch_button_track"
+            android:thumb="@drawable/switch_button_thumb"
+            android:switchTextAppearance="@style/SwitchTextAppearanceBlack"
+            android:translationX="328dp"
+            android:translationY="-24dp"
+            android:textOn="@string/any_on"
+            android:textOff="@string/any_off"
+            android:textSize="1sp"
+            android:showText="true"
+            />
+
+
+        <TextView
+            android:id="@+id/userSetting_lineOperation"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:translationY="-16dp"
+            android:background="#656565"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/about_us_part"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/about_us_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="14dp"
+            android:translationY="2dp"
+            android:text="@string/any_about_us"
+            android:textColor="#656565"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="363dp"
+            android:translationY="-24dp"
+            android:text="@string/fa_chevron_right"
+            android:textColor="#656565"
+            android:textSize="23sp" />
+
+        <TextView
+            android:id="@+id/userSetting_lineUs"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:translationY="-16dp"
+            android:background="#656565"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/change_PSW_part"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/change_PSW_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="14dp"
+            android:translationY="2dp"
+            android:text="@string/any_changePSW"
+            android:textColor="#656565"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/change_PSW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="363dp"
+            android:translationY="-24dp"
+            android:text="@string/fa_chevron_right"
+            android:textColor="#656565"
+            android:textSize="23sp" />
+
+
+        <TextView
+            android:id="@+id/userSetting_PWD"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:translationY="-16dp"
+            android:background="#656565"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/log_out_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/any_log_out"
+            android:textColor="#656565"
+            android:textSize="20sp" />
+
+
+
+        <TextView
+            android:id="@+id/userSetting_lineLogout"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:translationY="8dp"
+            android:background="#656565"/>
+    </LinearLayout>
+
+</LinearLayout>

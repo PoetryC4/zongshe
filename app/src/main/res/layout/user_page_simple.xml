@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/userPageSimple_body"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".UserPageSimple"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/tool_bar" />
+    <AbsoluteLayout
+        android:layout_width="match_parent"
+        android:layout_height="181dp">
+
+        <AbsoluteLayout
+            android:layout_width="match_parent"
+            android:layout_height="123dp">
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/BG"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:clickable="false"
+                android:contentDescription="@string/login_BG"
+                android:layout_y="-50dp"
+                android:src="@drawable/defaultuserbg"
+                tools:srcCompat="@drawable/defaultuserbg"
+                />
+        </AbsoluteLayout>
+
+        <AbsoluteLayout
+            android:id="@+id/not_logged_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="36dp"
+            android:layout_y="83dp">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/gray_circle"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="15dp"
+                android:layout_y="24dp"
+                android:text="@string/any_login"
+                android:textColor="#ffffff"
+                android:textSize="24sp"/>
+        </AbsoluteLayout>
+        <AbsoluteLayout
+            android:id="@+id/user_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="36dp"
+            android:layout_y="83dp">
+
+            <com.example.finance.views.RoundImageViewByXfermode
+                android:id="@+id/avatar_image"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                android:layout_margin="10dp"
+                android:layout_x="1dp"
+                android:layout_y="1dp"
+                android:src="@drawable/avatar" />
+
+            <TextView
+                android:id="@+id/avatar_outline"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/circle_stroke_red"
+                >
+            </TextView>
+        </AbsoluteLayout>
+
+        <AbsoluteLayout
+            android:id="@+id/user_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/messages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="297dp"
+                android:layout_y="3dp"
+                android:text="@string/fa_envelope"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:hint="0"
+                android:textColorHint="#00000000"
+                android:id="@+id/modeSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="352dp"
+                android:layout_y="3dp"
+                android:text="@string/fa_moon_o"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"/>
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="118dp"
+                android:layout_y="121dp"
+                android:text="name"
+                android:textColor="#FF9F9F"
+                android:textSize="23sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/fans_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="120dp"
+                android:layout_y="159dp"
+                android:text="@string/user_fans"
+                android:textColor="#959595"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/fans_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="154dp"
+                android:layout_y="156dp"
+                android:text="0"
+                android:textColor="#FF7373"
+                android:textSize="19sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/follow_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="180dp"
+                android:layout_y="159dp"
+                android:text="@string/user_follow"
+                android:textColor="#959595"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/follow_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="214dp"
+                android:layout_y="156dp"
+                android:text="0"
+                android:textColor="#FF7373"
+                android:textSize="19sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/dynamic_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="240dp"
+                android:layout_y="159dp"
+                android:text="@string/user_dynamic"
+                android:textColor="#959595"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/dynamic_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="274dp"
+                android:layout_y="156dp"
+                android:text="0"
+                android:textColor="#FF7373"
+                android:textSize="19sp"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/detailedUserPage_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="355dp"
+                android:layout_y="140dp"
+                android:text="空间>"
+                android:textColor="#B7A7FF"
+                android:textSize="19sp"/>
+        </AbsoluteLayout>
+
+    </AbsoluteLayout>
+
+
+<AbsoluteLayout
+    android:id="@+id/user_func"
+    android:layout_width="match_parent"
+    android:layout_height="276dp"
+    android:layout_marginTop="30dp">
+
+<AbsoluteLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="13dp">
+
+        <TextView
+            android:id="@+id/favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_star"
+            android:textColor="#81D7FF"
+            android:textSize="37sp"/>
+
+        <TextView
+            android:id="@+id/favorites_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_userstock"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+    </AbsoluteLayout>
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="113dp">
+
+        <TextView
+            android:id="@+id/history_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_history"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_history"
+            android:textColor="#81D7FF"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="213dp">
+        <TextView
+            android:id="@+id/topics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_newspaper_o"
+            android:textColor="#81D7FF"
+            android:textSize="37sp"/>
+
+        <TextView
+            android:id="@+id/topics_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_topics"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+    </AbsoluteLayout>
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="313dp">
+        <TextView
+            android:id="@+id/setting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="59dp"
+            android:text="@string/user_setting"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_gear"
+            android:textColor="#81D7FF"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+</AbsoluteLayout>
+<AbsoluteLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_y="100dp">
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="13dp">
+
+        <TextView
+            android:id="@+id/predictor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_predictor"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/predictor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_line_chart"
+            android:textColor="#FFD391"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="113dp">
+
+        <TextView
+            android:id="@+id/warnings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_warnings"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/warnings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_warning"
+            android:textColor="#FFD391"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="213dp">
+        <TextView
+            android:id="@+id/consultation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_phone"
+            android:textColor="#FFD391"
+            android:textSize="37sp"/>
+
+        <TextView
+            android:id="@+id/consultation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_consultation"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+    </AbsoluteLayout>
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="313dp">
+        <TextView
+            android:id="@+id/feedback_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_feedback"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_send"
+            android:textColor="#FFD391"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+</AbsoluteLayout>
+
+<AbsoluteLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_y="200dp">
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="13dp">
+        <TextView
+            android:id="@+id/friendlyMode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_friendlyMode"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/friendlyMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_blind"
+            android:textColor="#FF8181"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+
+    <AbsoluteLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="113dp">
+        <TextView
+            android:id="@+id/notes_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_y="56dp"
+            android:text="@string/user_notes"
+            android:textColor="#959595"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_x="15dp"
+            android:text="@string/fa_pencil"
+            android:textColor="#FF8181"
+            android:textSize="37sp"/>
+    </AbsoluteLayout>
+</AbsoluteLayout>
+</AbsoluteLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/userPage_blank2"
+        android:layout_height="276dp"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:id="@+id/userPage_blank"
+    android:layout_height="124dp"
+    android:orientation="horizontal">
+
+</LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/switchBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="10dp"
+        android:orientation="horizontal"
+        android:background="#FFA49C">
+
+
+        <TextView
+            android:id="@+id/tool_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_calculator"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:translationX="55dp"
+            android:translationY="4dp"/>
+
+        <TextView
+            android:id="@+id/tool_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_tools"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:translationX="20dp"
+            android:translationY="32dp"/>
+
+        <TextView
+            android:id="@+id/main_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_money"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:translationX="125dp"
+            android:translationY="4dp"/>
+
+        <TextView
+            android:id="@+id/main_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_mainpage"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:translationX="90dp"
+            android:translationY="32dp"/>
+
+        <TextView
+            android:id="@+id/user_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_user_circle"
+            android:textColor="#FF5E5E"
+            android:textSize="30sp"
+            android:translationX="180dp"
+            android:translationY="4dp"/>
+
+        <TextView
+            android:id="@+id/user_page_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/any_user"
+            android:textColor="#FF5E5E"
+            android:textSize="20sp"
+            android:translationX="145dp"
+            android:translationY="32dp"/>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

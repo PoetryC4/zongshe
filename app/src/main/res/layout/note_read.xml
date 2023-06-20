@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".NoteRead"
+    android:id="@+id/noteRead_body"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/tool_bar" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<!--
+    <TextView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/fa_chevron_left"
+        android:textColor="#656565"
+        android:textSize="23sp"
+        android:translationX="10dp"
+        android:translationY="10dp"/>-->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="标题"
+        android:textColor="#656565"
+        android:textSize="25sp"
+        android:translationX="20dp"
+        android:translationY="3dp"/>
+
+    <TextView
+        android:id="@+id/modify_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="修改"
+        android:textColor="@color/orange_text"
+        android:textSize="22sp"
+        android:translationX="340dp"
+        android:translationY="-27dp"/>
+
+    <TextView
+        android:id="@+id/noteRead_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#656565"
+        android:translationY="-17dp"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="yyyy/mm/dd"
+        android:textColor="#656565"
+        android:textSize="16sp"
+        android:translationX="12dp"
+        android:translationY="-11dp"/>
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="content"
+        android:textColor="#656565"
+        android:textSize="16sp"
+        android:translationX="12dp"
+        android:translationY="-7dp"/>
+</LinearLayout>
+
+
+</LinearLayout>

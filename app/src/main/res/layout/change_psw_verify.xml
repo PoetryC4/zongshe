@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".ChangePswVerify">
+
+    <include layout="@layout/tool_bar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="10dp"
+            android:translationY="14dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/fa_chevron_left"
+            android:textColor="@color/gray_1"
+            android:textSize="23sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="35dp"
+            android:translationY="-14dp"
+            android:text="@string/change_psw"
+            android:textColor="@color/gray_1"
+            android:textSize="23sp"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:translationY="-2dp"
+            android:background="@color/gray_1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationY="-20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_email1"
+            android:textColor="@color/blue_text"
+            android:textSize="25sp"
+            android:translationX="20dp"
+            android:translationY="10dp"/>
+
+        <EditText
+            android:id="@+id/verify_email"
+            android:layout_width="263dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/verify_email_hint"
+            android:inputType="text"
+            android:translationX="130dp"
+            android:translationY="-30dp"/>
+
+        <TextView
+            android:id="@+id/verify_email_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/red_feedback"
+            android:textSize="12sp"
+            android:translationX="130dp"
+            android:translationY="48dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationY="-50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_code1"
+            android:textColor="@color/blue_text"
+            android:textSize="25sp"
+            android:translationX="20dp"
+            android:translationY="10dp"/>
+
+        <EditText
+            android:id="@+id/verify_code"
+            android:layout_width="183dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/register_code2"
+            android:inputType="text"
+            android:translationX="130dp"
+            android:translationY="-30dp"/>
+
+        <TextView
+            android:id="@+id/verify_send_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_send_code"
+            android:textColor="@color/blue_clickable"
+            android:textSize="15sp"
+            android:translationX="308dp"
+            android:translationY="-30dp" />
+
+
+        <TextView
+            android:id="@+id/verify_code_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/red_feedback"
+            android:textSize="12sp"
+            android:translationX="130dp"
+            android:translationY="48dp" />
+
+    </LinearLayout>
+
+    <android.widget.Button
+        android:id="@+id/continue_button"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/rounded_button"
+        android:layoutDirection="locale"
+        android:text="前往修改密码"
+        android:textColor="#FFFCFC"
+        android:textSize="19sp"
+        android:translationY="-30dp"/>
+</LinearLayout>

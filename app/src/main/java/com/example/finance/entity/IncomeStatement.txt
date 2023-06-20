@@ -1,0 +1,737 @@
+package com.companypowernode.sys.entity
+
+import com.baomidou.mybatisplus.annotation.IdType
+import com.baomidou.mybatisplus.annotation.TableId
+import com.baomidou.mybatisplus.annotation.TableName
+import java.io.Serializable
+import java.time.LocalDate
+
+/**
+ * <p>
+ * 利润表
+ * </p>
+ *
+ * @author ly
+ * @since 2023-03-21
+ */
+@TableName("income_statement")
+public class IncomeStatement implements Serializable {
+
+    private static final long serialVersionUID = 1L
+
+    @TableId(value = "ts_code", type = IdType.AUTO)
+    private String tsCode
+    private Float basicEps
+    private Float totalRevenue
+    private Float revenue
+    private Float intIncome
+    private Float premEarned
+    private Float commIncome
+    private Float nCommisIncome
+    private Float nOthIncome
+    private Float nOthBIncome
+    private Float premIncome
+    private Float outPrem
+    private Float unePremReser
+    private Float reinsIncome
+    private Float nSecTbIncome
+    private Float nSecUwIncome
+    private Float nAssetMgIncome
+    private Float othBIncome
+    private Float fvValueChgGain
+    private Float investIncome
+    private Float assInvestIncome
+    private Float forexGain
+    private Float totalCogs
+    private Float operCost
+    private Float intExp
+    private Float commExp
+    private Float bizTaxSurchg
+    private Float sellExp
+    private Float adminExp
+    private Float finExp
+    private Float assetsImpairLoss
+    private Float premRefund
+    private Float compensPayout
+    private Float reserInsurLiab
+    private Float divPayt
+    private Float reinsExp
+    private Float operExp
+    private Float compensPayoutRefu
+    private Float insurReserRefu
+    private Float reinsCostRefund
+    private Float otherBusCost
+    private Float operateProfit
+    private Float nonOperIncome
+    private Float nonOperExp
+    private Float ncaDisploss
+    private Float totalProfit
+    private Float incomeTax
+    private Float nIncome
+    private Float nIncomeAttrP
+    private Float minorityGain
+    private Float othComprIncome
+    private Float tComprIncome
+    private Float comprIncAttrP
+    private Float comprIncAttrMS
+    private Float ebit
+    private Float ebitda
+    private Float insuranceExp
+    private Float undistProfit
+    private Float distableProfit
+    private Float rdExp
+    private Float finExpIntExp
+    private Float finExpIntInc
+    private Float transferSurplusRese
+    private Float transferHousingImprest
+    private Float transferOth
+    private Float adjLossgain
+    private Float withdraLegalSurplus
+    private Float withdraLegalPubfund
+    private Float withdraBizDevfund
+    private Float withdraReseFund
+    private Float withdraOthErsu
+    private Float workersWelfare
+    private Float distrProfitShrhder
+    private Float prfsharePayableDvd
+    private Float comsharePayableDvd
+    private Float capitComstockDiv
+    private LocalDate annDate
+    private LocalDate endDate
+    public static long getSerialVersionUID() {
+        return serialVersionUID
+    }
+
+    public LocalDate getAnnDate() {
+        return annDate
+    }
+
+    public void setAnnDate(LocalDate annDate) {
+        this.annDate = annDate
+    }
+
+    public LocalDate getEndDate() {
+        return endDate
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate
+    }
+
+    public String getTsCode() {
+        return tsCode
+    }
+
+    public void setTsCode(String tsCode) {
+        this.tsCode = tsCode
+    }
+    public Float getBasicEps() {
+        return basicEps
+    }
+
+    public void setBasicEps(Float basicEps) {
+        this.basicEps = basicEps
+    }
+    public Float getTotalRevenue() {
+        return totalRevenue
+    }
+
+    public void setTotalRevenue(Float totalRevenue) {
+        this.totalRevenue = totalRevenue
+    }
+    public Float getRevenue() {
+        return revenue
+    }
+
+    public void setRevenue(Float revenue) {
+        this.revenue = revenue
+    }
+    public Float getIntIncome() {
+        return intIncome
+    }
+
+    public void setIntIncome(Float intIncome) {
+        this.intIncome = intIncome
+    }
+    public Float getPremEarned() {
+        return premEarned
+    }
+
+    public void setPremEarned(Float premEarned) {
+        this.premEarned = premEarned
+    }
+    public Float getCommIncome() {
+        return commIncome
+    }
+
+    public void setCommIncome(Float commIncome) {
+        this.commIncome = commIncome
+    }
+    public Float getnCommisIncome() {
+        return nCommisIncome
+    }
+
+    public void setnCommisIncome(Float nCommisIncome) {
+        this.nCommisIncome = nCommisIncome
+    }
+    public Float getnOthIncome() {
+        return nOthIncome
+    }
+
+    public void setnOthIncome(Float nOthIncome) {
+        this.nOthIncome = nOthIncome
+    }
+    public Float getnOthBIncome() {
+        return nOthBIncome
+    }
+
+    public void setnOthBIncome(Float nOthBIncome) {
+        this.nOthBIncome = nOthBIncome
+    }
+    public Float getPremIncome() {
+        return premIncome
+    }
+
+    public void setPremIncome(Float premIncome) {
+        this.premIncome = premIncome
+    }
+    public Float getOutPrem() {
+        return outPrem
+    }
+
+    public void setOutPrem(Float outPrem) {
+        this.outPrem = outPrem
+    }
+    public Float getUnePremReser() {
+        return unePremReser
+    }
+
+    public void setUnePremReser(Float unePremReser) {
+        this.unePremReser = unePremReser
+    }
+    public Float getReinsIncome() {
+        return reinsIncome
+    }
+
+    public void setReinsIncome(Float reinsIncome) {
+        this.reinsIncome = reinsIncome
+    }
+    public Float getnSecTbIncome() {
+        return nSecTbIncome
+    }
+
+    public void setnSecTbIncome(Float nSecTbIncome) {
+        this.nSecTbIncome = nSecTbIncome
+    }
+    public Float getnSecUwIncome() {
+        return nSecUwIncome
+    }
+
+    public void setnSecUwIncome(Float nSecUwIncome) {
+        this.nSecUwIncome = nSecUwIncome
+    }
+    public Float getnAssetMgIncome() {
+        return nAssetMgIncome
+    }
+
+    public void setnAssetMgIncome(Float nAssetMgIncome) {
+        this.nAssetMgIncome = nAssetMgIncome
+    }
+    public Float getOthBIncome() {
+        return othBIncome
+    }
+
+    public void setOthBIncome(Float othBIncome) {
+        this.othBIncome = othBIncome
+    }
+    public Float getFvValueChgGain() {
+        return fvValueChgGain
+    }
+
+    public void setFvValueChgGain(Float fvValueChgGain) {
+        this.fvValueChgGain = fvValueChgGain
+    }
+    public Float getInvestIncome() {
+        return investIncome
+    }
+
+    public void setInvestIncome(Float investIncome) {
+        this.investIncome = investIncome
+    }
+    public Float getAssInvestIncome() {
+        return assInvestIncome
+    }
+
+    public void setAssInvestIncome(Float assInvestIncome) {
+        this.assInvestIncome = assInvestIncome
+    }
+    public Float getForexGain() {
+        return forexGain
+    }
+
+    public void setForexGain(Float forexGain) {
+        this.forexGain = forexGain
+    }
+    public Float getTotalCogs() {
+        return totalCogs
+    }
+
+    public void setTotalCogs(Float totalCogs) {
+        this.totalCogs = totalCogs
+    }
+    public Float getOperCost() {
+        return operCost
+    }
+
+    public void setOperCost(Float operCost) {
+        this.operCost = operCost
+    }
+    public Float getIntExp() {
+        return intExp
+    }
+
+    public void setIntExp(Float intExp) {
+        this.intExp = intExp
+    }
+    public Float getCommExp() {
+        return commExp
+    }
+
+    public void setCommExp(Float commExp) {
+        this.commExp = commExp
+    }
+    public Float getBizTaxSurchg() {
+        return bizTaxSurchg
+    }
+
+    public void setBizTaxSurchg(Float bizTaxSurchg) {
+        this.bizTaxSurchg = bizTaxSurchg
+    }
+    public Float getSellExp() {
+        return sellExp
+    }
+
+    public void setSellExp(Float sellExp) {
+        this.sellExp = sellExp
+    }
+    public Float getAdminExp() {
+        return adminExp
+    }
+
+    public void setAdminExp(Float adminExp) {
+        this.adminExp = adminExp
+    }
+    public Float getFinExp() {
+        return finExp
+    }
+
+    public void setFinExp(Float finExp) {
+        this.finExp = finExp
+    }
+    public Float getAssetsImpairLoss() {
+        return assetsImpairLoss
+    }
+
+    public void setAssetsImpairLoss(Float assetsImpairLoss) {
+        this.assetsImpairLoss = assetsImpairLoss
+    }
+    public Float getPremRefund() {
+        return premRefund
+    }
+
+    public void setPremRefund(Float premRefund) {
+        this.premRefund = premRefund
+    }
+    public Float getCompensPayout() {
+        return compensPayout
+    }
+
+    public void setCompensPayout(Float compensPayout) {
+        this.compensPayout = compensPayout
+    }
+    public Float getReserInsurLiab() {
+        return reserInsurLiab
+    }
+
+    public void setReserInsurLiab(Float reserInsurLiab) {
+        this.reserInsurLiab = reserInsurLiab
+    }
+    public Float getDivPayt() {
+        return divPayt
+    }
+
+    public void setDivPayt(Float divPayt) {
+        this.divPayt = divPayt
+    }
+    public Float getReinsExp() {
+        return reinsExp
+    }
+
+    public void setReinsExp(Float reinsExp) {
+        this.reinsExp = reinsExp
+    }
+    public Float getOperExp() {
+        return operExp
+    }
+
+    public void setOperExp(Float operExp) {
+        this.operExp = operExp
+    }
+    public Float getCompensPayoutRefu() {
+        return compensPayoutRefu
+    }
+
+    public void setCompensPayoutRefu(Float compensPayoutRefu) {
+        this.compensPayoutRefu = compensPayoutRefu
+    }
+    public Float getInsurReserRefu() {
+        return insurReserRefu
+    }
+
+    public void setInsurReserRefu(Float insurReserRefu) {
+        this.insurReserRefu = insurReserRefu
+    }
+    public Float getReinsCostRefund() {
+        return reinsCostRefund
+    }
+
+    public void setReinsCostRefund(Float reinsCostRefund) {
+        this.reinsCostRefund = reinsCostRefund
+    }
+    public Float getOtherBusCost() {
+        return otherBusCost
+    }
+
+    public void setOtherBusCost(Float otherBusCost) {
+        this.otherBusCost = otherBusCost
+    }
+    public Float getOperateProfit() {
+        return operateProfit
+    }
+
+    public void setOperateProfit(Float operateProfit) {
+        this.operateProfit = operateProfit
+    }
+    public Float getNonOperIncome() {
+        return nonOperIncome
+    }
+
+    public void setNonOperIncome(Float nonOperIncome) {
+        this.nonOperIncome = nonOperIncome
+    }
+    public Float getNonOperExp() {
+        return nonOperExp
+    }
+
+    public void setNonOperExp(Float nonOperExp) {
+        this.nonOperExp = nonOperExp
+    }
+    public Float getNcaDisploss() {
+        return ncaDisploss
+    }
+
+    public void setNcaDisploss(Float ncaDisploss) {
+        this.ncaDisploss = ncaDisploss
+    }
+    public Float getTotalProfit() {
+        return totalProfit
+    }
+
+    public void setTotalProfit(Float totalProfit) {
+        this.totalProfit = totalProfit
+    }
+    public Float getIncomeTax() {
+        return incomeTax
+    }
+
+    public void setIncomeTax(Float incomeTax) {
+        this.incomeTax = incomeTax
+    }
+    public Float getnIncome() {
+        return nIncome
+    }
+
+    public void setnIncome(Float nIncome) {
+        this.nIncome = nIncome
+    }
+    public Float getnIncomeAttrP() {
+        return nIncomeAttrP
+    }
+
+    public void setnIncomeAttrP(Float nIncomeAttrP) {
+        this.nIncomeAttrP = nIncomeAttrP
+    }
+    public Float getMinorityGain() {
+        return minorityGain
+    }
+
+    public void setMinorityGain(Float minorityGain) {
+        this.minorityGain = minorityGain
+    }
+    public Float getOthComprIncome() {
+        return othComprIncome
+    }
+
+    public void setOthComprIncome(Float othComprIncome) {
+        this.othComprIncome = othComprIncome
+    }
+    public Float gettComprIncome() {
+        return tComprIncome
+    }
+
+    public void settComprIncome(Float tComprIncome) {
+        this.tComprIncome = tComprIncome
+    }
+    public Float getComprIncAttrP() {
+        return comprIncAttrP
+    }
+
+    public void setComprIncAttrP(Float comprIncAttrP) {
+        this.comprIncAttrP = comprIncAttrP
+    }
+    public Float getComprIncAttrMS() {
+        return comprIncAttrMS
+    }
+
+    public void setComprIncAttrMS(Float comprIncAttrMS) {
+        this.comprIncAttrMS = comprIncAttrMS
+    }
+    public Float getEbit() {
+        return ebit
+    }
+
+    public void setEbit(Float ebit) {
+        this.ebit = ebit
+    }
+    public Float getEbitda() {
+        return ebitda
+    }
+
+    public void setEbitda(Float ebitda) {
+        this.ebitda = ebitda
+    }
+    public Float getInsuranceExp() {
+        return insuranceExp
+    }
+
+    public void setInsuranceExp(Float insuranceExp) {
+        this.insuranceExp = insuranceExp
+    }
+    public Float getUndistProfit() {
+        return undistProfit
+    }
+
+    public void setUndistProfit(Float undistProfit) {
+        this.undistProfit = undistProfit
+    }
+    public Float getDistableProfit() {
+        return distableProfit
+    }
+
+    public void setDistableProfit(Float distableProfit) {
+        this.distableProfit = distableProfit
+    }
+    public Float getRdExp() {
+        return rdExp
+    }
+
+    public void setRdExp(Float rdExp) {
+        this.rdExp = rdExp
+    }
+    public Float getFinExpIntExp() {
+        return finExpIntExp
+    }
+
+    public void setFinExpIntExp(Float finExpIntExp) {
+        this.finExpIntExp = finExpIntExp
+    }
+    public Float getFinExpIntInc() {
+        return finExpIntInc
+    }
+
+    public void setFinExpIntInc(Float finExpIntInc) {
+        this.finExpIntInc = finExpIntInc
+    }
+    public Float getTransferSurplusRese() {
+        return transferSurplusRese
+    }
+
+    public void setTransferSurplusRese(Float transferSurplusRese) {
+        this.transferSurplusRese = transferSurplusRese
+    }
+    public Float getTransferHousingImprest() {
+        return transferHousingImprest
+    }
+
+    public void setTransferHousingImprest(Float transferHousingImprest) {
+        this.transferHousingImprest = transferHousingImprest
+    }
+    public Float getTransferOth() {
+        return transferOth
+    }
+
+    public void setTransferOth(Float transferOth) {
+        this.transferOth = transferOth
+    }
+    public Float getAdjLossgain() {
+        return adjLossgain
+    }
+
+    public void setAdjLossgain(Float adjLossgain) {
+        this.adjLossgain = adjLossgain
+    }
+    public Float getWithdraLegalSurplus() {
+        return withdraLegalSurplus
+    }
+
+    public void setWithdraLegalSurplus(Float withdraLegalSurplus) {
+        this.withdraLegalSurplus = withdraLegalSurplus
+    }
+    public Float getWithdraLegalPubfund() {
+        return withdraLegalPubfund
+    }
+
+    public void setWithdraLegalPubfund(Float withdraLegalPubfund) {
+        this.withdraLegalPubfund = withdraLegalPubfund
+    }
+    public Float getWithdraBizDevfund() {
+        return withdraBizDevfund
+    }
+
+    public void setWithdraBizDevfund(Float withdraBizDevfund) {
+        this.withdraBizDevfund = withdraBizDevfund
+    }
+    public Float getWithdraReseFund() {
+        return withdraReseFund
+    }
+
+    public void setWithdraReseFund(Float withdraReseFund) {
+        this.withdraReseFund = withdraReseFund
+    }
+    public Float getWithdraOthErsu() {
+        return withdraOthErsu
+    }
+
+    public void setWithdraOthErsu(Float withdraOthErsu) {
+        this.withdraOthErsu = withdraOthErsu
+    }
+    public Float getWorkersWelfare() {
+        return workersWelfare
+    }
+
+    public void setWorkersWelfare(Float workersWelfare) {
+        this.workersWelfare = workersWelfare
+    }
+    public Float getDistrProfitShrhder() {
+        return distrProfitShrhder
+    }
+
+    public void setDistrProfitShrhder(Float distrProfitShrhder) {
+        this.distrProfitShrhder = distrProfitShrhder
+    }
+    public Float getPrfsharePayableDvd() {
+        return prfsharePayableDvd
+    }
+
+    public void setPrfsharePayableDvd(Float prfsharePayableDvd) {
+        this.prfsharePayableDvd = prfsharePayableDvd
+    }
+    public Float getComsharePayableDvd() {
+        return comsharePayableDvd
+    }
+
+    public void setComsharePayableDvd(Float comsharePayableDvd) {
+        this.comsharePayableDvd = comsharePayableDvd
+    }
+    public Float getCapitComstockDiv() {
+        return capitComstockDiv
+    }
+
+    public void setCapitComstockDiv(Float capitComstockDiv) {
+        this.capitComstockDiv = capitComstockDiv
+    }
+
+    @Override
+    public String toString() {
+        return "IncomeStatement{" +
+                "tsCode='" + tsCode + '\'' +
+                ", basicEps=" + basicEps +
+                ", totalRevenue=" + totalRevenue +
+                ", revenue=" + revenue +
+                ", intIncome=" + intIncome +
+                ", premEarned=" + premEarned +
+                ", commIncome=" + commIncome +
+                ", nCommisIncome=" + nCommisIncome +
+                ", nOthIncome=" + nOthIncome +
+                ", nOthBIncome=" + nOthBIncome +
+                ", premIncome=" + premIncome +
+                ", outPrem=" + outPrem +
+                ", unePremReser=" + unePremReser +
+                ", reinsIncome=" + reinsIncome +
+                ", nSecTbIncome=" + nSecTbIncome +
+                ", nSecUwIncome=" + nSecUwIncome +
+                ", nAssetMgIncome=" + nAssetMgIncome +
+                ", othBIncome=" + othBIncome +
+                ", fvValueChgGain=" + fvValueChgGain +
+                ", investIncome=" + investIncome +
+                ", assInvestIncome=" + assInvestIncome +
+                ", forexGain=" + forexGain +
+                ", totalCogs=" + totalCogs +
+                ", operCost=" + operCost +
+                ", intExp=" + intExp +
+                ", commExp=" + commExp +
+                ", bizTaxSurchg=" + bizTaxSurchg +
+                ", sellExp=" + sellExp +
+                ", adminExp=" + adminExp +
+                ", finExp=" + finExp +
+                ", assetsImpairLoss=" + assetsImpairLoss +
+                ", premRefund=" + premRefund +
+                ", compensPayout=" + compensPayout +
+                ", reserInsurLiab=" + reserInsurLiab +
+                ", divPayt=" + divPayt +
+                ", reinsExp=" + reinsExp +
+                ", operExp=" + operExp +
+                ", compensPayoutRefu=" + compensPayoutRefu +
+                ", insurReserRefu=" + insurReserRefu +
+                ", reinsCostRefund=" + reinsCostRefund +
+                ", otherBusCost=" + otherBusCost +
+                ", operateProfit=" + operateProfit +
+                ", nonOperIncome=" + nonOperIncome +
+                ", nonOperExp=" + nonOperExp +
+                ", ncaDisploss=" + ncaDisploss +
+                ", totalProfit=" + totalProfit +
+                ", incomeTax=" + incomeTax +
+                ", nIncome=" + nIncome +
+                ", nIncomeAttrP=" + nIncomeAttrP +
+                ", minorityGain=" + minorityGain +
+                ", othComprIncome=" + othComprIncome +
+                ", tComprIncome=" + tComprIncome +
+                ", comprIncAttrP=" + comprIncAttrP +
+                ", comprIncAttrMS=" + comprIncAttrMS +
+                ", ebit=" + ebit +
+                ", ebitda=" + ebitda +
+                ", insuranceExp=" + insuranceExp +
+                ", undistProfit=" + undistProfit +
+                ", distableProfit=" + distableProfit +
+                ", rdExp=" + rdExp +
+                ", finExpIntExp=" + finExpIntExp +
+                ", finExpIntInc=" + finExpIntInc +
+                ", transferSurplusRese=" + transferSurplusRese +
+                ", transferHousingImprest=" + transferHousingImprest +
+                ", transferOth=" + transferOth +
+                ", adjLossgain=" + adjLossgain +
+                ", withdraLegalSurplus=" + withdraLegalSurplus +
+                ", withdraLegalPubfund=" + withdraLegalPubfund +
+                ", withdraBizDevfund=" + withdraBizDevfund +
+                ", withdraReseFund=" + withdraReseFund +
+                ", withdraOthErsu=" + withdraOthErsu +
+                ", workersWelfare=" + workersWelfare +
+                ", distrProfitShrhder=" + distrProfitShrhder +
+                ", prfsharePayableDvd=" + prfsharePayableDvd +
+                ", comsharePayableDvd=" + comsharePayableDvd +
+                ", capitComstockDiv=" + capitComstockDiv +
+                ", annDate=" + annDate +
+                ", endDate=" + endDate +
+                '}'
+    }
+}
