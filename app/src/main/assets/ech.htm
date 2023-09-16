@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <script src="./js/axios.min.js"></script>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/echarts.min.js"></script>
     <script>
@@ -12,14 +13,17 @@
             ts_code = stockId;
         }
         $(document).ready(function () {
+        const data = {
+            tsCode: ts_code,
+        };
+        const url = 'http://43.139.245.208:9999/sys/daily/Kday?tsCode='+ts_code
         setTimeout(()=>{
-
             var stData;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    stData = JSON.parse(this.responseText);
-                    stData = stData.data;
+            axios.get(url, data)
+            .then(response => {
+                    //stData = JSON.parse(this.responseText);
+                    //stData = stData.data;
+                    stData = response.data
                     let getDailyStockR = []
                     let row = []
                     // for(let i=0;i<stData.getDailyStock.length;i++) {
@@ -254,10 +258,11 @@
 
             option && myChart.setOption(option);
                 }
-            };
-            // xmlhttp.open("GET", "http://113.54.228.171:6567/stock/singleData?tsCode="+ts_code, true);
-            xmlhttp.open("GET", "http://43.139.245.208:9999/sys/daily/Kday?tsCode="+ts_code, true);
-            xmlhttp.send();
+            )
+            .catch(error => {
+              // 请求失败时的处理
+              console.error('请求错误：', error);
+            });
         },500);
         });
 

@@ -33,9 +33,6 @@
             android:textColor="@color/gray_2"
             android:textSize="23sp"/>-->
 
-
-
-
         <TextView
             android:id="@+id/stockName"
             android:layout_width="wrap_content"
@@ -70,11 +67,48 @@
     </AbsoluteLayout>
 
 
+    <AbsoluteLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            android:id="@+id/stockDataPage_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:translationY="30dp"
+            android:background="@color/gray_1"/>
+
+
+        <TextView
+            android:id="@+id/stock_data_col"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="251dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="图  表"
+            android:textColor="@color/gray_1"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/stock_chart_col"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="85dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="数  据"
+            android:textColor="@color/orange_selected"
+            android:textSize="20sp"/>
+
+    </AbsoluteLayout>
 
 <AbsoluteLayout
     android:layout_width="match_parent"
     android:layout_height="580dp"
     android:background="#FFCFCF"
+    android:visibility="visible"
     android:id="@+id/stockDataPage_data">
 
 <LinearLayout
@@ -289,10 +323,18 @@
         android:id="@+id/KMap"
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="1000px"
+        android:layout_height="1100px"
         android:translationY="560px" />
 </AbsoluteLayout>
 
+    <AbsoluteLayout
+        android:layout_width="match_parent"
+        android:layout_height="580dp"
+        android:background="#FFCFCF"
+        android:visibility="gone"
+        android:id="@+id/stockDataPage_chart">
+
+    </AbsoluteLayout>
 <AbsoluteLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

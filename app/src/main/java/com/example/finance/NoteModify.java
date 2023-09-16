@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -85,36 +86,45 @@ public class NoteModify extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
-        if(isNew == 0) {
-            try {
-                com.example.finance.common.R<Object> res = null;
-                res = noteApi.GetNoteById(userId,noteId);
-                if (res.getCode()==0) {
-                    Toast.makeText(NoteModify.this, res.getMsg(), Toast.LENGTH_LONG).show();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                if(isNew == 0) {
+                    try {
+                        com.example.finance.common.R<Object> res = null;
+                        res = noteApi.GetNoteById(userId,noteId);
+                        if (res.getCode()==0) {
+                            Looper.prepare();
+                            Toast.makeText(NoteModify.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                            tv_date.setText("");
+                            tv_date.setVisibility(View.GONE);
+                            tv_delete.setVisibility(View.GONE);
+                            et_content.setText("");
+                            et_title.setText("");
+                        } else {
+                            noteData = (Map<String, Object>) res.getData();
+                            tv_date.setText((CharSequence) noteData.get("date"));
+                            et_content.setText((CharSequence) noteData.get("content"));
+                            et_title.setText((CharSequence) noteData.get("title"));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
                     tv_date.setText("");
                     tv_date.setVisibility(View.GONE);
                     tv_delete.setVisibility(View.GONE);
                     et_content.setText("");
                     et_title.setText("");
-                } else {
-                    noteData = (Map<String, Object>) res.getData();
-                    tv_date.setText((CharSequence) noteData.get("date"));
-                    et_content.setText((CharSequence) noteData.get("content"));
-                    et_title.setText((CharSequence) noteData.get("title"));
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-        } else {
-            tv_date.setText("");
-            tv_date.setVisibility(View.GONE);
-            tv_delete.setVisibility(View.GONE);
-            et_content.setText("");
-            et_title.setText("");
-        }
+        };
+
+        // 启动线程
+        thread.start();
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
     private void changeMode(boolean isDark) {
@@ -153,16 +163,30 @@ public class NoteModify extends AppCompatActivity {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    if(noteApi.DeleteNote(userId,noteId).getCode()==0) {
-                        Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
-                        return;
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            if(noteApi.DeleteNote(userId,noteId).getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                                return;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                };
+
+                // 启动线程
+                thread.start();
+                /*Intent intent =new Intent();
+                intent.setClass(NoteModify.this, UserNotes.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);*/
                 finish();
             }
         });
@@ -170,41 +194,61 @@ public class NoteModify extends AppCompatActivity {
         tv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String content = et_content.getEditableText().toString();
-                String title = et_title.getEditableText().toString();
-                String date;
-                if(isNew == 1) {
-                    date = GetCurTime.curTime();
-                    try {
-                        if(noteApi.SaveNote(userId,title,date,content).getCode()==0) {
-                            Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
-                            return;
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        String content = et_content.getEditableText().toString();
+                        String title = et_title.getEditableText().toString();
+                        String date;
+                        if(isNew == 1) {
+                            date = GetCurTime.curTime();
+                            try {
+                                if(noteApi.SaveNote(userId,title,date,content).getCode()==0) {
+                                    Looper.prepare();
+                                    Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                    return;
+                                }
+                                else {
+                                    Looper.prepare();
+                                    Toast.makeText(getApplicationContext(),"操作成功", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                         else {
-                            Toast.makeText(getApplicationContext(),"操作成功", Toast.LENGTH_LONG).show();
+                            date = (String) noteData.get("date");
+                            try {
+                                if(noteApi.UpdateNote(userId,noteId,title,content, GetCurTime.curTime_2()).getCode()==0) {
+                                    Looper.prepare();
+                                    Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                    return;
+                                }
+                                else {
+                                    Looper.prepare();
+                                    Toast.makeText(getApplicationContext(),"操作成功", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
-                }
-                else {
-                    date = (String) noteData.get("date");
-                    try {
-                        if(noteApi.UpdateNote(userId,noteId,title,content, GetCurTime.curTime_2()).getCode()==0) {
-                            Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(),"操作成功", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                };
+                //hzyNote
+                // 启动线程
+                thread.start();
+                /*Intent intent =new Intent();
+                intent.setClass(NoteModify.this, UserNotes.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);*/
                 finish();
             }
         });

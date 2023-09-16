@@ -2,10 +2,13 @@ package com.example.finance;
 
 import static com.example.finance.utils.BasicFunctions.isNumeric;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -22,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.finance.api.StockApi;
 import com.example.finance.api.UserApi;
 import com.example.finance.common.Colors;
+import com.example.finance.views.DoubleClickListener;
 
 import java.io.IOException;
 import java.util.Map;
@@ -63,6 +67,7 @@ public class PredictorPage extends AppCompatActivity {
             if(!prd_dur.isEmpty())
             webKMap.loadUrl("javascript:setPrdDur('" + (int)Math.round(Float.parseFloat(prd_dur)) + "')");*/
         }
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +145,6 @@ public class PredictorPage extends AppCompatActivity {
     }
 
     private void setListeners() {
-
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,21 +160,32 @@ public class PredictorPage extends AppCompatActivity {
         btn_predict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ts_code = et_codeInput.getText().toString();
-                try {
-                    com.example.finance.common.R<Object> res = null;
-                    res = stockApi.GetCashflow(ts_code);
-                    if(res.getCode()==0) {
-                        Toast.makeText(PredictorPage.this, "获取code对应股票错误", Toast.LENGTH_LONG).show();
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        ts_code = et_codeInput.getText().toString();
+                        try {
+                            com.example.finance.common.R<Object> res = null;
+                            res = stockApi.GetCashflow(ts_code);
+                            if(res.getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(PredictorPage.this, "获取code对应股票错误", Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        btn_predict.setClickable(false);
+                        KMapInit();
+                        btn_predict.setClickable(true);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                btn_predict.setClickable(false);
-                KMapInit();
-                btn_predict.setClickable(true);
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
     }

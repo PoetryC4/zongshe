@@ -15,7 +15,6 @@ public class Colors {
     public static int colorWhiteisher = Color.rgb(239,239,239);
     public static int colorGray = Color.rgb(101,101,101);
     public static int colorGrayish = Color.rgb(112,112,112);
-    public static int colorGrayisher = Color.rgb(117,117,117);
     public static int colorSuperGray = Color.rgb(51,51,51);
     public static int colorSelectedOrange = Color.rgb(246,148,139);
     public static int colorSelectedCyan = Color.rgb(113,227,247);
@@ -27,4 +26,5 @@ public class Colors {
     public static int colorRed = Color.rgb(255, 94, 94);
     public static int colorDarkBlue = Color.rgb(35, 52, 177);
     public static int colorBlue = Color.rgb(137, 150, 243);
+
 }

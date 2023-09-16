@@ -6,22 +6,22 @@ import com.example.finance.common.R;
 import com.example.finance.utils.GetURLContent;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class FavorsApi {
 
-    public static String BASE_URL="http://"+ Conn.ipAddr +"/sys/userStock/";
-
     static class ThreadFavors extends Thread{
         Integer a;
         String resStr;
-        String[] parameters;
-        String[] values;
+        List<String> parameters;
+        List<Object> values;
         String mapping;
         String method;
 
-        public ThreadFavors(String[] parameters,String[] values,String mapping,String method){
+        public ThreadFavors(List<String> parameters,List<Object> values,String mapping,String method){
             this.parameters = parameters;
             this.values = values;
             this.mapping = mapping;
@@ -31,24 +31,22 @@ public class FavorsApi {
         @Override
 
         public void run(){
-            StringBuilder url = new StringBuilder(BASE_URL + mapping + "?");
-            for (int i = 0; i < parameters.length; i++) {
-                url.append(parameters[i]);
-                url.append("=");
-                url.append(values[i]);
-                if(i != parameters.length - 1) url.append("&");
-            }
-            System.out.println("url:"+url);
-            resStr = GetURLContent.getContent(url.toString(),this.method);
+            resStr = GetURLContent.RequestWithBody("http","43.139.245.208","9999","/sys/userStock/"+mapping,parameters,values);
             //System.out.println("resStr:"+resStr);
             a = 1;
         }
     }
 
-    public static R<Object> GetFavorsByPage(String uesrId,Integer page,Integer pageSize) throws IOException, InterruptedException {
-        String[] parameters = {"id","page","pageSize"};
-        String[] values = {String.valueOf(uesrId),String.valueOf(page),String.valueOf(pageSize)};
-        ThreadFavors tf=new ThreadFavors(parameters,values,"info","GET");
+    public static R<Object> GetFavorsByPage(String userId,Integer page,Integer pageSize) throws IOException, InterruptedException {
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("id");
+        parameters.add("page");
+        parameters.add("pageSize");
+        values.add(userId);
+        values.add(page);
+        values.add(pageSize);
+        ThreadFavors tf=new ThreadFavors(parameters,values,"info","POST");
         tf.start();
         while(tf.a==null){
             Thread.sleep(100);
@@ -61,10 +59,14 @@ public class FavorsApi {
         return R.success(map.get("data"));
     }
 
-    public static R<String> GetFavorsById(String uesrId,String tsCode) throws IOException, InterruptedException {
-        String[] parameters = {"uesrId","tsCode"};
-        String[] values = {String.valueOf(uesrId),tsCode};
-        ThreadFavors tf=new ThreadFavors(parameters,values,"getById","GET");
+    public static R<String> GetFavorsById(String userId,String tsCode) throws IOException, InterruptedException {
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userId");
+        parameters.add("tsCode");
+        values.add(userId);
+        values.add(tsCode);
+        ThreadFavors tf=new ThreadFavors(parameters,values,"getById","POST");
         tf.start();
         while(tf.a==null){
             Thread.sleep(100);
@@ -78,8 +80,14 @@ public class FavorsApi {
     }
 
     public static R<String> AddFavors(String userId,String addDate,String tsCode) throws IOException, InterruptedException {
-        String[] parameters = {"userId","favorDate","tsCode"};
-        String[] values = {String.valueOf(userId),addDate,tsCode};
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userId");
+        parameters.add("favorDate");
+        parameters.add("tsCode");
+        values.add(userId);
+        values.add(addDate);
+        values.add(tsCode);
         ThreadFavors tf=new ThreadFavors(parameters,values,"add","POST");
         tf.start();
         while(tf.a==null){
@@ -94,8 +102,12 @@ public class FavorsApi {
     }
 
     public static R<String> DeleteFavors(String userId,String tsCode) throws IOException, InterruptedException {
-        String[] parameters = {"userId","tsCode"};
-        String[] values = {String.valueOf(userId),tsCode};
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userId");
+        parameters.add("tsCode");
+        values.add(userId);
+        values.add(tsCode);
         ThreadFavors tf=new ThreadFavors(parameters,values,"delete","POST");
         tf.start();
         while(tf.a==null){
@@ -110,9 +122,13 @@ public class FavorsApi {
     }
 
     public static R<Object> GetFavorsCount(String userId,String input,String type) throws IOException, InterruptedException {
-        String[] parameters = {"id","input"};
-        String[] values = {userId,input};
-        ThreadFavors tf=new ThreadFavors(parameters,values,"getnum","GET");
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("id");
+        parameters.add("input");
+        values.add(userId);
+        values.add(input);
+        ThreadFavors tf=new ThreadFavors(parameters,values,"getnum","POST");
         tf.start();
         while(tf.a==null){
             Thread.sleep(100);

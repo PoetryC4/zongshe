@@ -6,22 +6,22 @@ import com.example.finance.common.R;
 import com.example.finance.utils.GetURLContent;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class HistoryApi {
 
-    public static String BASE_URL="http://"+ Conn.ipAddr +"/sys/searchHistory/";
-
     static class ThreadHistory extends Thread{
         Integer a;
         String resStr;
-        String[] parameters;
-        String[] values;
+        List<String> parameters;
+        List<Object> values;
         String mapping;
         String method;
 
-        public ThreadHistory(String[] parameters,String[] values,String mapping,String method){
+        public ThreadHistory(List<String> parameters,List<Object> values,String mapping,String method){
             this.parameters = parameters;
             this.values = values;
             this.mapping = mapping;
@@ -31,26 +31,26 @@ public class HistoryApi {
         @Override
 
         public void run(){
-            StringBuilder url = new StringBuilder(BASE_URL + mapping + "?");
-            for (int i = 0; i < parameters.length; i++) {
-                url.append(parameters[i]);
-                url.append("=");
-                url.append(values[i]);
-                if(i != parameters.length - 1) url.append("&");
-            }
-            System.out.println("url:"+url);
-            resStr = GetURLContent.getContent(url.toString(),this.method);
+            resStr = GetURLContent.RequestWithBody("http","43.139.245.208","9999","/sys/searchHistory/"+mapping,parameters,values);
             //System.out.println("resStr:"+resStr);
             a = 1;
         }
     }
 
-    public static R<Object> GetHistoryByPage(String uesrId,Integer page,Integer pageSize,String input) throws IOException, InterruptedException {
-        String[] parameters = {"userId","page","pageSize","input"};
-        String[] values = {String.valueOf(uesrId),String.valueOf(page),String.valueOf(pageSize),input};
+    public static R<Object> GetHistoryByPage(String userId,Integer page,Integer pageSize,String input) throws IOException, InterruptedException {
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userId");
+        parameters.add("page");
+        parameters.add("pageSize");
+        parameters.add("input");
+        values.add(userId);
+        values.add(page);
+        values.add(pageSize);
+        values.add(input);
         /*String[] parameters = {"user_id","page","page_size","type","input"};
         String[] values = {String.valueOf(uesrId),String.valueOf(page),String.valueOf(pageSize),type,input};*/
-        ThreadHistory th=new ThreadHistory(parameters,values,"search","GET");
+        ThreadHistory th=new ThreadHistory(parameters,values,"search","POST");
         th.start();
         while(th.a==null){
             Thread.sleep(100);
@@ -64,8 +64,16 @@ public class HistoryApi {
     }
     
     public static R<String> AddHistory(String userId,String addDate,String tsCode,String stock_name) throws IOException, InterruptedException {
-        String[] parameters = {"userId","sDate","tsCode","tsName"};
-        String[] values = {String.valueOf(userId),addDate,tsCode,stock_name};
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userId");
+        parameters.add("sDate");
+        parameters.add("tsCode");
+        parameters.add("tsName");
+        values.add(userId);
+        values.add(addDate);
+        values.add(tsCode);
+        values.add(stock_name);
         ThreadHistory th=new ThreadHistory(parameters,values,"add","POST");
         th.start();
         while(th.a==null){
@@ -80,8 +88,12 @@ public class HistoryApi {
     }
 
     public static R<String> DeleteHistory(Integer userId,String historyId) throws IOException, InterruptedException {
-        String[] parameters = {"user_id","history_id"};
-        String[] values = {String.valueOf(userId),historyId};
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("user_id");
+        parameters.add("history_id");
+        values.add(userId);
+        values.add(historyId);
         ThreadHistory th=new ThreadHistory(parameters,values,"delete","POST");
         th.start();
         while(th.a==null){
@@ -96,9 +108,13 @@ public class HistoryApi {
     }
 
     public static R<Object> GetHistoryCount(String userId,String input,String type) throws IOException, InterruptedException {
-        String[] parameters = {"userId","input"};
-        String[] values = {userId,input};
-        ThreadHistory th=new ThreadHistory(parameters,values,"getnum","GET");
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userId");
+        parameters.add("input");
+        values.add(userId);
+        values.add(input);
+        ThreadHistory th=new ThreadHistory(parameters,values,"getnum","POST");
         th.start();
         while(th.a==null){
             Thread.sleep(100);

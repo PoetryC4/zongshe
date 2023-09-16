@@ -135,23 +135,31 @@ public class UserSetting extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                try {
-                    userApi.UpdateSettingDark(userId, isChecked?1:0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(!userId.isEmpty()) {
-                    try {
-                        userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            userApi.UpdateSettingDark(userId, isChecked?1:0);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(!userId.isEmpty()) {
+                            try {
+                                userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            changeMode((int) userSettings.get("isDark") == 1);
+                        }
                     }
-                    changeMode((int) userSettings.get("isDark") == 1);
-                }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         swt_newbieMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -159,13 +167,21 @@ public class UserSetting extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                try {
-                    userApi.UpdateSettingNew(userId, isChecked?1:0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            userApi.UpdateSettingNew(userId, isChecked?1:0);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +203,7 @@ public class UserSetting extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(UserSetting.this, StockMainPage.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

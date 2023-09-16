@@ -64,7 +64,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="265dp"
+        android:layout_height="150dp"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:translationY="-260dp">
@@ -147,6 +147,39 @@
                 android:textSize="18sp"
                 android:translationY="50dp"/>
         </AbsoluteLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:orientation="horizontal"
+        android:translationY="-260dp">
+
+        <AbsoluteLayout
+            android:id="@+id/tools_ai_helper"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:translationX="68dp">
+
+            <TextView
+                android:id="@+id/ai_helper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fa_first_order"
+                android:textColor="#FF8181"
+                android:textSize="37sp"
+                android:translationX="15dp"/>
+
+            <TextView
+                android:id="@+id/ai_helper_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AI小助手"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                android:translationY="50dp"/>
+        </AbsoluteLayout>
+
     </LinearLayout>
 
     <LinearLayout

@@ -1,9 +1,11 @@
 package com.example.finance;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.CompoundButton;
@@ -11,6 +13,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -80,23 +86,32 @@ public class NoteRead extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-
-        try {
-            com.example.finance.common.R<Object> res = null;
-            res = noteApi.GetNoteById(userId,noteId);
-            if (res.getCode()==0) {
-                Toast.makeText(NoteRead.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            } else {
-                noteData = (Map<String, Object>) res.getData();
-                tv_date.setText((CharSequence) noteData.get("date"));
-                tv_content.setText((CharSequence) noteData.get("content"));
-                tv_title.setText((CharSequence) noteData.get("title"));
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    com.example.finance.common.R<Object> res = null;
+                    res = noteApi.GetNoteById(userId,noteId);
+                    if (res.getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(NoteRead.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    } else {
+                        noteData = (Map<String, Object>) res.getData();
+                        tv_date.setText((CharSequence) noteData.get("date"));
+                        tv_content.setText((CharSequence) noteData.get("content"));
+                        tv_title.setText((CharSequence) noteData.get("title"));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+
+        // 启动线程
+        thread.start();
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
     private void changeMode(boolean isDark) {
@@ -129,11 +144,24 @@ public class NoteRead extends AppCompatActivity {
         tv_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
+                ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        //此处是跳转的result回调方法
+                        if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+                            finish();
+                        }
+                    }
+                });
+                Intent intent = new Intent(NoteRead.this, NoteModify.class);
+                intent.putExtra("new","0");
+                intent.putExtra("note_id",noteId);
+                intentActivityResultLauncher.launch(intent);
+                /*Intent intent = new Intent();
                 intent.setClass(NoteRead.this, NoteModify.class);
                 intent.putExtra("new","0");
                 intent.putExtra("note_id",noteId);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 /*

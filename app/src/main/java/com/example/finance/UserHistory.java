@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -63,6 +64,17 @@ public class UserHistory extends AppCompatActivity {
     private String type = "类型1";
     private Map<String,Object> userSettings = null;
 
+    private class ThreadPage extends Thread{
+
+        public ThreadPage(){
+            ;
+        }
+
+        @Override
+        public void run(){
+            pageTurn();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,19 +134,29 @@ public class UserHistory extends AppCompatActivity {
     }
 
     private void initViews() {
-        try {
-            com.example.finance.common.R<Object> res = null;
-            res = historyApi.GetHistoryCount(userId,input,type);
-            if(res.getCode()==0) {
-                Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            } else {
-                count = (Integer) res.getData();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    com.example.finance.common.R<Object> res = null;
+                    res = historyApi.GetHistoryCount(userId,input,type);
+                    if(res.getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    } else {
+                        count = (Integer) res.getData();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+
+        // 启动线程
+        thread.start();
         tv_noResult = findViewById(R.id.no_result);
         historyAL = new ArrayList<>();
         IDs = new HashMap<>();
@@ -155,7 +177,8 @@ public class UserHistory extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
-        pageTurn();
+        ThreadPage threadPage = new ThreadPage();
+        threadPage.start();
     }
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +195,8 @@ public class UserHistory extends AppCompatActivity {
                     page--;
                     return;
                 }
-                pageTurn();
+                ThreadPage threadPage = new ThreadPage();
+                threadPage.start();
             }
         });
         btn_pre.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +207,8 @@ public class UserHistory extends AppCompatActivity {
                     page++;
                     return;
                 }
-                pageTurn();
+                ThreadPage threadPage = new ThreadPage();
+                threadPage.start();
             }
         });/*
         tv_back.setOnClickListener(new View.OnClickListener() {
@@ -195,23 +220,52 @@ public class UserHistory extends AppCompatActivity {
         et_historyInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        input = et_historyInput.getText().toString();
+                        Looper.prepare();
+                        Toast.makeText(UserHistory.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                        try {
+                            com.example.finance.common.R<Object> res = null;
+                            res = historyApi.GetHistoryCount(userId,input,"0");
+                            if(res.getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                            } else {
+                                count = (Integer) res.getData();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        com.example.finance.common.R<Object> res = null;
+                        try {
+                            res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(res.getCode()==0) {
+                            Looper.prepare();
+                            Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                        } else {
+                            historyData = (List<Map<String, Object>>) res.getData();
+                            page = 1;
+                            ThreadPage threadPage = new ThreadPage();
+                            threadPage.start();
+                        }
+                    }
+                };
+
+                // 启动线程
+                thread.start();
                 boolean isEnter = event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
-                input = et_historyInput.getText().toString();
-                Toast.makeText(UserHistory.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
-                com.example.finance.common.R<Object> res = null;
-                try {
-                    res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(res.getCode()==0) {
-                    Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                historyData = (List<Map<String, Object>>) res.getData();
-                pageTurn();
                 return isEnter;
 
             }
@@ -219,27 +273,56 @@ public class UserHistory extends AppCompatActivity {
         tv_historySearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input = et_historyInput.getText().toString();
-                Toast.makeText(UserHistory.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
-                com.example.finance.common.R<Object> res = null;
-                try {
-                    res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(res.getCode()==0) {
-                    Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                historyData = (List<Map<String, Object>>) res.getData();
-                pageTurn();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        input = et_historyInput.getText().toString();
+                        Looper.prepare();
+                        Toast.makeText(UserHistory.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                        try {
+                            com.example.finance.common.R<Object> res = null;
+                            res = historyApi.GetHistoryCount(userId,input,"0");
+                            if(res.getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                            } else {
+                                count = (Integer) res.getData();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        com.example.finance.common.R<Object> res = null;
+                        try {
+                            res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(res.getCode()==0) {
+                            Looper.prepare();
+                            Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                            return;
+                        }
+                        historyData = (List<Map<String, Object>>) res.getData();
+                        page = 1;
+                        ThreadPage threadPage = new ThreadPage();
+                        threadPage.start();
+                    }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
     }
     private void historyClicked() {
-        for(int i=0;i<historyAL.size();i++){
+        for(int i=historyAL.size() - 1;i >= 0;i--){
             int finalI = i;
             historyAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -268,7 +351,9 @@ public class UserHistory extends AppCompatActivity {
             e.printStackTrace();
         }
         if(res.getCode()==0) {
+            Looper.prepare();
             Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+            Looper.loop();
             return;
         }
         historyData = (List<Map<String, Object>>) res.getData();
@@ -296,7 +381,7 @@ public class UserHistory extends AppCompatActivity {
         AbsoluteLayout AL = new AbsoluteLayout(UserHistory.this);
         AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
         if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGrayish:colors.colorGray);
+            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
         } else {
             AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
         }

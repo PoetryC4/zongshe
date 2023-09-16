@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <script src="./js/axios.min.js"></script>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/echarts.min.js"></script>
     <script>
@@ -16,14 +17,18 @@
             prd_dur = dur;
         }
         $(document).ready(function () {
+        const url = 'http://10.0.2.2:6060/prd?tsCode='+ts_code
+        const data = {
+            tsCode: ts_code,
+        };
         setTimeout(()=>{
 
             var stData;
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    stData = JSON.parse(this.responseText);
-                    stData = JSON.parse(stData);
+            axios.get(url, data)
+            .then(response => {
+                    //stData = JSON.parse(this.responseText);
+                    //stData = JSON.parse(stData);
+                    stData = response.data
                     let getDailyStockR = []
                     let row = []
                     // for(let i=0;i<stData.getDailyStock.length;i++) {
@@ -276,11 +281,11 @@
             };
 
             option && myChart.setOption(option);
-                }
-            };
-            // xmlhttp.open("GET", "http://113.54.228.171:6567/stock/singleData?tsCode="+ts_code, true);
-            xmlhttp.open("GET", "http://10.0.2.2:6060/tsCode="+ts_code, true);
-            xmlhttp.send();
+            })
+            .catch(error => {
+              // 请求失败时的处理
+              console.error('请求错误：', error);
+            });
         },500);
         });
 

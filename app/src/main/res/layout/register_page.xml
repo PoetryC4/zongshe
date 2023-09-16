@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@color/white"
     tools:context=".RegisterPage"
@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/register_username_feedback"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1000dp"
                     android:layout_height="wrap_content"
                     android:translationX="-220dp"
                     android:translationY="35dp"
@@ -112,7 +112,7 @@
 
                 <TextView
                     android:id="@+id/register_password_feedback"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1000dp"
                     android:layout_height="wrap_content"
                     android:translationX="-220dp"
                     android:translationY="35dp"
@@ -150,7 +150,7 @@
 
                 <TextView
                     android:id="@+id/register_confirmPSW_feedback"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1000dp"
                     android:layout_height="wrap_content"
                     android:translationX="-220dp"
                     android:translationY="35dp"
@@ -187,7 +187,7 @@
 
                 <TextView
                     android:id="@+id/register_email_feedback"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1000dp"
                     android:layout_height="wrap_content"
                     android:translationX="-220dp"
                     android:translationY="35dp"
@@ -233,7 +233,7 @@
                     android:textSize="15sp" />
                 <TextView
                     android:id="@+id/register_code_feedback"
-                    android:layout_width="wrap_content"
+                    android:layout_width="1000dp"
                     android:layout_height="wrap_content"
                     android:translationX="-220dp"
                     android:translationY="35dp"

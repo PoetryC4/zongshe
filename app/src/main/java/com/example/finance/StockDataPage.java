@@ -1,9 +1,12 @@
 package com.example.finance;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,6 +24,7 @@ import com.example.finance.api.StockApi;
 import com.example.finance.api.UserApi;
 import com.example.finance.common.Colors;
 import com.example.finance.utils.GetCurTime;
+import com.example.finance.views.DoubleClickListener;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -68,10 +72,13 @@ public class StockDataPage extends AppCompatActivity {
     private TextView tv_cashflowPart;
     private TextView tv_incomePart;
     private TextView tv_balancePart;
+    private TextView tv_stockData;
+    private TextView tv_stockChart;
 
     private Map<String,Object> stockData = null;
     private int isFavored;
     private int lineCount = 0;
+    private int curChosen = 0;
 
     private String userId = "";
     private Map<String,Object> userSettings = null;
@@ -114,33 +121,46 @@ public class StockDataPage extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        Intent intent = getIntent();
+        Intent intent = getIntent();/*
         ts_code = intent.getStringExtra("ts_code");
-        stock_name = intent.getStringExtra("stock_name");
-        //System.out.println(ts_code);
-        //Log.e("ts_code",ts_code);
-        try {
-            if((historyApi.AddHistory(userId,getCurTime.curTime(),ts_code,stock_name)).getCode()==0) {
-                Toast.makeText(StockDataPage.this, "操作错误", Toast.LENGTH_LONG).show();
-            }
-            try {
-                com.example.finance.common.R<Object> res = null;
-                res = stockApi.GetLatest(ts_code);
-                if(res.getCode()==0) {
-                    Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                } else {
-                    stockData = (Map<String, Object>) res.getData();
+        stock_name = intent.getStringExtra("stock_name");*/
+        ts_code = "000012.SZ";
+        stock_name = "test";
+        //hzyNote
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    if((historyApi.AddHistory(userId,getCurTime.curTime(),ts_code,stock_name)).getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(StockDataPage.this, "操作错误", Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }
+                    try {
+                        com.example.finance.common.R<Object> res = null;
+                        res = stockApi.GetLatest(ts_code);
+                        if(res.getCode()==0) {
+                            Looper.prepare();
+                            Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                        } else {
+                            stockData = (Map<String, Object>) res.getData();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+
+        // 启动线程
+        thread.start();
         initViews();
         setListeners();
 
@@ -187,6 +207,9 @@ public class StockDataPage extends AppCompatActivity {
     private void initViews() {
 
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        tv_stockChart = findViewById(R.id.stock_chart_col);
+        tv_stockData = findViewById(R.id.stock_data_col);
+        tv_stockName = findViewById(R.id.stockName);
         tv_predict = findViewById(R.id.predictButton);
         tv_stockName = findViewById(R.id.stockName);
         tv_tradeDate = findViewById(R.id.tradeDate);
@@ -202,18 +225,30 @@ public class StockDataPage extends AppCompatActivity {
         tv_balancePart = findViewById(R.id.balance_part);
         tv_incomePart = findViewById(R.id.income_part);
         tv_stockName.setText(stock_name);
+
         if(stockData != null) {
             tv_tradeDate.setText((CharSequence) stockData.get("tradeDate"));
 
-            tv_change.setText(""+Float.parseFloat(String.valueOf(stockData.get("changes"))));
+            tv_change.setText(""+Float.parseFloat(String.valueOf(stockData.get("changes")))+"%");
             tv_pctChange.setText(""+Float.parseFloat(String.valueOf(stockData.get("pctChg"))));
             tv_low.setText(""+Float.parseFloat(String.valueOf(stockData.get("low"))));
             tv_high.setText(""+Float.parseFloat(String.valueOf(stockData.get("high"))));
             tv_open.setText(""+Float.parseFloat(String.valueOf(stockData.get("open"))));
             tv_close.setText(""+Float.parseFloat(String.valueOf(stockData.get("close"))));
-            tv_amount.setText(""+Float.parseFloat(String.valueOf(stockData.get("amount"))));
-            tv_vol.setText(""+Float.parseFloat(String.valueOf(stockData.get("vol"))));
+            tv_amount.setText(FormulatingNumbers(Float.parseFloat(String.valueOf(stockData.get("amount")))));
+            tv_vol.setText(FormulatingNumbers(Float.parseFloat(String.valueOf(stockData.get("vol")))));
         }
+        tv_stockName.setText("宁德时代");
+        tv_tradeDate.setText("2023-06-21");
+        tv_change.setText("-0.05%");
+        tv_pctChange.setText("-0.8389");
+        tv_low.setText("5.91");
+        tv_high.setText("5.98");
+        tv_open.setText("5.95");
+        tv_close.setText("5.91");
+        tv_amount.setText(FormulatingNumbers((float) 46538.018));
+        tv_vol.setText(FormulatingNumbers((float) 78402.57));
+
         ll_details = findViewById(R.id.stockInfoDetail);
 
         tv_backBtn = findViewById(R.id.backBtn);
@@ -222,25 +257,34 @@ public class StockDataPage extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         tv_favor = findViewById(R.id.favorButton);
-        com.example.finance.common.R<String> res = null;
-        try {
-            res = FavorsApi.GetFavorsById(userId,ts_code);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if(res.getCode()==0) {
-            Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-        } else {
-            if(Objects.equals(res.getData(),"N")) {
-                tv_favor.setText("加自选");
-                isFavored = 0;
-            } else {
-                tv_favor.setText("取消自选");
-                isFavored = 1;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                com.example.finance.common.R<String> res = null;
+                try {
+                    res = FavorsApi.GetFavorsById(userId,ts_code);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(res.getCode()==0) {
+                    Looper.prepare();
+                    Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                } else {
+                    if(Objects.equals(res.getData(),"N")) {
+                        tv_favor.setText("加自选");
+                        isFavored = 0;
+                    } else {
+                        tv_favor.setText("取消自选");
+                        isFavored = 1;
+                    }
+                }
             }
-        }
+        };
+        // 启动线程
+        thread.start();
 /*
         tv_back = findViewById(R.id.back);
         tv_back.setTypeface(fontAwe);*/
@@ -259,9 +303,13 @@ public class StockDataPage extends AppCompatActivity {
     private void changeMode(boolean isDark) {
         
         if(isDark) {
+            ((TextView)findViewById(R.id.stock_data_col)).setTextColor(colors.colorSelectedCyan);
+            ((TextView)findViewById(R.id.stock_chart_col)).setTextColor(colors.colorWhite);
+            findViewById(R.id.stockDataPage_line).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.bars).setBackgroundResource(R.drawable.lined_rectangle_gray);
             findViewById(R.id.stockInfoDetail).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.stockDataPage_data).setBackgroundColor(colors.colorBlueish);
+            findViewById(R.id.stockDataPage_chart).setBackgroundColor(colors.colorBlueish);
             findViewById(R.id.stockDataPage_body).setBackgroundColor(colors.colorBlue);
             findViewById(R.id.stockDataPage_upper).setBackgroundColor(colors.colorDarkBlue);
             ((TextView)findViewById(R.id.stockName)).setTextColor(colors.colorWhite);
@@ -294,9 +342,13 @@ public class StockDataPage extends AppCompatActivity {
             ((TextView)findViewById(R.id.finance)).setTextColor(colors.colorWhite);
             ((TextView)findViewById(R.id.briefIntro)).setTextColor(colors.colorWhite);*/
         } else {
+            ((TextView)findViewById(R.id.stock_data_col)).setTextColor(colors.colorSelectedOrange);
+            ((TextView)findViewById(R.id.stock_chart_col)).setTextColor(colors.colorNotSelected);
+            findViewById(R.id.stockDataPage_line).setBackgroundColor(colors.colorGray);
             findViewById(R.id.bars).setBackgroundResource(R.drawable.lined_rectangle_white);
             findViewById(R.id.stockInfoDetail).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.stockDataPage_data).setBackgroundColor(colors.colorRedish);
+            findViewById(R.id.stockDataPage_chart).setBackgroundColor(colors.colorRedish);
             findViewById(R.id.stockDataPage_body).setBackgroundColor(colors.colorRed);
             findViewById(R.id.stockDataPage_upper).setBackgroundColor(colors.colorLightRed);
             ((TextView)findViewById(R.id.stockName)).setTextColor(colors.colorGray);
@@ -338,6 +390,47 @@ public class StockDataPage extends AppCompatActivity {
                 finish();
             }
         });
+
+        tv_stockChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    tv_stockChart.setClickable(false);
+                    tv_stockChart.setTextColor(colors.colorSelectedCyan);
+                    tv_stockData.setClickable(true);
+                    tv_stockData.setTextColor(colors.colorWhite);
+                } else {
+                    tv_stockChart.setClickable(false);
+                    tv_stockChart.setTextColor(colors.colorSelectedOrange);
+                    tv_stockData.setClickable(true);
+                    tv_stockData.setTextColor(colors.colorGray);
+                }
+
+                curChosen = 1;
+                findViewById(R.id.stockDataPage_data).setVisibility(View.GONE);
+                findViewById(R.id.stockDataPage_chart).setVisibility(View.VISIBLE);
+            }
+        });
+        tv_stockData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    tv_stockData.setClickable(false);
+                    tv_stockData.setTextColor(colors.colorSelectedCyan);
+                    tv_stockChart.setClickable(true);
+                    tv_stockChart.setTextColor(colors.colorWhite);
+                } else {
+                    tv_stockData.setClickable(false);
+                    tv_stockData.setTextColor(colors.colorSelectedOrange);
+                    tv_stockChart.setClickable(true);
+                    tv_stockChart.setTextColor(colors.colorGray);
+                }
+
+                curChosen = 0;
+                findViewById(R.id.stockDataPage_chart).setVisibility(View.GONE);
+                findViewById(R.id.stockDataPage_data).setVisibility(View.VISIBLE);
+            }
+        });
         tv_predict.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -356,30 +449,42 @@ public class StockDataPage extends AppCompatActivity {
         tv_favor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isFavored = isFavored==1?0:1;
-                if(isFavored==1) {
-                    tv_favor.setText("取消自选");
-                    try {
-                        if((favorsApi.AddFavors(userId,getCurTime.curTime(),ts_code)).getCode()==0) {
-                            Toast.makeText(StockDataPage.this, "操作错误", Toast.LENGTH_LONG).show();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        isFavored = isFavored==1?0:1;
+                        if(isFavored==1) {
+                            tv_favor.setText("取消自选");
+                            try {
+                                if((favorsApi.AddFavors(userId,getCurTime.curTime(),ts_code)).getCode()==0) {
+                                    Looper.prepare();
+                                    Toast.makeText(StockDataPage.this, "操作错误", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            tv_favor.setText("加自选");
+                            try {
+                                if((favorsApi.DeleteFavors(userId,ts_code)).getCode()==0) {
+                                    Looper.prepare();
+                                    Toast.makeText(StockDataPage.this, "操作错误", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
-                } else {
-                    tv_favor.setText("加自选");
-                    try {
-                        if((favorsApi.DeleteFavors(userId,ts_code)).getCode()==0) {
-                            Toast.makeText(StockDataPage.this, "操作错误", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         tv_incomePart.setOnClickListener(new View.OnClickListener() {
@@ -400,7 +505,15 @@ public class StockDataPage extends AppCompatActivity {
                     tv_cashflowPart.setClickable(true);
                     tv_cashflowPart.setTextColor(colors.colorGray);
                 }
-                IncomeInit();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        IncomeInit();
+                    }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         tv_balancePart.setOnClickListener(new View.OnClickListener() {
@@ -421,7 +534,15 @@ public class StockDataPage extends AppCompatActivity {
                     tv_cashflowPart.setClickable(true);
                     tv_cashflowPart.setTextColor(colors.colorGray);
                 }
-                BalanceInit();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        BalanceInit();
+                    }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         tv_cashflowPart.setOnClickListener(new View.OnClickListener() {
@@ -442,7 +563,16 @@ public class StockDataPage extends AppCompatActivity {
                     tv_incomePart.setClickable(true);
                     tv_incomePart.setTextColor(colors.colorGray);
                 }
-                CashflowInit();
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        CashflowInit();
+                    }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         /*
@@ -552,11 +682,18 @@ public class StockDataPage extends AppCompatActivity {
             }
         });*/
     }
-
+    private String FormulatingNumbers(Float a) {
+        DecimalFormat decimalFormat = new DecimalFormat("###,###.#");
+        if(a >= 1e4) {
+            return decimalFormat.format(a/(float)10000) + "万";
+        } else if (a >= 1e8) {
+            return decimalFormat.format(a/(float)100000000) + "亿";
+        } else return decimalFormat.format(a);
+    }
     public TextView TvInit(String text) {
         TextView item = new TextView(StockDataPage.this);
         if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            item.setBackgroundColor(lineCount%2 == 1?colors.colorGrayisher:colors.colorGray);
+            item.setBackgroundColor(lineCount%2 == 1?colors.colorGray:colors.colorSuperGray);
             item.setTextColor(colors.colorWhite);
         } else {
             item.setBackgroundColor(lineCount%2 == 1?colors.colorWhiteisher:colors.colorWhite);
@@ -576,7 +713,9 @@ public class StockDataPage extends AppCompatActivity {
             com.example.finance.common.R<Object> res = null;
             res = stockApi.GetCashflow(ts_code);
             if(res.getCode()==0) {
+                Looper.prepare();
                 Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                Looper.loop();
                 return;
             } else {
                 detailData = (Map<String, Object>) res.getData();
@@ -689,7 +828,9 @@ public class StockDataPage extends AppCompatActivity {
             com.example.finance.common.R<Object> res = null;
             res = stockApi.GetBalance(ts_code);
             if(res.getCode()==0) {
+                Looper.prepare();
                 Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                Looper.loop();
                 return;
             } else {
                 detailData = (Map<String, Object>) res.getData();
@@ -852,7 +993,9 @@ public class StockDataPage extends AppCompatActivity {
             com.example.finance.common.R<Object> res = null;
             res = stockApi.GetIncome(ts_code);
             if(res.getCode()==0) {
+                Looper.prepare();
                 Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                Looper.loop();
                 return;
             } else {
                 detailData = (Map<String, Object>) res.getData();

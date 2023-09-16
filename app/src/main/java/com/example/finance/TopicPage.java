@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,24 +97,35 @@ public class TopicPage extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         //setSupportActionBar(toolbar);
-        try {
-            com.example.finance.common.R<Object> res = null;
-            res = topicApi.GetTopicById(topicID);
-            if (res.getCode()==0) {
-                Toast.makeText(TopicPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            } else {
-                topicData = (Map<String, Object>) res.getData();
-                System.out.println(topicData.toString());
-                tv_date.setText((CharSequence) topicData.get("datetime"));
-                tv_content.setText((CharSequence) topicData.get("content"));
-                tv_title.setText((CharSequence) topicData.get("title"));
-                tv_channel.setText((CharSequence) topicData.get("channals"));
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                // 在这里定义线程执行的任务
+                try {
+                    com.example.finance.common.R<Object> res = null;
+                    res = topicApi.GetTopicById(topicID);
+                    if (res.getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(TopicPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    } else {
+                        topicData = (Map<String, Object>) res.getData();
+                        System.out.println(topicData.toString());
+                        tv_date.setText((CharSequence) topicData.get("datetime"));
+                        tv_content.setText((CharSequence) topicData.get("content"));
+                        tv_title.setText((CharSequence) topicData.get("title"));
+                        tv_channel.setText((CharSequence) topicData.get("channals"));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+
+        // 启动线程
+        thread.start();
     }
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {

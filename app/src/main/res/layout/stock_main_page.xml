@@ -14,8 +14,6 @@
         android:id="@+id/stockMainPage_upper"
         android:background="#FF9090">
 
-
-
         <TextView
             android:id="@+id/search_icon"
             android:layout_width="wrap_content"
@@ -57,10 +55,21 @@
 
 
         <TextView
+            android:id="@+id/main_charts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:translationX="301dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@string/main_charts"
+            android:textColor="@color/gray_1"
+            android:textSize="20sp"/>
+
+        <TextView
             android:id="@+id/main_favors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:translationX="253dp"
+            android:translationX="173dp"
             android:clickable="true"
             android:focusable="true"
             android:text="@string/main_userstock"
@@ -71,24 +80,13 @@
             android:id="@+id/main_topics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:translationX="79dp"
+            android:translationX="35dp"
             android:clickable="true"
             android:focusable="true"
             android:text="@string/main_topics"
             android:textColor="@color/orange_selected"
             android:textSize="20sp"/>
 
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/main_charts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:translationX="318dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/main_charts"
-            android:textColor="@color/gray_1"
-            android:textSize="20sp"/>
     </AbsoluteLayout>
 
     <LinearLayout

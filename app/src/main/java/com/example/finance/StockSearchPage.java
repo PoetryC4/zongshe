@@ -1,9 +1,11 @@
 package com.example.finance;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -16,6 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -148,17 +154,28 @@ public class StockSearchPage extends AppCompatActivity {
         tv_HistoryClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    com.example.finance.common.R<String> res = null;
-                    res = userApi.DeleteUserSearchHistory(userId);
-                    if(res.getCode()==0) {
-                        Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            com.example.finance.common.R<String> res = null;
+                            res = userApi.DeleteUserSearchHistory(userId);
+                            if(res.getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                };
+
+                // 启动线程
+                thread.start();
                 finish();
             }
         });
@@ -246,7 +263,9 @@ public class StockSearchPage extends AppCompatActivity {
         //模糊搜索 可能的结果
         com.example.finance.common.R<Object> res = stockApi.GetAlikeNames(text,7);
         if(res.getCode()==0) {
+            Looper.prepare();
             Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+            Looper.loop();
         } else {
             List<String> resL = (List<String>) res.getData();
         /*List<String> resL = new ArrayList<>();
@@ -270,7 +289,9 @@ public class StockSearchPage extends AppCompatActivity {
             e.printStackTrace();
         }
         if(res.getCode()==0) {
+            Looper.prepare();
             Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+            Looper.loop();
         } else {
             List<String> resL = new ArrayList<>();
             for (int i = 0; i < ((List<Map<String, Object>>) res.getData()).size(); i++) {
@@ -300,9 +321,22 @@ public class StockSearchPage extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
+        ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                //此处是跳转的result回调方法
+                if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+                    setHistoryAdapter("1");
+                    lv_Tips.setAdapter(historyAdapter);
+                }
+            }
+        });
+        Intent intent = new Intent(StockSearchPage.this, StockSearchResult.class);
+        intent.putExtra("searchInput",input);
+        intentActivityResultLauncher.launch(intent);/*
         Intent intent = new Intent();
         intent.setClass(StockSearchPage.this, StockSearchResult.class);
         intent.putExtra("searchInput",input);
-        startActivity(intent);
+        startActivity(intent);*/
     }
 }

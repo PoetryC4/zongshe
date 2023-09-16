@@ -27,6 +27,7 @@ public class UserPageSimple extends AppCompatActivity {
     private UserApi userApi;
     private boolean isLoggedIn;
 
+    private TextView tv_createDate;
     private TextView tv_username;
     private TextView tv_main;
     private TextView tv_tools;
@@ -89,6 +90,7 @@ public class UserPageSimple extends AppCompatActivity {
         if(isDark) {
             findViewById(R.id.userPageSimple_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.username)).setTextColor(colors.colorBlue);
+            ((TextView) findViewById(R.id.createDate)).setTextColor(colors.colorBlue);
             findViewById(R.id.avatar_outline).setBackgroundResource(R.drawable.circle_stroke_blue);
             ((TextView) findViewById(R.id.fans_text)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.fans_count)).setTextColor(colors.colorBlue);
@@ -117,6 +119,7 @@ public class UserPageSimple extends AppCompatActivity {
         } else {
             findViewById(R.id.userPageSimple_body).setBackgroundColor(colors.colorWhite);
             ((TextView) findViewById(R.id.username)).setTextColor(colors.colorRed);
+            ((TextView) findViewById(R.id.createDate)).setTextColor(colors.colorRed);
             findViewById(R.id.avatar_outline).setBackgroundResource(R.drawable.circle_stroke_red);
             ((TextView) findViewById(R.id.fans_text)).setTextColor(colors.colorGray);
             ((TextView) findViewById(R.id.fans_count)).setTextColor(colors.colorRed);
@@ -148,6 +151,7 @@ public class UserPageSimple extends AppCompatActivity {
     private void initViews() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
+        tv_createDate = findViewById(R.id.createDate);
         tv_username = findViewById(R.id.username);
         tv_user = findViewById(R.id.user_page);
         tv_user.setTypeface(fontAwe);
@@ -193,6 +197,7 @@ public class UserPageSimple extends AppCompatActivity {
         if (isLoggedIn) {
             al_notLoggedIn.setVisibility(View.GONE);
             tv_username.setText((CharSequence) userData.get("user_name"));
+            tv_createDate.setText((CharSequence) userData.get("create_date"));
         }
         else{
             al_userAvatar.setVisibility(View.GONE);
@@ -217,44 +222,61 @@ public class UserPageSimple extends AppCompatActivity {
                     tv_modeSwitch.setHint("1");
                     tv_modeSwitch.setText(R.string.fa_sun_o);
                     tv_modeSwitch.setTypeface(fontAwe);
-                    try {
-                        userApi.UpdateSettingDark(userId, 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if(!userId.isEmpty()) {
-                        try {
-                            userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                userApi.UpdateSettingDark(userId, 1);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if(!userId.isEmpty()) {
+                                try {
+                                    userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                changeMode((int) userSettings.get("isDark") == 1);
+                            }
                         }
-                        changeMode((int) userSettings.get("isDark") == 1);
-                    }
+                    };
+
+                    // 启动线程
+                    thread.start();
                 } else {
                     tv_modeSwitch.setHint("0");
                     tv_modeSwitch.setText(R.string.fa_moon_o);
                     tv_modeSwitch.setTypeface(fontAwe);
-                    try {
-                        userApi.UpdateSettingDark(userId, 0);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if(!userId.isEmpty()) {
-                        try {
-                            userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                userApi.UpdateSettingDark(userId, 0);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if(!userId.isEmpty()) {
+                                try {
+                                    userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                changeMode((int) userSettings.get("isDark") == 1);
+                            }
                         }
-                        changeMode((int) userSettings.get("isDark") == 1);
-                    }
+                    };
+
+                    // 启动线程
+                    thread.start();
                 }
             }
         });

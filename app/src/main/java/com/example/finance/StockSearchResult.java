@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.Button;
@@ -61,6 +62,17 @@ public class StockSearchResult extends AppCompatActivity {
     private String userId = "";
     private Map<String,Object> userSettings = null;
 
+    private class ThreadPage extends Thread{
+
+        public ThreadPage(){
+            ;
+        }
+
+        @Override
+        public void run(){
+            pageTurn();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,9 +144,26 @@ public class StockSearchResult extends AppCompatActivity {
     }
 
     private void initView() throws IOException, InterruptedException {
-        if(userApi.AddUserSearchHistory(userId,input,getCurTime.curTime()).getCode()==0) {
-            Toast.makeText(StockSearchResult.this, "操作错误", Toast.LENGTH_LONG).show();
-        }
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    if(userApi.AddUserSearchHistory(userId,input,getCurTime.curTime()).getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(StockSearchResult.this, "操作错误", Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        // 启动线程
+        thread.start();
 
         stocks = new ArrayList<AbsoluteLayout>();
         IDs = new HashMap<>();
@@ -142,19 +171,30 @@ public class StockSearchResult extends AppCompatActivity {
         data = new ArrayList<>();
 
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-        try {
-            com.example.finance.common.R<Object> res = null;
-            res = stockApi.GetAlikeCount(input);
-            if(res.getCode()==0) {
-                Toast.makeText(StockSearchResult.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            } else {
-                count = (Integer) res.getData();
+
+        Thread thread2 = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    com.example.finance.common.R<Object> res = null;
+                    res = stockApi.GetAlikeCount(input);
+                    if(res.getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(StockSearchResult.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    } else {
+                        count = (Integer) res.getData();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+
+        // 启动线程
+        thread2.start();
         ll_res = findViewById(R.id.resultViewC);
         tv_pageNumber = findViewById(R.id.pageNumber);
         btn_pre = findViewById(R.id.pre_arrow);
@@ -178,7 +218,8 @@ public class StockSearchResult extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
-        pageTurn();
+        ThreadPage threadPage = new ThreadPage();
+        threadPage.start();
     }
     private void setListener() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +236,8 @@ public class StockSearchResult extends AppCompatActivity {
                     page--;
                     return;
                 }
-                pageTurn();
+                ThreadPage threadPage = new ThreadPage();
+                threadPage.start();
             }
         });
         btn_pre.setOnClickListener(new View.OnClickListener() {
@@ -206,7 +248,8 @@ public class StockSearchResult extends AppCompatActivity {
                     page++;
                     return;
                 }
-                pageTurn();
+                ThreadPage threadPage = new ThreadPage();
+                threadPage.start();
             }
         });/*
         tv_back.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +278,7 @@ public class StockSearchResult extends AppCompatActivity {
         });
     }
     private void stockClicked() {
-        for(int i=0;i<stocks.size();i++){
+        for(int i=stocks.size() - 1;i>=0;i--){
             int finalI = i;
             stocks.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -266,7 +309,9 @@ public class StockSearchResult extends AppCompatActivity {
             e.printStackTrace();
         }
         if(res.getCode()==0) {
+            Looper.prepare();
             Toast.makeText(StockSearchResult.this, res.getMsg(), Toast.LENGTH_LONG).show();
+            Looper.loop();
             return;
         }
         data = (List<Map<String, Object>>) res.getData();

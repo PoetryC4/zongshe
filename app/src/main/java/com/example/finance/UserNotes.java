@@ -1,9 +1,11 @@
 package com.example.finance;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsoluteLayout;
@@ -14,6 +16,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -57,7 +63,18 @@ public class UserNotes extends AppCompatActivity {
     
     private String userId = "";
     private Map<String,Object> userSettings = null;
-    
+
+    private class ThreadPage extends Thread{
+
+        public ThreadPage(){
+            ;
+        }
+
+        @Override
+        public void run(){
+            pageTurn();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,19 +136,29 @@ public class UserNotes extends AppCompatActivity {
     }
 
     private void initViews() {
-        try {
-            com.example.finance.common.R<Object> res = null;
-            res = noteApi.GetNoteCount(userId,input);
-            if(res.getCode()==0) {
-                Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            } else {
-                count = (Integer) res.getData();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    com.example.finance.common.R<Object> res = null;
+                    res = noteApi.GetNoteCount(userId,input);
+                    if(res.getCode()==0) {
+                        Looper.prepare();
+                        Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                    } else {
+                        count = (Integer) res.getData();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        };
+
+        // 启动线程
+        thread.start();
         tv_noResult = findViewById(R.id.no_result);
         noteAL = new ArrayList<>();
         IDs = new HashMap<>();
@@ -153,7 +180,8 @@ public class UserNotes extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
-        pageTurn();
+        ThreadPage threadPage = new ThreadPage();
+        threadPage.start();
 
     }
     private void setListeners() {
@@ -171,7 +199,8 @@ public class UserNotes extends AppCompatActivity {
                     page--;
                     return;
                 }
-                pageTurn();
+                ThreadPage threadPage = new ThreadPage();
+                threadPage.start();
             }
         });
         btn_pre.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +211,8 @@ public class UserNotes extends AppCompatActivity {
                     page++;
                     return;
                 }
-                pageTurn();
+                ThreadPage threadPage = new ThreadPage();
+                threadPage.start();
             }
         });/*
         tv_back.setOnClickListener(new View.OnClickListener() {
@@ -195,22 +225,51 @@ public class UserNotes extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean isEnter = event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
-                input = et_noteInput.getText().toString();
-                Toast.makeText(UserNotes.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
-                com.example.finance.common.R<Object> res = null;
-                try {
-                    res = noteApi.GetNotesByPage(userId,page,pageSize,input);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(res.getCode()==0) {
-                    Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                noteData = (List<Map<String, Object>>) res.getData();
-                pageTurn();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        input = et_noteInput.getText().toString();
+                        Looper.prepare();
+                        Toast.makeText(UserNotes.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                        try {
+                            com.example.finance.common.R<Object> res = null;
+                            res = noteApi.GetNoteCount(userId,input);
+                            if(res.getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                            } else {
+                                count = (Integer) res.getData();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        com.example.finance.common.R<Object> res = null;
+                        try {
+                            res = noteApi.GetNotesByPage(userId,page,pageSize,input);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(res.getCode()==0) {
+                            Looper.prepare();
+                            Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                        } else {
+                            noteData = (List<Map<String, Object>>) res.getData();
+                            page = 1;
+                            ThreadPage threadPage = new ThreadPage();
+                            threadPage.start();
+                        }
+                    }
+                };
+
+                // 启动线程
+                thread.start();
                 return isEnter;
 
             }
@@ -218,22 +277,52 @@ public class UserNotes extends AppCompatActivity {
         tv_noteSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input = et_noteInput.getText().toString();
-                Toast.makeText(UserNotes.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
-                com.example.finance.common.R<Object> res = null;
-                try {
-                    res = noteApi.GetNotesByPage(userId,page,pageSize,input);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if(res.getCode()==0) {
-                    Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                noteData = (List<Map<String, Object>>) res.getData();
-                pageTurn();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        input = et_noteInput.getText().toString();
+                        Looper.prepare();
+                        Toast.makeText(UserNotes.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Looper.loop();
+                        try {
+                            com.example.finance.common.R<Object> res = null;
+                            res = noteApi.GetNoteCount(userId,input);
+                            if(res.getCode()==0) {
+                                Looper.prepare();
+                                Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                                Looper.loop();
+                            } else {
+                                count = (Integer) res.getData();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        com.example.finance.common.R<Object> res = null;
+
+                        try {
+                            res = noteApi.GetNotesByPage(userId,page,pageSize,input);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(res.getCode()==0) {
+                            Looper.prepare();
+                            Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                            return;
+                        }
+                        noteData = (List<Map<String, Object>>) res.getData();
+                        page = 1;
+                        ThreadPage threadPage = new ThreadPage();
+                        threadPage.start();
+                    }
+                };
+
+                // 启动线程
+                thread.start();
             }
         });
         tv_addNotes.setOnClickListener(new View.OnClickListener() {
@@ -243,6 +332,7 @@ public class UserNotes extends AppCompatActivity {
                 intent.setClass(UserNotes.this, NoteModify.class);
                 intent.putExtra("new","1");
                 startActivity(intent);
+                System.out.println("dsdf");
             }
         });
     }
@@ -253,10 +343,23 @@ public class UserNotes extends AppCompatActivity {
             noteAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
+                            //此处是跳转的result回调方法
+                            if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+                                pageTurn();
+                            }
+                        }
+                    });
+                    Intent intent = new Intent(UserNotes.this, NoteRead.class);
+                    intent.putExtra("note_id",IDs.get(finalI));
+                    intentActivityResultLauncher.launch(intent);/*
                     Intent intent = new Intent();
                     intent.setClass(UserNotes.this, NoteRead.class);
                     intent.putExtra("note_id",IDs.get(finalI));
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             });
             ll_res.addView(noteAL.get(i),0);
@@ -278,7 +381,9 @@ public class UserNotes extends AppCompatActivity {
             e.printStackTrace();
         }
         if(res.getCode()==0) {
+            Looper.prepare();
             Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+            Looper.loop();
             return;
         }
         noteData = (List<Map<String, Object>>) res.getData();
@@ -306,7 +411,7 @@ public class UserNotes extends AppCompatActivity {
         AbsoluteLayout AL = new AbsoluteLayout(UserNotes.this);
         AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
         if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGrayish:colors.colorGray);
+            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
         } else {
             AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
         }

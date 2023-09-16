@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -130,51 +131,60 @@ public class ChangePwd extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 输入后的监听
-                String txtPSWS = et_changPwd.getText().toString();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        // 在这里定义线程执行的任务
+                        // 输入后的监听
+                        String txtPSWS = et_changPwd.getText().toString();
 
-                boolean isPSWTypesEnough = false;
-                boolean PSWlowerCase = false;
-                boolean PSWupperCase = false;
-                boolean PSWnumber = false;
+                        boolean isPSWTypesEnough = false;
+                        boolean PSWlowerCase = false;
+                        boolean PSWupperCase = false;
+                        boolean PSWnumber = false;
 
-                if(txtPSWS.length()<6){
-                    tv_pwdFeedback.setText("密码长度不得小于6");
-                }
-                else{
-                    tv_pwdFeedback.setText("");
-                    char preCh = 0;
-                    int consi = 0;
-                    for(int i=0;i<txtPSWS.length();i++){
-                        if(consi>=3){
-                            tv_pwdFeedback.setText("密码不得有连续三个相同字符");
-                            break;
-                        } else {
-                            tv_pwdFeedback.setText("");
-                        }
-                        if(txtPSWS.charAt(i)!=preCh){
-                            preCh=txtPSWS.charAt(i);
-                            consi=1;
+                        if(txtPSWS.length()<6){
+                            tv_pwdFeedback.setText("密码长度不得小于6");
                         }
                         else{
-                            consi++;
-                        }
-                        if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
-                        if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
-                        if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
-                        if(i==txtPSWS.length()-1){
-                            isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
-                            if(!isPSWTypesEnough){
-                                tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
-                            } else {
-                                tv_pwdFeedback.setText("");
+                            tv_pwdFeedback.setText("");
+                            char preCh = 0;
+                            int consi = 0;
+                            for(int i=0;i<txtPSWS.length();i++){
+                                if(consi>=3){
+                                    tv_pwdFeedback.setText("密码不得有连续三个相同字符");
+                                    break;
+                                } else {
+                                    tv_pwdFeedback.setText("");
+                                }
+                                if(txtPSWS.charAt(i)!=preCh){
+                                    preCh=txtPSWS.charAt(i);
+                                    consi=1;
+                                }
+                                else{
+                                    consi++;
+                                }
+                                if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
+                                if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
+                                if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
+                                if(i==txtPSWS.length()-1){
+                                    isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
+                                    if(!isPSWTypesEnough){
+                                        tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
+                                    } else {
+                                        tv_pwdFeedback.setText("");
+                                    }
+                                }
+                                else {
+                                    tv_pwdFeedback.setText("");
+                                }
                             }
                         }
-                        else {
-                            tv_pwdFeedback.setText("");
-                        }
                     }
-                }
+                };
+
+                // 启动线程
+                thread.start();
 
             }
         });
@@ -217,81 +227,94 @@ public class ChangePwd extends AppCompatActivity {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtPSWS = et_changPwd.getText().toString();
-                String txtConfirmPSWS = et_pwdVerify.getText().toString();
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        // 在这里定义线程执行的任务
+                        String txtPSWS = et_changPwd.getText().toString();
+                        String txtConfirmPSWS = et_pwdVerify.getText().toString();
 
-                boolean isPSWLengthValid = true;
-                boolean isPSWTypesEnough = false;
-                boolean PSWlowerCase = false;
-                boolean PSWupperCase = false;
-                boolean PSWnumber = false;
-                boolean isPSWConsistent = false;
-                boolean isPSWValid = false;
+                        boolean isPSWLengthValid = true;
+                        boolean isPSWTypesEnough = false;
+                        boolean PSWlowerCase = false;
+                        boolean PSWupperCase = false;
+                        boolean PSWnumber = false;
+                        boolean isPSWConsistent = false;
+                        boolean isPSWValid = false;
 
-                boolean isPSWConfirmValid = true;
+                        boolean isPSWConfirmValid = true;
 
-                if(txtPSWS.length()<6){
-                    isPSWLengthValid=false;
-                    tv_pwdFeedback.setText("密码长度不得小于6");
-                }
-                else{
-                    char preCh = 0;
-                    int consi = 0;
-                    for(int i=0;i<txtPSWS.length();i++){
-                        if(consi>=3){
-                            isPSWConsistent=true;
-                            tv_pwdFeedback.setText("密码不得有连续三个相同字符");
-                            break;
-                        }
-                        if(txtPSWS.charAt(i)!=preCh){
-                            preCh=txtPSWS.charAt(i);
-                            consi=1;
+                        if(txtPSWS.length()<6){
+                            isPSWLengthValid=false;
+                            tv_pwdFeedback.setText("密码长度不得小于6");
                         }
                         else{
-                            consi++;
-                        }
-                        if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
-                        if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
-                        if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
-                        if(i==txtPSWS.length()-1){
-                            isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
-                            if(!isPSWTypesEnough){
-                                tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
+                            char preCh = 0;
+                            int consi = 0;
+                            for(int i=0;i<txtPSWS.length();i++){
+                                if(consi>=3){
+                                    isPSWConsistent=true;
+                                    tv_pwdFeedback.setText("密码不得有连续三个相同字符");
+                                    break;
+                                }
+                                if(txtPSWS.charAt(i)!=preCh){
+                                    preCh=txtPSWS.charAt(i);
+                                    consi=1;
+                                }
+                                else{
+                                    consi++;
+                                }
+                                if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
+                                if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
+                                if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
+                                if(i==txtPSWS.length()-1){
+                                    isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
+                                    if(!isPSWTypesEnough){
+                                        tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-                isPSWValid=isPSWLengthValid&&isPSWTypesEnough&&(!isPSWConsistent);
-                if(!txtPSWS.equals(txtConfirmPSWS)){
-                    tv_pwdVerifyFeedback.setText("两次输入密码不一致!");
-                }
-                else {
-                    try {
-                        com.example.finance.common.R<String> res = null;
-                        res = userApi.UpdatePwd(email, txtPSWS);
-                        if(res.getCode()==0) {
-                            Toast.makeText(ChangePwd.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                            return;
-                        } else {
-                            Toast.makeText(ChangePwd.this, "修改成功", Toast.LENGTH_LONG).show();
+                        isPSWValid=isPSWLengthValid&&isPSWTypesEnough&&(!isPSWConsistent);
+                        if(!txtPSWS.equals(txtConfirmPSWS)){
+                            tv_pwdVerifyFeedback.setText("两次输入密码不一致!");
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        else {
+                            try {
+                                com.example.finance.common.R<String> res = null;
+                                res = userApi.UpdatePwd(email, txtPSWS);
+                                if(res.getCode()==0) {
+                                    Looper.prepare();
+                                    Toast.makeText(ChangePwd.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                    return;
+                                } else {
+                                    Looper.prepare();
+                                    Toast.makeText(ChangePwd.this, "修改成功", Toast.LENGTH_LONG).show();
+                                    Looper.loop();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+
+                            SharedPreferences.Editor editor = settings.edit();
+
+                            editor.clear();
+                            editor.apply();
+                            //System.out.println("changePSW success");
+                        }
                     }
-                    SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+                };
 
-                    SharedPreferences.Editor editor = settings.edit();
-
-                    editor.clear();
-                    editor.apply();
-                    //System.out.println("changePSW success");
-                    Intent intent = new Intent();
-                    //前一个（MainActivity.this）是目前页面，后面一个是要跳转的下一个页面
-                    intent.setClass(ChangePwd.this, LoginPage.class);
-                    startActivity(intent);
-                }
+                // 启动线程
+                thread.start();
+                Intent intent = new Intent();
+                //前一个（MainActivity.this）是目前页面，后面一个是要跳转的下一个页面
+                intent.setClass(ChangePwd.this, LoginPage.class);
+                startActivity(intent);
             }
         });
     }

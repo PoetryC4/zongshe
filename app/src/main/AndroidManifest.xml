@@ -60,7 +60,7 @@
             android:windowSoftInputMode="adjustNothing"
             />
         <activity
-            android:name="com.example.finance.StockDataPage"
+            android:name="com.example.finance.PredictorPage"
             android:windowSoftInputMode="adjustNothing"
             />
         <activity
@@ -108,12 +108,17 @@
             android:windowSoftInputMode="adjustNothing"
             />
         <activity
-            android:name="com.example.finance.PredictorPage"
+            android:name="com.example.finance.StockDataPage"
             android:windowSoftInputMode="adjustNothing"
             />
         <activity
             android:name="com.example.finance.TopicPage"
             android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
+            android:name="com.example.finance.AIhelperPage"
+            android:windowSoftInputMode="adjustNothing"
+            android:usesCleartextTraffic="true"
             />
         <activity
             android:name="com.example.finance.UserPageSimple"

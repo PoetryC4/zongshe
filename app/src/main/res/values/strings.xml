@@ -57,6 +57,7 @@
     <string name="fa_pencil">&#xf040;</string>
     <string name="fa_blind">&#xf29d;</string>
     <string name="fa_bolt">&#xf0e7;</string>
+    <string name="fa_first_order">&#xf2b0;</string>
     <string name="user_userstock">自选股票</string>
     <string name="user_history">浏览历史</string>
     <string name="user_topics">看看热点</string>

@@ -108,11 +108,21 @@
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_x="118dp"
-                android:layout_y="121dp"
+                android:layout_x="121dp"
+                android:layout_y="120dp"
                 android:text="name"
                 android:textColor="#FF9F9F"
-                android:textSize="23sp"/>
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/createDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_x="183dp"
+                android:layout_y="129dp"
+                android:text="0000-00-00"
+                android:textColor="#FF9F9F"
+                android:textSize="13sp" />
 
             <TextView
                 android:visibility="gone"

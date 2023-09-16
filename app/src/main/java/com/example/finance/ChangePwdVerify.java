@@ -183,55 +183,64 @@ public class ChangePwdVerify extends AppCompatActivity {
         tv_sendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        // 在这里定义线程执行的任务
+                        String emailTxt = et_email.getText().toString();
+                        if(!emailTxt.equals("")) {
+                            // 输入后的监听
+                            com.example.finance.common.R<String> res = null;
+                            try {
+                                res = userApi.CheckEmail(emailTxt);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if(res.getCode() == 1) {
+                                tv_emailFeedback.setText("该邮箱不存在");
+                            }
+                            if(res.getCode() == 0) {
 
-                String emailTxt = et_email.getText().toString();
-                if(!emailTxt.equals("")) {
-                    // 输入后的监听
-                    com.example.finance.common.R<String> res = null;
-                    try {
-                        res = userApi.CheckEmail(emailTxt);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if(res.getCode() == 1) {
-                        tv_emailFeedback.setText("该邮箱不存在");
-                    }
-                    if(res.getCode() == 0) {
+                                String txtEmailS = et_email.getText().toString();
 
-                        String txtEmailS = et_email.getText().toString();
-
-                        email_verify_code=(int)Math.floor(Math.random()*90000+10000);
-                        System.out.println(email_verify_code);
-                        int rs=send_code_func(txtEmailS,email_verify_code);
-                        if(rs==-1){
-                            tv_emailFeedback.setText("无效邮箱地址");
-                        }
-                        else {
-                            tv_emailFeedback.setText("");
-                            tv_sendCode.setClickable(false);
-                            isEmailValid=true;
-
-                            Timer timer=new Timer();
-                            timer.schedule(new TimerTask() {
-                                public int sec=60;
-                                @Override
-                                public void run() {
-                                    Message message = new Message();
-                                    message.what = sec;
-                                    mhandler.sendMessage(message);
-                                    if(sec==0){
-                                        email_verify_code=-1;
-                                        timer.cancel();
-                                    }
-                                    sec--;
+                                email_verify_code=(int)Math.floor(Math.random()*90000+10000);
+                                System.out.println(email_verify_code);
+                                int rs=send_code_func(txtEmailS,email_verify_code);
+                                if(rs==-1){
+                                    tv_emailFeedback.setText("无效邮箱地址");
                                 }
-                            },1000,1000);
+                                else {
+                                    tv_emailFeedback.setText("");
+                                    tv_sendCode.setClickable(false);
+                                    isEmailValid=true;
 
+                                    Timer timer=new Timer();
+                                    timer.schedule(new TimerTask() {
+                                        public int sec=60;
+                                        @Override
+                                        public void run() {
+                                            Message message = new Message();
+                                            message.what = sec;
+                                            mhandler.sendMessage(message);
+                                            if(sec==0){
+                                                email_verify_code=-1;
+                                                timer.cancel();
+                                            }
+                                            sec--;
+                                        }
+                                    },1000,1000);
+
+                                }
+                            }
                         }
                     }
-                }
+                };
+
+                // 启动线程
+                thread.start();
+
             }
         });
         btn_continue.setOnClickListener(new View.OnClickListener() {
