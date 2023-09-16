@@ -45,6 +45,7 @@ public class Tushare {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setDoOutput(true);
+            connection.setConnectTimeout(1000);
 
             // 发送JSON数据
             try (OutputStream os = connection.getOutputStream()) {
@@ -53,7 +54,7 @@ public class Tushare {
             }
 
             // 获取响应数据
-            StringBuilder response;
+            StringBuilder response = null;
             try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"))) {
                 response = new StringBuilder();
                 String responseLine = null;
@@ -64,7 +65,7 @@ public class Tushare {
             }
             jsonResponse = response.toString();
             JsonObject jsonObject2 = JsonParser.parseString(jsonResponse).getAsJsonObject();
-            jsonObject2.addProperty("code", "1");
+            jsonObject2.addProperty("code", 1);
             modifiedJsonString = jsonObject2.toString();
             connection.disconnect();
 

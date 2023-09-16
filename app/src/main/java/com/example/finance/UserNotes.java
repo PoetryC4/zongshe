@@ -366,45 +366,47 @@ public class UserNotes extends AppCompatActivity {
         }
     }
     private void pageTurn() {
-        //ll_res.removeAllViews();
-        for (int i = 0; i < noteAL.size(); i++) {
-            ll_res.removeView(noteAL.get(i));
-        }
-        noteAL.clear();
-        IDs.clear();
-        com.example.finance.common.R<Object> res = null;
-        try {
-            res = noteApi.GetNotesByPage(userId,page,pageSize,input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if(res.getCode()==0) {
-            Looper.prepare();
-            Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            Looper.loop();
-            return;
-        }
-        noteData = (List<Map<String, Object>>) res.getData();
-        tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-        if(noteData.size()!=0) {
-            btn_post.setVisibility(View.VISIBLE);
-            btn_pre.setVisibility(View.VISIBLE);
-            tv_pageNumber.setVisibility(View.VISIBLE);
-            tv_noResult.setVisibility(View.GONE);
-        }
-        else {
-            btn_post.setVisibility(View.GONE);
-            btn_pre.setVisibility(View.GONE);
-            tv_pageNumber.setVisibility(View.GONE);
-            tv_noResult.setVisibility(View.VISIBLE);
-        }
-        for(int i=0;i<noteData.size();i++){
-            noteAL.add(addNoteResult(noteData.get(i), i));
-            IDs.put(i,""+noteData.get(i).get("noteId"));
-        }
-        noteClicked();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < noteAL.size(); i++) {
+                    ll_res.removeView(noteAL.get(i));
+                }
+                noteAL.clear();
+                IDs.clear();
+                com.example.finance.common.R<Object> res = null;
+                try {
+                    res = noteApi.GetNotesByPage(userId,page,pageSize,input);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(res.getCode()==0) {
+                    Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                noteData = (List<Map<String, Object>>) res.getData();
+                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
+                if(noteData.size()!=0) {
+                    btn_post.setVisibility(View.VISIBLE);
+                    btn_pre.setVisibility(View.VISIBLE);
+                    tv_pageNumber.setVisibility(View.VISIBLE);
+                    tv_noResult.setVisibility(View.GONE);
+                }
+                else {
+                    btn_post.setVisibility(View.GONE);
+                    btn_pre.setVisibility(View.GONE);
+                    tv_pageNumber.setVisibility(View.GONE);
+                    tv_noResult.setVisibility(View.VISIBLE);
+                }
+                for(int i=0;i<noteData.size();i++){
+                    noteAL.add(addNoteResult(noteData.get(i), i));
+                    IDs.put(i,""+noteData.get(i).get("noteId"));
+                }
+                noteClicked();
+            }
+        });
     }
     private AbsoluteLayout addNoteResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");

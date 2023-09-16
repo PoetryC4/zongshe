@@ -357,39 +357,42 @@ public class UserFavorites extends AppCompatActivity {
         }
     }
     private void pageTurn() {
-        for (int i = 0; i < favorsAL.size(); i++) {
-            ll_res.removeView(favorsAL.get(i));
-        }
-        favorsAL.clear();
-        IDs.clear();
-        com.example.finance.common.R<Object> res = null;
-        try {
-            res = favorsApi.GetFavorsByPage(userId,page,pageSize);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if(res.getCode()==0) {
-            Looper.prepare();
-            Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            Looper.loop();
-            return;
-        }
-        favorsData = (List<Map<String, Object>>) res.getData();
-        tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-        if(favorsData.size()!=0) tv_noResult.setVisibility(View.GONE);
-        else {
-            btn_post.setVisibility(View.GONE);
-            btn_pre.setVisibility(View.GONE);
-            tv_pageNumber.setVisibility(View.GONE);
-        }
-        for(int i=0;i<favorsData.size();i++){
-            favorsAL.add(addFavorsResult(favorsData.get(i), i));
-            IDs.put(i,(String)favorsData.get(i).get("tsCode"));
-            names.put(i,(String)favorsData.get(i).get("stoName"));
-        }
-        favorsClicked();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < favorsAL.size(); i++) {
+                    ll_res.removeView(favorsAL.get(i));
+                }
+                favorsAL.clear();
+                IDs.clear();
+                com.example.finance.common.R<Object> res = null;
+                try {
+                    res = favorsApi.GetFavorsByPage(userId,page,pageSize);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(res.getCode()==0) {
+                    Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                favorsData = (List<Map<String, Object>>) res.getData();
+                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
+                if(favorsData.size()!=0) tv_noResult.setVisibility(View.GONE);
+                else {
+                    btn_post.setVisibility(View.GONE);
+                    btn_pre.setVisibility(View.GONE);
+                    tv_pageNumber.setVisibility(View.GONE);
+                }
+                for(int i=0;i<favorsData.size();i++){
+                    favorsAL.add(addFavorsResult(favorsData.get(i), i));
+                    IDs.put(i,(String)favorsData.get(i).get("tsCode"));
+                    names.put(i,(String)favorsData.get(i).get("stoName"));
+                }
+                favorsClicked();
+            }
+        });
     }
     private AbsoluteLayout addFavorsResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");

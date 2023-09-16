@@ -337,44 +337,47 @@ public class UserHistory extends AppCompatActivity {
         }
     }
     private void pageTurn() {
-        for (int i = 0; i < historyAL.size(); i++) {
-            ll_res.removeView(historyAL.get(i));
-        }
-        historyAL.clear();
-        IDs.clear();
-        com.example.finance.common.R<Object> res = null;
-        try {
-            res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if(res.getCode()==0) {
-            Looper.prepare();
-            Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            Looper.loop();
-            return;
-        }
-        historyData = (List<Map<String, Object>>) res.getData();
-        tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-        if(historyData.size()!=0) {
-            btn_post.setVisibility(View.VISIBLE);
-            btn_pre.setVisibility(View.VISIBLE);
-            tv_pageNumber.setVisibility(View.VISIBLE);
-            tv_noResult.setVisibility(View.GONE);
-        }
-        else {
-            btn_post.setVisibility(View.GONE);
-            btn_pre.setVisibility(View.GONE);
-            tv_pageNumber.setVisibility(View.GONE);
-            tv_noResult.setVisibility(View.VISIBLE);
-        }
-        for(int i=0;i<historyData.size();i++){
-            historyAL.add(addStockResult(historyData.get(i), i));
-            IDs.put(i,(String)historyData.get(i).get("tsCode"));
-        }
-        historyClicked();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < historyAL.size(); i++) {
+                    ll_res.removeView(historyAL.get(i));
+                }
+                historyAL.clear();
+                IDs.clear();
+                com.example.finance.common.R<Object> res = null;
+                try {
+                    res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(res.getCode()==0) {
+                    Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                historyData = (List<Map<String, Object>>) res.getData();
+                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
+                if(historyData.size()!=0) {
+                    btn_post.setVisibility(View.VISIBLE);
+                    btn_pre.setVisibility(View.VISIBLE);
+                    tv_pageNumber.setVisibility(View.VISIBLE);
+                    tv_noResult.setVisibility(View.GONE);
+                }
+                else {
+                    btn_post.setVisibility(View.GONE);
+                    btn_pre.setVisibility(View.GONE);
+                    tv_pageNumber.setVisibility(View.GONE);
+                    tv_noResult.setVisibility(View.VISIBLE);
+                }
+                for(int i=0;i<historyData.size();i++){
+                    historyAL.add(addStockResult(historyData.get(i), i));
+                    IDs.put(i,(String)historyData.get(i).get("tsCode"));
+                }
+                historyClicked();
+            }
+        });
     }
     private AbsoluteLayout addStockResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");

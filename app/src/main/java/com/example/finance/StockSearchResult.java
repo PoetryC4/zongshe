@@ -287,7 +287,6 @@ public class StockSearchResult extends AppCompatActivity {
                     intent.setClass(StockSearchResult.this, StockDataPage.class);
                     intent.putExtra("ts_code",IDs.get(finalI));
                     intent.putExtra("stock_name",names.get(finalI));
-
                     startActivity(intent);
                 }
             });
@@ -295,43 +294,45 @@ public class StockSearchResult extends AppCompatActivity {
         }
     }
     private void pageTurn() {
-        for (int i = 0; i < stocks.size(); i++) {
-            ll_res.removeView(stocks.get(i));
-        }
-        com.example.finance.common.R<Object> res = null;
-        stocks.clear();
-        IDs.clear();
-        try {
-            res = stockApi.GetAlikeAll(input,page,pageSize);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if(res.getCode()==0) {
-            Looper.prepare();
-            Toast.makeText(StockSearchResult.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            Looper.loop();
-            return;
-        }
-        data = (List<Map<String, Object>>) res.getData();
-        tv_pageNumber.setText(page+"/"+(int)Math.ceil((double)count/(double)pageSize)+"页");
-        if(input != null&&!input.isEmpty()) {
-            tv_result.setText("\""+input+"\"的搜索结果");
-        }
-        if(data.size()!=0) tv_noResult.setVisibility(View.GONE);
-        else {
-            btn_post.setVisibility(View.GONE);
-            btn_pre.setVisibility(View.GONE);
-            tv_pageNumber.setVisibility(View.GONE);
-        }
-        //System.out.println(data.toString());
-        for(int i=0;i<data.size();i++){
-            stocks.add(addStockResult(data.get(i), i));
-            IDs.put(i,(String)data.get(i).get("tsCode"));
-            names.put(i,(String)data.get(i).get("stoName"));
-        }
-        stockClicked();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < stocks.size(); i++) {
+                    ll_res.removeView(stocks.get(i));
+                }
+                com.example.finance.common.R<Object> res = null;
+                stocks.clear();
+                IDs.clear();
+                try {
+                    res = stockApi.GetAlikeAll(input,page,pageSize);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(res.getCode()==0) {
+                    Toast.makeText(StockSearchResult.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                data = (List<Map<String, Object>>) res.getData();
+                tv_pageNumber.setText(page+"/"+(int)Math.ceil((double)count/(double)pageSize)+"页");
+                if(input != null&&!input.isEmpty()) {
+                    tv_result.setText("\""+input+"\"的搜索结果");
+                }
+                if(data.size()!=0) tv_noResult.setVisibility(View.GONE);
+                else {
+                    btn_post.setVisibility(View.GONE);
+                    btn_pre.setVisibility(View.GONE);
+                    tv_pageNumber.setVisibility(View.GONE);
+                }
+                for(int i=0;i<data.size();i++){
+                    stocks.add(addStockResult(data.get(i), i));
+                    IDs.put(i,(String)data.get(i).get("tsCode"));
+                    names.put(i,(String)data.get(i).get("stoName"));
+                }
+                stockClicked();
+            }
+        });
     }
     private AbsoluteLayout addStockResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");

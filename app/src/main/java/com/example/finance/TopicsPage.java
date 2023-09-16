@@ -322,38 +322,42 @@ public class TopicsPage extends AppCompatActivity {
         }
     }
     private void pageTurn() {
-        for (int i = 0; i < topicAL.size(); i++) {
-            ll_res.removeView(topicAL.get(i));
-        }
-        topicAL.clear();
-        IDs.clear();
-        com.example.finance.common.R<Object> res = null;
-        try {
-            res = topicApi.GetTopicsByPage(input,page,pageSize);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if(res.getCode()==0) {
-            Looper.prepare();
-            Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            Looper.loop();
-            return;
-        }
-        topicData = (List<Map<String, Object>>) res.getData();
-        tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-        if(topicData.size()!=0) tv_noResult.setVisibility(View.GONE);
-        else {
-            btn_post.setVisibility(View.GONE);
-            btn_pre.setVisibility(View.GONE);
-            tv_pageNumber.setVisibility(View.GONE);
-        }
-        for(int i = 0; i< topicData.size(); i++){
-            topicAL.add(addTopicResult(topicData.get(i), i));
-            IDs.put(i,"" + topicData.get(i).get("newsId"));
-        }
-        topicClicked();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < topicAL.size(); i++) {
+                    ll_res.removeView(topicAL.get(i));
+                }
+                topicAL.clear();
+                IDs.clear();
+                com.example.finance.common.R<Object> res = null;
+                try {
+                    res = topicApi.GetTopicsByPage(input,page,pageSize);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(res.getCode()==0) {
+                    Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                topicData = (List<Map<String, Object>>) res.getData();
+                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
+                if(topicData.size()!=0) tv_noResult.setVisibility(View.GONE);
+                else {
+                    btn_post.setVisibility(View.GONE);
+                    btn_pre.setVisibility(View.GONE);
+                    tv_pageNumber.setVisibility(View.GONE);
+                }
+                for(int i = 0; i< topicData.size(); i++){
+                    topicAL.add(addTopicResult(topicData.get(i), i));
+                    IDs.put(i,"" + topicData.get(i).get("newsId"));
+                }
+                topicClicked();
+            }
+        });
     }
     private AbsoluteLayout addTopicResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
