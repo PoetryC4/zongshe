@@ -116,6 +116,10 @@
             android:windowSoftInputMode="adjustNothing"
             />
         <activity
+            android:name="com.example.finance.ChartPage"
+            android:windowSoftInputMode="adjustNothing"
+            />
+        <activity
             android:name="com.example.finance.AIhelperPage"
             android:windowSoftInputMode="adjustNothing"
             android:usesCleartextTraffic="true"

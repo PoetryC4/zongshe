@@ -499,7 +499,7 @@ public class StockMainPage extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("mainAL:"+mainAL.toString());
+                //System.out.println("mainAL:"+mainAL.toString());
                 for (int i = 0; i < mainAL.size(); i++) {
                     ll_res.removeView(mainAL.get(i));
                 }

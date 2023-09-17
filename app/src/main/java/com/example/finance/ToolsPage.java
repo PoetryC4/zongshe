@@ -30,6 +30,7 @@ public class ToolsPage extends AppCompatActivity {
     private TextView tv_main;
     private TextView tv_warnings;
     private TextView tv_ai_helper;
+    private TextView tv_charts;
     private TextView tv_searchIcon;
     private TextView tv_upperBar;
     private Toolbar toolbar;
@@ -40,6 +41,7 @@ public class ToolsPage extends AppCompatActivity {
     private AbsoluteLayout al_warning;
     private AbsoluteLayout al_notes;
     private AbsoluteLayout al_ai_helper;
+    private AbsoluteLayout al_charts;
 
     private Map<String,Object> userSettings = null;
 
@@ -77,12 +79,15 @@ public class ToolsPage extends AppCompatActivity {
             ((TextView) findViewById(R.id.warnings_text)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.notes_text)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.ai_helper_text)).setTextColor(colors.colorWhite);
+            ((TextView) findViewById(R.id.charts_text)).setTextColor(colors.colorWhite);
 
             ((TextView) findViewById(R.id.search_icon)).setTextColor(colors.colorGray);
             findViewById(R.id.upperBar).setBackgroundResource(R.drawable.rounded_rect_3_gray);
             ((TextView) findViewById(R.id.predictor)).setTextColor(colors.colorBlue);
             ((TextView) findViewById(R.id.warnings)).setTextColor(colors.colorBlue);
             ((TextView) findViewById(R.id.notes)).setTextColor(colors.colorBlue);
+            ((TextView) findViewById(R.id.ai_helper)).setTextColor(colors.colorBlue);
+            ((TextView) findViewById(R.id.charts)).setTextColor(colors.colorBlue);
             findViewById(R.id.tools_box).setBackgroundResource(R.drawable.rounded_rect_1_gray);
 
             findViewById(R.id.switchBar).setBackgroundColor(colors.colorBlue);
@@ -99,12 +104,15 @@ public class ToolsPage extends AppCompatActivity {
             ((TextView) findViewById(R.id.warnings_text)).setTextColor(colors.colorGray);
             ((TextView) findViewById(R.id.notes_text)).setTextColor(colors.colorGray);
             ((TextView) findViewById(R.id.ai_helper_text)).setTextColor(colors.colorGray);
+            ((TextView) findViewById(R.id.charts_text)).setTextColor(colors.colorGray);
 
             ((TextView) findViewById(R.id.search_icon)).setTextColor(colors.colorWhite);
             findViewById(R.id.upperBar).setBackgroundResource(R.drawable.rounded_rect_3_white);
             ((TextView) findViewById(R.id.predictor)).setTextColor(colors.colorRed);
             ((TextView) findViewById(R.id.warnings)).setTextColor(colors.colorRed);
             ((TextView) findViewById(R.id.notes)).setTextColor(colors.colorRed);
+            ((TextView) findViewById(R.id.ai_helper)).setTextColor(colors.colorRed);
+            ((TextView) findViewById(R.id.charts)).setTextColor(colors.colorRed);
             findViewById(R.id.tools_box).setBackgroundResource(R.drawable.rounded_rect_1_white);
 
             findViewById(R.id.switchBar).setBackgroundColor(colors.colorLightRed);
@@ -134,6 +142,8 @@ public class ToolsPage extends AppCompatActivity {
         tv_warnings.setTypeface(fontAwe);
         tv_ai_helper = findViewById(R.id.ai_helper);
         tv_ai_helper.setTypeface(fontAwe);
+        tv_charts = findViewById(R.id.charts);
+        tv_charts.setTypeface(fontAwe);
         tv_searchIcon = findViewById(R.id.search_icon);
         tv_searchIcon.setTypeface(fontAwe);
         tv_upperBar = findViewById(R.id.upperBar);
@@ -141,6 +151,7 @@ public class ToolsPage extends AppCompatActivity {
         al_warning = findViewById(R.id.tools_warning);
         al_notes = findViewById(R.id.tools_notes);
         al_ai_helper = findViewById(R.id.tools_ai_helper);
+        al_charts = findViewById(R.id.tools_charts);
 
         tv_backBtn = findViewById(R.id.backBtn);
         tv_backBtn.setTypeface(fontAwe);
@@ -199,6 +210,14 @@ public class ToolsPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(ToolsPage.this, AIhelperPage.class);
+                startActivity(intent);
+            }
+        });
+        al_charts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(ToolsPage.this, ChartPage.class);
                 startActivity(intent);
             }
         });

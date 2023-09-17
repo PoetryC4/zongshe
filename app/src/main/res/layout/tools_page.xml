@@ -180,6 +180,31 @@
                 android:translationY="50dp"/>
         </AbsoluteLayout>
 
+        <AbsoluteLayout
+            android:id="@+id/tools_charts"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:translationX="68dp">
+
+            <TextView
+                android:id="@+id/charts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fa_area_chart"
+                android:textColor="#FF8181"
+                android:textSize="37sp"
+                android:translationX="15dp"/>
+
+            <TextView
+                android:id="@+id/charts_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="龙虎榜"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                android:translationY="50dp"/>
+        </AbsoluteLayout>
+
     </LinearLayout>
 
     <LinearLayout
