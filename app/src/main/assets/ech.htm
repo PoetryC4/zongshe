@@ -23,7 +23,7 @@
             .then(response => {
                     //stData = JSON.parse(this.responseText);
                     //stData = stData.data;
-                    stData = response.data
+                    stData = JSON.parse(response.data)
                     let getDailyStockR = []
                     let row = []
                     // for(let i=0;i<stData.getDailyStock.length;i++) {

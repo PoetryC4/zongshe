@@ -50,7 +50,6 @@ public class ChartPage extends AppCompatActivity {
     private AbsoluteLayout chartAL;
 
     private TextView tv_back;
-    private TextView tv_upperBar;
     private TextView tv_noResult;
     private TextView tv_result;
     private Button btn_pre;
@@ -117,9 +116,7 @@ public class ChartPage extends AppCompatActivity {
         if(isDark) {
             findViewById(R.id.chartPage_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.chartPage_line).setBackgroundColor(colors.colorWhite);
-            findViewById(R.id.upperBar).setBackgroundResource(R.drawable.rounded_rect_3_gray);
             ((TextView)findViewById(R.id.result_text)).setTextColor(colors.colorWhite);
-            ((TextView)findViewById(R.id.upperBar)).setTextColor(colors.colorGray);
             ((TextView)findViewById(R.id.no_result)).setTextColor(colors.colorWhite);
             ((TextView)findViewById(R.id.pageNumber)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.pre_arrow)).setTextColor(colors.colorGray);
@@ -131,8 +128,6 @@ public class ChartPage extends AppCompatActivity {
         } else {
             findViewById(R.id.chartPage_body).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.chartPage_line).setBackgroundColor(colors.colorGray);
-            findViewById(R.id.upperBar).setBackgroundResource(R.drawable.rounded_rect_3_white);
-            ((TextView)findViewById(R.id.upperBar)).setTextColor(colors.colorGray);
             ((TextView)findViewById(R.id.result_text)).setTextColor(colors.colorGray);
             ((TextView)findViewById(R.id.no_result)).setTextColor(colors.colorGray);
             ((TextView)findViewById(R.id.pageNumber)).setTextColor(colors.colorGray);
@@ -147,24 +142,6 @@ public class ChartPage extends AppCompatActivity {
 
     private void initView() throws IOException, InterruptedException {
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                String topList = Tushare.tushareApi("top_list","trade_date="+getCurTime.yestodayTime());
-                Map map = JSON.parseObject(topList,Map.class);
-                if(!map.containsKey("code") || (Integer) map.get("code")==0) {
-                    Looper.prepare();
-                    Toast.makeText(getApplicationContext(), "请求错误", Toast.LENGTH_LONG).show();
-                    Looper.loop();
-                } else {
-                    chartsMap = ((Map)map.get("data"));
-                }
-            }
-        };
-
-        // 启动线程
-        thread.start();
-
         charts = new ArrayList<AbsoluteLayout>();
         IDs = new HashMap<>();
         names = new HashMap<>();
@@ -178,9 +155,6 @@ public class ChartPage extends AppCompatActivity {
         btn_post = findViewById(R.id.post_arrow);/*
         tv_back = findViewById(R.id.back);
         tv_back.setTypeface(fontAwe);*/
-        tv_upperBar = findViewById(R.id.upperBar);
-        tv_upperBar.setText(input);
-        tv_upperBar.setTextColor(Color.rgb(255,255,255));
         tv_noResult = findViewById(R.id.no_result);
         tv_result = findViewById(R.id.result_text);
         sv_resView = findViewById(R.id.resultsView);
@@ -188,11 +162,29 @@ public class ChartPage extends AppCompatActivity {
         tv_backBtn = findViewById(R.id.backBtn);
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
-        count = JSONObject.parseArray(chartsMap.get("items").toString(),String.class).size();
         //setSupportActionBar(toolbar);
         if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
-        ThreadPage threadPage = new ThreadPage();
-        threadPage.start();
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                String topList = Tushare.tushareApi("top_list","trade_date="+getCurTime.yestodayTime());
+                Map map = JSON.parseObject(topList,Map.class);
+                if(!map.containsKey("code") || (Integer) map.get("code")==0) {
+                    Looper.prepare();
+                    Toast.makeText(getApplicationContext(), "请求错误", Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                } else {
+                    chartsMap = ((Map)map.get("data"));
+                    count = JSONObject.parseArray(chartsMap.get("items").toString(),String.class).size();
+                    ThreadPage threadPage = new ThreadPage();
+                    threadPage.start();
+                }
+            }
+        };
+
+        // 启动线程
+        thread.start();
     }
     private void setListener() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
