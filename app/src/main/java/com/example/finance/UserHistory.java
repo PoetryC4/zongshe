@@ -2,25 +2,20 @@ package com.example.finance;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AbsoluteLayout;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.finance.api.HistoryApi;
@@ -44,8 +39,8 @@ public class UserHistory extends AppCompatActivity {
     private List<Map<String, Object>> historyData;
     private ScrollView sv_resView;
     private LinearLayout ll_res;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_pageNumber;
     private Button btn_pre;
     private Button btn_post;
@@ -55,26 +50,27 @@ public class UserHistory extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
 
-    private Map<Integer,String> IDs;
+    private Map<Integer, String> IDs;
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer count = 0;
 
     private String userId = "";
     private String type = "类型1";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
-    private class ThreadPage extends Thread{
+    private class ThreadPage extends Thread {
 
-        public ThreadPage(){
+        public ThreadPage() {
             ;
         }
 
         @Override
-        public void run(){
+        public void run() {
             pageTurn();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +79,11 @@ public class UserHistory extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -101,9 +97,10 @@ public class UserHistory extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.userHistory_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.userHistory_title)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.history_search)).setTextColor(colors.colorWhite);
@@ -139,8 +136,8 @@ public class UserHistory extends AppCompatActivity {
             public void run() {
                 try {
                     com.example.finance.common.R<Object> res = null;
-                    res = historyApi.GetHistoryCount(userId,input,type);
-                    if(res.getCode()==0) {
+                    res = historyApi.GetHistoryCount(userId, input, type);
+                    if (res.getCode() == 0) {
                         Looper.prepare();
                         Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                         Looper.loop();
@@ -176,10 +173,11 @@ public class UserHistory extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         ThreadPage threadPage = new ThreadPage();
         threadPage.start();
     }
+
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +189,7 @@ public class UserHistory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page++;
-                if(page>Math.ceil((float)count/(float)pageSize)) {
+                if (page > Math.ceil((float) count / (float) pageSize)) {
                     page--;
                     return;
                 }
@@ -203,7 +201,7 @@ public class UserHistory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page--;
-                if(page<=0) {
+                if (page <= 0) {
                     page++;
                     return;
                 }
@@ -225,12 +223,12 @@ public class UserHistory extends AppCompatActivity {
                     public void run() {
                         input = et_historyInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(UserHistory.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserHistory.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = historyApi.GetHistoryCount(userId,input,"0");
-                            if(res.getCode()==0) {
+                            res = historyApi.GetHistoryCount(userId, input, "0");
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -244,13 +242,13 @@ public class UserHistory extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
+                            res = historyApi.GetHistoryByPage(userId, page, pageSize, input);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -278,12 +276,12 @@ public class UserHistory extends AppCompatActivity {
                     public void run() {
                         input = et_historyInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(UserHistory.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserHistory.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = historyApi.GetHistoryCount(userId,input,"0");
-                            if(res.getCode()==0) {
+                            res = historyApi.GetHistoryCount(userId, input, "0");
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -297,13 +295,13 @@ public class UserHistory extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
+                            res = historyApi.GetHistoryByPage(userId, page, pageSize, input);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -321,21 +319,23 @@ public class UserHistory extends AppCompatActivity {
             }
         });
     }
+
     private void historyClicked() {
-        for(int i=historyAL.size() - 1;i >= 0;i--){
+        for (int i = historyAL.size() - 1; i >= 0; i--) {
             int finalI = i;
             historyAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent();
                     intent.setClass(UserHistory.this, StockDataPage.class);
-                    intent.putExtra("ts_code",IDs.get(finalI));
+                    intent.putExtra("ts_code", IDs.get(finalI));
                     startActivity(intent);
                 }
             });
-            ll_res.addView(historyAL.get(i),0);
+            ll_res.addView(historyAL.get(i), 0);
         }
     }
+
     private void pageTurn() {
         runOnUiThread(new Runnable() {
             @Override
@@ -347,98 +347,98 @@ public class UserHistory extends AppCompatActivity {
                 IDs.clear();
                 com.example.finance.common.R<Object> res = null;
                 try {
-                    res = historyApi.GetHistoryByPage(userId,page,pageSize,input);
+                    res = historyApi.GetHistoryByPage(userId, page, pageSize, input);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserHistory.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 historyData = (List<Map<String, Object>>) res.getData();
-                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-                if(historyData.size()!=0) {
+                tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
+                if (historyData.size() != 0) {
                     btn_post.setVisibility(View.VISIBLE);
                     btn_pre.setVisibility(View.VISIBLE);
                     tv_pageNumber.setVisibility(View.VISIBLE);
                     tv_noResult.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
                     tv_noResult.setVisibility(View.VISIBLE);
                 }
-                for(int i=0;i<historyData.size();i++){
+                for (int i = 0; i < historyData.size(); i++) {
                     historyAL.add(addStockResult(historyData.get(i), i));
-                    IDs.put(i,(String)historyData.get(i).get("tsCode"));
+                    IDs.put(i, (String) historyData.get(i).get("tsCode"));
                 }
                 historyClicked();
             }
         });
     }
+
     private AbsoluteLayout addStockResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(UserHistory.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 190));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 
         TextView stockName = new TextView(UserHistory.this);
-        stockName.setText((String)map.get("tsName"));
+        stockName.setText((String) map.get("tsName"));
         stockName.setTextSize(25);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             stockName.setTextColor(colors.colorGray);
-        } else{
+        } else {
             stockName.setTextColor(colors.colorWhite);
         }
-        stockName.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,0));
+        stockName.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
         AL.addView(stockName);
 
         TextView ID = new TextView(UserHistory.this);
-        ID.setText((String)map.get("tsCode"));
+        ID.setText((String) map.get("tsCode"));
         ID.setTextSize(17);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             ID.setTextColor(colors.colorGray);
-        } else{
+        } else {
             ID.setTextColor(colors.colorWhite);
         }
-        ID.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,338,30));
+        ID.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 338, 30));
         AL.addView(ID);
 
         TextView date = new TextView(UserHistory.this);
-        date.setText((String)map.get("sDate"));
+        date.setText((String) map.get("sDate"));
         date.setTextSize(20);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             date.setTextColor(colors.colorGray);
-        } else{
+        } else {
             date.setTextColor(colors.colorWhite);
         }
-        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,100));
+        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(date);
 
         TextView line = new TextView(UserHistory.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             line.setBackgroundColor(colors.colorGray);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorWhite);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,184));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
 
         TextView go = new TextView(UserHistory.this);
         go.setTextSize(27);
         go.setText(R.string.fa_chevron_right);
-        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,970,50));
+        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             go.setTextColor(colors.colorGray);
-        } else{
+        } else {
             go.setTextColor(colors.colorWhite);
         }
         AL.addView(go);

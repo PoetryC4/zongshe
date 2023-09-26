@@ -27,8 +27,8 @@ public class NoteModify extends AppCompatActivity {
     private GetCurTime getCurTime;
     private NoteApi noteApi;
     private Colors colors;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_date;
     private EditText et_content;
     private EditText et_title;
@@ -37,11 +37,11 @@ public class NoteModify extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
 
-    private Map<String,Object> noteData = null;
+    private Map<String, Object> noteData = null;
 
     private String userId = "";
     private String noteId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
     private int isNew;
 
     @Override
@@ -51,11 +51,11 @@ public class NoteModify extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(NoteModify.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -68,10 +68,11 @@ public class NoteModify extends AppCompatActivity {
         }
         Intent intent = getIntent();
         isNew = Integer.parseInt(intent.getStringExtra("new"));
-        if(isNew == 0)noteId = intent.getStringExtra("note_id");
+        if (isNew == 0) noteId = intent.getStringExtra("note_id");
         initViews();
         setListeners();
     }
+
     private void initViews() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");/*
         tv_back = findViewById(R.id.back);
@@ -89,11 +90,11 @@ public class NoteModify extends AppCompatActivity {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                if(isNew == 0) {
+                if (isNew == 0) {
                     try {
                         com.example.finance.common.R<Object> res = null;
-                        res = noteApi.GetNoteById(userId,noteId);
-                        if (res.getCode()==0) {
+                        res = noteApi.GetNoteById(userId, noteId);
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(NoteModify.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -125,11 +126,12 @@ public class NoteModify extends AppCompatActivity {
 
         // 启动线程
         thread.start();
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.title).setBackgroundResource(R.drawable.edittext_bg_white);
             findViewById(R.id.content).setBackgroundResource(R.drawable.edittext_bg_white);
             findViewById(R.id.noteModify_body).setBackgroundColor(colors.colorSuperGray);
@@ -167,9 +169,9 @@ public class NoteModify extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            if(noteApi.DeleteNote(userId,noteId).getCode()==0) {
+                            if (noteApi.DeleteNote(userId, noteId).getCode() == 0) {
                                 Looper.prepare();
-                                Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "操作错误", Toast.LENGTH_LONG).show();
                                 Looper.loop();
                                 return;
                             }
@@ -200,18 +202,17 @@ public class NoteModify extends AppCompatActivity {
                         String content = et_content.getEditableText().toString();
                         String title = et_title.getEditableText().toString();
                         String date;
-                        if(isNew == 1) {
+                        if (isNew == 1) {
                             date = GetCurTime.curTime();
                             try {
-                                if(noteApi.SaveNote(userId,title,date,content).getCode()==0) {
+                                if (noteApi.SaveNote(userId, title, date, content).getCode() == 0) {
                                     Looper.prepare();
-                                    Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "操作错误", Toast.LENGTH_LONG).show();
                                     Looper.loop();
                                     return;
-                                }
-                                else {
+                                } else {
                                     Looper.prepare();
-                                    Toast.makeText(getApplicationContext(),"操作成功", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "操作成功", Toast.LENGTH_LONG).show();
                                     Looper.loop();
                                 }
                             } catch (IOException e) {
@@ -219,19 +220,17 @@ public class NoteModify extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                        }
-                        else {
+                        } else {
                             date = (String) noteData.get("date");
                             try {
-                                if(noteApi.UpdateNote(userId,noteId,title,content, GetCurTime.curTime_2()).getCode()==0) {
+                                if (noteApi.UpdateNote(userId, noteId, title, content, GetCurTime.curTime_2()).getCode() == 0) {
                                     Looper.prepare();
-                                    Toast.makeText(getApplicationContext(),"操作错误", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "操作错误", Toast.LENGTH_LONG).show();
                                     Looper.loop();
                                     return;
-                                }
-                                else {
+                                } else {
                                     Looper.prepare();
-                                    Toast.makeText(getApplicationContext(),"操作成功", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "操作成功", Toast.LENGTH_LONG).show();
                                     Looper.loop();
                                 }
                             } catch (IOException e) {

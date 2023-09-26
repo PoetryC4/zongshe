@@ -18,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.finance.api.UserApi;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -34,6 +33,7 @@ public class LoginPage extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView tv_backBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,7 @@ public class LoginPage extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void initViews() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         et_pwd = (EditText) findViewById(R.id.login_password);
@@ -58,6 +59,7 @@ public class LoginPage extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
     }
+
     private void setListeners() {
 
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,17 +85,17 @@ public class LoginPage extends AppCompatActivity {
                 String usrName = et_username.getEditableText().toString();
                 String PSW = et_pwd.getEditableText().toString();
 
-                if(!usrName.equals("") && !PSW.equals("")) {
+                if (!usrName.equals("") && !PSW.equals("")) {
                     com.example.finance.common.R<String> res = null;
                     try {
-                        res = userApi.CheckLogin(usrName,PSW);
+                        res = userApi.CheckLogin(usrName, PSW);
                         System.out.println(res);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(res.getCode() == 1) {
+                    if (res.getCode() == 1) {
                         Toast.makeText(getApplicationContext(), res.getData(), Toast.LENGTH_LONG).show();
                         SharedPreferences settings = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
@@ -107,7 +109,7 @@ public class LoginPage extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        Intent intent =new Intent();
+                        Intent intent = new Intent();
                         intent.setClass(LoginPage.this, UserPageSimple.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -120,7 +122,7 @@ public class LoginPage extends AppCompatActivity {
         tv_forgetPwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent();
+                Intent intent = new Intent();
                 intent.setClass(LoginPage.this, ChangePwdVerify.class);
                 startActivity(intent);
             }

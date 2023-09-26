@@ -23,7 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.finance.api.UserApi;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,8 +30,8 @@ public class RegisterPage extends AppCompatActivity {
 
     private UserApi userApi;
 
-    private int email_verify_code=-1;
-    private boolean isEmailValid=false;
+    private int email_verify_code = -1;
+    private boolean isEmailValid = false;
 
     private TextView tv_sendCode;//发送验证码
     private EditText et_username;
@@ -51,12 +50,11 @@ public class RegisterPage extends AppCompatActivity {
     private TextView tv_backBtn;
 
     @SuppressLint("HandlerLeak")
-    private  Handler mhandler = new Handler(){
-        public void handleMessage(Message message){
-            if(message.what>0){
-                tv_sendCode.setText("有效时间"+message.what+"秒");
-            }
-            else{
+    private Handler mhandler = new Handler() {
+        public void handleMessage(Message message) {
+            if (message.what > 0) {
+                tv_sendCode.setText("有效时间" + message.what + "秒");
+            } else {
                 tv_sendCode.setClickable(true);
                 tv_sendCode.setText("发送验证码");
             }
@@ -71,6 +69,7 @@ public class RegisterPage extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void initViews() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         tv_sendCode = findViewById(R.id.register_send_code);
@@ -97,6 +96,7 @@ public class RegisterPage extends AppCompatActivity {
         tv_login = findViewById(R.id.go_to_login);//转到登录
         btn_register = (Button) findViewById(R.id.register_button);//提交注册
     }
+
     private void setListeners() {
 
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,39 +133,39 @@ public class RegisterPage extends AppCompatActivity {
                         boolean PSWupperCase = false;
                         boolean PSWnumber = false;
 
-                        if(txtPSWS.length()<6){
+                        if (txtPSWS.length() < 6) {
                             tv_pwdFeedback.setText("密码长度不得小于6");
-                        }
-                        else{
+                        } else {
                             tv_pwdFeedback.setText("");
                             char preCh = 0;
                             int consi = 0;
-                            for(int i=0;i<txtPSWS.length();i++){
-                                if(consi>=3){
+                            for (int i = 0; i < txtPSWS.length(); i++) {
+                                if (consi >= 3) {
                                     tv_pwdFeedback.setText("密码不得有连续三个相同字符");
                                     break;
                                 } else {
                                     tv_pwdFeedback.setText("");
                                 }
-                                if(txtPSWS.charAt(i)!=preCh){
-                                    preCh=txtPSWS.charAt(i);
-                                    consi=1;
-                                }
-                                else{
+                                if (txtPSWS.charAt(i) != preCh) {
+                                    preCh = txtPSWS.charAt(i);
+                                    consi = 1;
+                                } else {
                                     consi++;
                                 }
-                                if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
-                                if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
-                                if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
-                                if(i==txtPSWS.length()-1){
-                                    isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
-                                    if(!isPSWTypesEnough){
+                                if (txtPSWS.charAt(i) <= '9' && txtPSWS.charAt(i) >= '0')
+                                    PSWnumber = true;
+                                if (txtPSWS.charAt(i) <= 'z' && txtPSWS.charAt(i) >= 'a')
+                                    PSWlowerCase = true;
+                                if (txtPSWS.charAt(i) <= 'Z' && txtPSWS.charAt(i) >= 'A')
+                                    PSWupperCase = true;
+                                if (i == txtPSWS.length() - 1) {
+                                    isPSWTypesEnough = PSWlowerCase && PSWupperCase && PSWnumber;
+                                    if (!isPSWTypesEnough) {
                                         tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
                                     } else {
                                         tv_pwdFeedback.setText("");
                                     }
-                                }
-                                else {
+                                } else {
                                     tv_pwdFeedback.setText("");
                                 }
                             }
@@ -203,7 +203,7 @@ public class RegisterPage extends AppCompatActivity {
                         String txtPSWS = et_pwd.getText().toString();
                         String txtConfirmPSWS = et_pwdVerify.getText().toString();
 
-                        if(!txtPSWS.equals(txtConfirmPSWS)){
+                        if (!txtPSWS.equals(txtConfirmPSWS)) {
                             tv_pwdVerifyFeedback.setText("两次输入密码不一致!");
                         } else {
                             tv_pwdVerifyFeedback.setText("");
@@ -239,10 +239,9 @@ public class RegisterPage extends AppCompatActivity {
                         String emailTxt = et_email.getText().toString();
                         if (!emailTxt.matches("[\\w\\.\\-]+@([\\w\\-]+\\.)+[\\w\\-]+")) {
                             tv_emailFeedback.setText("不正确的邮箱格式");
-                        }
-                        else {
+                        } else {
                             tv_emailFeedback.setText("");
-                            if(!emailTxt.equals("")) {
+                            if (!emailTxt.equals("")) {
                                 // 输入后的监听
                                 com.example.finance.common.R<String> res = null;
                                 try {
@@ -288,15 +287,15 @@ public class RegisterPage extends AppCompatActivity {
                         // 在这里定义线程执行的任务
                         String txtUsrNameS = et_username.getText().toString();
 
-                        for(int i=0;i<txtUsrNameS.length();i++){
-                            if(!(txtUsrNameS.charAt(i)=='_'||(txtUsrNameS.charAt(i)<='Z'&&txtUsrNameS.charAt(i)>='A')||(txtUsrNameS.charAt(i)<='z'&&txtUsrNameS.charAt(i)>='a')||(txtUsrNameS.charAt(i)<='9'&&txtUsrNameS.charAt(i)>='0'))){
+                        for (int i = 0; i < txtUsrNameS.length(); i++) {
+                            if (!(txtUsrNameS.charAt(i) == '_' || (txtUsrNameS.charAt(i) <= 'Z' && txtUsrNameS.charAt(i) >= 'A') || (txtUsrNameS.charAt(i) <= 'z' && txtUsrNameS.charAt(i) >= 'a') || (txtUsrNameS.charAt(i) <= '9' && txtUsrNameS.charAt(i) >= '0'))) {
                                 tv_usernameFeedback.setText("用户名只能由数字，大小写字母和下划线组成");
                                 return;
                             }
                         }
                         tv_usernameFeedback.setText("");
 
-                        if(!txtUsrNameS.equals("")) {
+                        if (!txtUsrNameS.equals("")) {
                             com.example.finance.common.R<String> res = null;
                             try {
                                 res = userApi.CheckUsername(txtUsrNameS);
@@ -339,7 +338,7 @@ public class RegisterPage extends AppCompatActivity {
                         // 在这里定义线程执行的任务
 
                         String emailTxt = et_email.getText().toString();
-                        if(!emailTxt.equals("")) {
+                        if (!emailTxt.equals("")) {
                             // 输入后的监听
                             com.example.finance.common.R<String> res = null;
                             try {
@@ -350,36 +349,36 @@ public class RegisterPage extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             tv_emailFeedback.setText(res.getMsg());
-                            if(res.getCode() == 1) {
+                            if (res.getCode() == 1) {
 
                                 String txtEmailS = et_email.getText().toString();
 
-                                email_verify_code=(int)Math.floor(Math.random()*90000+10000);
+                                email_verify_code = (int) Math.floor(Math.random() * 90000 + 10000);
                                 System.out.println(email_verify_code);
-                                int rs=send_code_func(txtEmailS,email_verify_code);
-                                if(rs==-1){
+                                int rs = send_code_func(txtEmailS, email_verify_code);
+                                if (rs == -1) {
                                     tv_emailFeedback.setText("无效邮箱地址");
-                                }
-                                else {
+                                } else {
                                     tv_emailFeedback.setText("");
                                     tv_sendCode.setClickable(false);
-                                    isEmailValid=true;
+                                    isEmailValid = true;
 
-                                    Timer timer=new Timer();
+                                    Timer timer = new Timer();
                                     timer.schedule(new TimerTask() {
-                                        public int sec=60;
+                                        public int sec = 60;
+
                                         @Override
                                         public void run() {
                                             Message message = new Message();
                                             message.what = sec;
                                             mhandler.sendMessage(message);
-                                            if(sec==0){
-                                                email_verify_code=-1;
+                                            if (sec == 0) {
+                                                email_verify_code = -1;
                                                 timer.cancel();
                                             }
                                             sec--;
                                         }
-                                    },1000,1000);
+                                    }, 1000, 1000);
 
                                 }
                             }
@@ -401,47 +400,48 @@ public class RegisterPage extends AppCompatActivity {
                 String txtPSWS = et_pwd.getText().toString();
                 String txtConfirmPSWS = et_pwdVerify.getText().toString();
                 String txtEmailS = et_email.getText().toString();
-                if(txtConfirmPSWS.equals("")||txtPSWS.equals("")||txtEmailS.equals("")||txtUsrNameS.equals("")) return;
+                if (txtConfirmPSWS.equals("") || txtPSWS.equals("") || txtEmailS.equals("") || txtUsrNameS.equals(""))
+                    return;
 
                 boolean isPSWTypesEnough = false;
                 boolean PSWlowerCase = false;
                 boolean PSWupperCase = false;
                 boolean PSWnumber = false;
 
-                for(int i=0;i<txtUsrNameS.length();i++){
-                    if(!(txtUsrNameS.charAt(i)=='_'||(txtUsrNameS.charAt(i)<='Z'&&txtUsrNameS.charAt(i)>='A')||(txtUsrNameS.charAt(i)<='z'&&txtUsrNameS.charAt(i)>='a')||(txtUsrNameS.charAt(i)<='9'&&txtUsrNameS.charAt(i)>='0'))){
+                for (int i = 0; i < txtUsrNameS.length(); i++) {
+                    if (!(txtUsrNameS.charAt(i) == '_' || (txtUsrNameS.charAt(i) <= 'Z' && txtUsrNameS.charAt(i) >= 'A') || (txtUsrNameS.charAt(i) <= 'z' && txtUsrNameS.charAt(i) >= 'a') || (txtUsrNameS.charAt(i) <= '9' && txtUsrNameS.charAt(i) >= '0'))) {
                         tv_usernameFeedback.setText("用户名只能由数字，大小写字母和下划线组成");
                         break;
                     }
                 }
                 tv_usernameFeedback.setText("");
-                if(txtPSWS.length()<6){
+                if (txtPSWS.length() < 6) {
                     tv_pwdFeedback.setText("密码长度不得小于6");
-                }
-                else{
+                } else {
                     tv_pwdFeedback.setText("");
                     char preCh = 0;
                     int consi = 0;
-                    for(int i=0;i<txtPSWS.length();i++){
-                        if(consi>=3){
+                    for (int i = 0; i < txtPSWS.length(); i++) {
+                        if (consi >= 3) {
                             tv_pwdFeedback.setText("密码不得有连续三个相同字符");
                             break;
                         } else {
                             tv_pwdFeedback.setText("");
                         }
-                        if(txtPSWS.charAt(i)!=preCh){
-                            preCh=txtPSWS.charAt(i);
-                            consi=1;
-                        }
-                        else{
+                        if (txtPSWS.charAt(i) != preCh) {
+                            preCh = txtPSWS.charAt(i);
+                            consi = 1;
+                        } else {
                             consi++;
                         }
-                        if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
-                        if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
-                        if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
-                        if(i==txtPSWS.length()-1){
-                            isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
-                            if(!isPSWTypesEnough){
+                        if (txtPSWS.charAt(i) <= '9' && txtPSWS.charAt(i) >= '0') PSWnumber = true;
+                        if (txtPSWS.charAt(i) <= 'z' && txtPSWS.charAt(i) >= 'a')
+                            PSWlowerCase = true;
+                        if (txtPSWS.charAt(i) <= 'Z' && txtPSWS.charAt(i) >= 'A')
+                            PSWupperCase = true;
+                        if (i == txtPSWS.length() - 1) {
+                            isPSWTypesEnough = PSWlowerCase && PSWupperCase && PSWnumber;
+                            if (!isPSWTypesEnough) {
                                 tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
                             } else {
                                 tv_pwdFeedback.setText("");
@@ -450,28 +450,27 @@ public class RegisterPage extends AppCompatActivity {
                     }
                 }
 
-                if(!txtPSWS.equals(txtConfirmPSWS)){
+                if (!txtPSWS.equals(txtConfirmPSWS)) {
                     tv_pwdVerifyFeedback.setText("两次输入密码不一致!");
                 } else {
                     tv_pwdVerifyFeedback.setText("");
                 }
                 try {
-                    isEmailValid = userApi.CheckEmail(txtEmailS).getCode()==1;
+                    isEmailValid = userApi.CheckEmail(txtEmailS).getCode() == 1;
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(!isEmailValid){
+                if (!isEmailValid) {
                     tv_emailFeedback.setText("该邮箱已被占用");
-                }
-                else{
+                } else {
                     tv_emailFeedback.setText("");
                     tv_codeFeedback.setText("");
-                    if(email_verify_code!=-1&&!et_code.getText().toString().equals("")&&Integer.parseInt(et_code.getText().toString())==email_verify_code){
+                    if (email_verify_code != -1 && !et_code.getText().toString().equals("") && Integer.parseInt(et_code.getText().toString()) == email_verify_code) {
                         try {
                             com.example.finance.common.R<String> res = null;
-                            res = userApi.UserRegister(txtUsrNameS,txtPSWS,txtEmailS);
+                            res = userApi.UserRegister(txtUsrNameS, txtPSWS, txtEmailS);
                             if (res.getCode() == 0) {
                                 Toast.makeText(RegisterPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 return;
@@ -483,8 +482,7 @@ public class RegisterPage extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else{
+                    } else {
                         tv_codeFeedback.setText("验证码不正确");
                     }
                 }

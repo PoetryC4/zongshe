@@ -45,8 +45,8 @@ public class UserFavorites extends AppCompatActivity {
     private List<Map<String, Object>> favorsData;
     private ScrollView sv_resView;
     private LinearLayout ll_res;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_pageNumber;
     private Button btn_pre;
     private Button btn_post;
@@ -56,29 +56,30 @@ public class UserFavorites extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
 
-    private Map<Integer,String> IDs;
+    private Map<Integer, String> IDs;
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer count = 50;
 
     private String userId = "";
     private String type = "类型1";
-    private Map<String,Object> userSettings = null;
-    private Map<Integer,String> names;
+    private Map<String, Object> userSettings = null;
+    private Map<Integer, String> names;
 
     private int color_gray;
 
-    private class ThreadPage extends Thread{
+    private class ThreadPage extends Thread {
 
-        public ThreadPage(){
+        public ThreadPage() {
             ;
         }
 
         @Override
-        public void run(){
+        public void run() {
             pageTurn();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +87,11 @@ public class UserFavorites extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -104,9 +105,10 @@ public class UserFavorites extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.userFavorites_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.userFavorites_title)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.favors_search)).setTextColor(colors.colorWhite);
@@ -142,8 +144,8 @@ public class UserFavorites extends AppCompatActivity {
             public void run() {
                 try {
                     com.example.finance.common.R<Object> res = null;
-                    res = favorsApi.GetFavorsCount(userId,input,type);
-                    if(res.getCode()==0) {
+                    res = favorsApi.GetFavorsCount(userId, input, type);
+                    if (res.getCode() == 0) {
                         Looper.prepare();
                         Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                         Looper.loop();
@@ -174,17 +176,18 @@ public class UserFavorites extends AppCompatActivity {
         tv_favorsSearch.setTypeface(fontAwe);
         et_favorsInput = findViewById(R.id.favors_input);
         tv_pageNumber = findViewById(R.id.pageNumber);
-        color_gray = Color.rgb(65,65,65);
+        color_gray = Color.rgb(65, 65, 65);
         names = new HashMap<>();
 
         tv_backBtn = findViewById(R.id.backBtn);
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         ThreadPage threadPage = new ThreadPage();
         threadPage.start();
     }
+
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +199,7 @@ public class UserFavorites extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page++;
-                if(page>Math.ceil((float)count/(float)pageSize)) {
+                if (page > Math.ceil((float) count / (float) pageSize)) {
                     page--;
                     return;
                 }
@@ -208,7 +211,7 @@ public class UserFavorites extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page--;
-                if(page<=0) {
+                if (page <= 0) {
                     page++;
                     return;
                 }
@@ -233,12 +236,12 @@ public class UserFavorites extends AppCompatActivity {
                     public void run() {
                         input = et_favorsInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(UserFavorites.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserFavorites.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = favorsApi.GetFavorsCount(userId,input,"0");
-                            if(res.getCode()==0) {
+                            res = favorsApi.GetFavorsCount(userId, input, "0");
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -252,13 +255,13 @@ public class UserFavorites extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = favorsApi.GetFavorsByPage(userId,page,pageSize);
+                            res = favorsApi.GetFavorsByPage(userId, page, pageSize);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -283,13 +286,13 @@ public class UserFavorites extends AppCompatActivity {
                     @Override
                     public void run() {
                         Looper.prepare();
-                        Toast.makeText(UserFavorites.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserFavorites.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         input = et_favorsInput.getText().toString();
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = favorsApi.GetFavorsCount(userId,input,"0");
-                            if(res.getCode()==0) {
+                            res = favorsApi.GetFavorsCount(userId, input, "0");
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -303,13 +306,13 @@ public class UserFavorites extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = favorsApi.GetFavorsByPage(userId,page,pageSize);
+                            res = favorsApi.GetFavorsByPage(userId, page, pageSize);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -327,8 +330,9 @@ public class UserFavorites extends AppCompatActivity {
             }
         });
     }
+
     private void favorsClicked() {
-        for(int i=favorsAL.size() - 1;i>=0;i--){
+        for (int i = favorsAL.size() - 1; i >= 0; i--) {
             int finalI = i;
             favorsAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -343,8 +347,8 @@ public class UserFavorites extends AppCompatActivity {
                         }
                     });
                     Intent intent = new Intent(UserFavorites.this, StockDataPage.class);
-                    intent.putExtra("ts_code",IDs.get(finalI));
-                    intent.putExtra("stock_name",names.get(finalI));
+                    intent.putExtra("ts_code", IDs.get(finalI));
+                    intent.putExtra("stock_name", names.get(finalI));
                     intentActivityResultLauncher.launch(intent);/*
                     Intent intent = new Intent();
                     intent.setClass(UserFavorites.this, StockDataPage.class);
@@ -353,9 +357,10 @@ public class UserFavorites extends AppCompatActivity {
                     startActivity(intent);*/
                 }
             });
-            ll_res.addView(favorsAL.get(i),0);
+            ll_res.addView(favorsAL.get(i), 0);
         }
     }
+
     private void pageTurn() {
         runOnUiThread(new Runnable() {
             @Override
@@ -367,41 +372,42 @@ public class UserFavorites extends AppCompatActivity {
                 IDs.clear();
                 com.example.finance.common.R<Object> res = null;
                 try {
-                    res = favorsApi.GetFavorsByPage(userId,page,pageSize);
+                    res = favorsApi.GetFavorsByPage(userId, page, pageSize);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserFavorites.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 favorsData = (List<Map<String, Object>>) res.getData();
-                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-                if(favorsData.size()!=0) tv_noResult.setVisibility(View.GONE);
+                tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
+                if (favorsData.size() != 0) tv_noResult.setVisibility(View.GONE);
                 else {
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
                 }
-                for(int i=0;i<favorsData.size();i++){
+                for (int i = 0; i < favorsData.size(); i++) {
                     favorsAL.add(addFavorsResult(favorsData.get(i), i));
-                    IDs.put(i,(String)favorsData.get(i).get("tsCode"));
-                    names.put(i,(String)favorsData.get(i).get("stoName"));
+                    IDs.put(i, (String) favorsData.get(i).get("tsCode"));
+                    names.put(i, (String) favorsData.get(i).get("stoName"));
                 }
                 favorsClicked();
             }
         });
     }
+
     private AbsoluteLayout addFavorsResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(UserFavorites.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 190));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 /*
         TextView stockName = new TextView(UserFavorites.this);
@@ -417,47 +423,47 @@ public class UserFavorites extends AppCompatActivity {
         AL.addView(stockName);*/
 
         TextView ID = new TextView(UserFavorites.this);
-        ID.setText((String)map.get("tsCode"));
+        ID.setText((String) map.get("tsCode"));
         ID.setTextSize(22);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             ID.setTextColor(colors.colorGray);
-        } else{
+        } else {
             ID.setTextColor(colors.colorWhite);
         }
-        ID.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,10));
+        ID.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 10));
         AL.addView(ID);
 
         TextView date = new TextView(UserFavorites.this);
-        date.setText((String)map.get("favorDate"));
+        date.setText((String) map.get("favorDate"));
         date.setTextSize(20);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             date.setTextColor(colors.colorGray);
-        } else{
+        } else {
             date.setTextColor(colors.colorWhite);
         }
-        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,100));
+        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(date);
 
 
         TextView go = new TextView(UserFavorites.this);
         go.setTextSize(27);
         go.setText(R.string.fa_chevron_right);
-        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,970,50));
+        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             go.setTextColor(colors.colorGray);
-        } else{
+        } else {
             go.setTextColor(colors.colorWhite);
         }
         //go.setTextColor(color_gray);
         AL.addView(go);
         TextView line = new TextView(UserFavorites.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             line.setBackgroundColor(colors.colorGray);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorWhite);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,184));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
         return AL;
     }

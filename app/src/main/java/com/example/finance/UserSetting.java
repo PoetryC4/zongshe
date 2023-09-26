@@ -37,7 +37,7 @@ public class UserSetting extends AppCompatActivity {
     private TextView tv_backBtn;
 
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public class UserSetting extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserSetting.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -67,7 +67,7 @@ public class UserSetting extends AppCompatActivity {
 
     private void changeMode(boolean isDark) {
 
-        if(isDark) {
+        if (isDark) {
             ((TextView) findViewById(R.id.userSetting_title)).setTextColor(colors.colorWhite);
             findViewById(R.id.user_setting_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.userSetting_lineTitle).setBackgroundColor(colors.colorWhite);
@@ -122,7 +122,7 @@ public class UserSetting extends AppCompatActivity {
         ll_aboutUsPart = (LinearLayout) findViewById(R.id.about_us_part);
         ll_changePSWPart = (LinearLayout) findViewById(R.id.change_PSW_part);
 
-        if(userSettings != null) {
+        if (userSettings != null) {
             changeMode((int) userSettings.get("isDark") == 1);
             swt_newbieMode.setChecked((int) userSettings.get("isNew") == 1);
             swt_nightMode.setChecked((int) userSettings.get("isDark") == 1);
@@ -139,13 +139,13 @@ public class UserSetting extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            userApi.UpdateSettingDark(userId, isChecked?1:0);
+                            userApi.UpdateSettingDark(userId, isChecked ? 1 : 0);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(!userId.isEmpty()) {
+                        if (!userId.isEmpty()) {
                             try {
                                 userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
                             } catch (IOException e) {
@@ -171,7 +171,7 @@ public class UserSetting extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            userApi.UpdateSettingNew(userId, isChecked?1:0);
+                            userApi.UpdateSettingNew(userId, isChecked ? 1 : 0);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {

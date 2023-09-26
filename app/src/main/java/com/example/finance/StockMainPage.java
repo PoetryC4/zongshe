@@ -42,7 +42,7 @@ public class StockMainPage extends AppCompatActivity {
     private Colors colors;
     private TopicApi topicApi;
     private FavorsApi favorsApi;
-    
+
     private TextView tv_user;
     private TextView tv_tools;
     private TextView tv_main;
@@ -56,12 +56,12 @@ public class StockMainPage extends AppCompatActivity {
     private TextView tv_backBtn;
     private AbsoluteLayout chartAL;
 
-    private List<Map<String,Object>> proStockData;
+    private List<Map<String, Object>> proStockData;
     private List<AbsoluteLayout> proStockList;
-    private List<Map<String,Object>> topicsData;
+    private List<Map<String, Object>> topicsData;
     private List<AbsoluteLayout> topicsList;
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
     private Integer page = 1;
     private Integer pageSize = 10;
@@ -73,24 +73,25 @@ public class StockMainPage extends AppCompatActivity {
     private LinearLayout ll_res;
     private List<AbsoluteLayout> mainAL;
     private List<Map<String, Object>> mainData;
-    private Map<Integer,String> IDs;
-    private Map<Integer,String> names;
+    private Map<Integer, String> IDs;
+    private Map<Integer, String> names;
 
     private Map chartsMap;
 
     private int curChosen = 0;
 
-    private class ThreadPage extends Thread{
+    private class ThreadPage extends Thread {
 
-        public ThreadPage(){
+        public ThreadPage() {
             ;
         }
 
         @Override
-        public void run(){
+        public void run() {
             pageTurn();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +99,11 @@ public class StockMainPage extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(StockMainPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -116,19 +117,20 @@ public class StockMainPage extends AppCompatActivity {
         initView();
         setListeners();
     }
+
     private void initView() {
 
         Thread thread = new Thread() {
             @Override
             public void run() {
-                String topList = Tushare.tushareApi("top_list","trade_date="+getCurTime.yestodayTime());
-                Map map = JSON.parseObject(topList,Map.class);
-                if(!map.containsKey("code") || (Integer) map.get("code")==0) {
+                String topList = Tushare.tushareApi("top_list", "trade_date=" + getCurTime.yestodayTime());
+                Map map = JSON.parseObject(topList, Map.class);
+                if (!map.containsKey("code") || (Integer) map.get("code") == 0) {
                     Looper.prepare();
                     Toast.makeText(getApplicationContext(), "请求错误", Toast.LENGTH_LONG).show();
                     Looper.loop();
                 } else {
-                    chartsMap = ((Map)map.get("data"));
+                    chartsMap = ((Map) map.get("data"));
                 }
             }
         };
@@ -164,9 +166,9 @@ public class StockMainPage extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
 
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             tv_favors.setClickable(false);
             tv_favors.setTextColor(colors.colorGray);
             tv_topics.setClickable(true);
@@ -186,7 +188,7 @@ public class StockMainPage extends AppCompatActivity {
         try {
             com.example.finance.common.R<Object> res = null;
             res = topicApi.GetTopicCount("");
-            if(res.getCode()==0) {
+            if (res.getCode() == 0) {
                 Toast.makeText(StockMainPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
             } else {
                 count = (Integer) res.getData();
@@ -199,16 +201,17 @@ public class StockMainPage extends AppCompatActivity {
         ThreadPage threadPage = new ThreadPage();
         threadPage.start();
     }
+
     private void changeMode(boolean isDark) {
-        if(isDark) {
+        if (isDark) {
             findViewById(R.id.stockMainPage_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.stockMainPage_upper).setBackgroundColor(colors.colorBlue);
-            ((TextView)findViewById(R.id.search_icon)).setTextColor(colors.colorSuperGray);
+            ((TextView) findViewById(R.id.search_icon)).setTextColor(colors.colorSuperGray);
             findViewById(R.id.upperBar).setBackgroundResource(R.drawable.rounded_rect_3_gray);
             findViewById(R.id.stockMainPage_line).setBackgroundColor(colors.colorWhite);
-            ((TextView)findViewById(R.id.main_favors)).setTextColor(colors.colorSelectedCyan);
-            ((TextView)findViewById(R.id.main_charts)).setTextColor(colors.colorWhite);
-            ((TextView)findViewById(R.id.main_topics)).setTextColor(colors.colorWhite);
+            ((TextView) findViewById(R.id.main_favors)).setTextColor(colors.colorSelectedCyan);
+            ((TextView) findViewById(R.id.main_charts)).setTextColor(colors.colorWhite);
+            ((TextView) findViewById(R.id.main_topics)).setTextColor(colors.colorWhite);
 
             findViewById(R.id.switchBar).setBackgroundColor(colors.colorBlue);
             ((TextView) findViewById(R.id.tool_page_text)).setTextColor(colors.colorSuperGray);
@@ -227,12 +230,12 @@ public class StockMainPage extends AppCompatActivity {
         } else {
             findViewById(R.id.stockMainPage_body).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.stockMainPage_upper).setBackgroundColor(colors.colorRed);
-            ((TextView)findViewById(R.id.search_icon)).setTextColor(colors.colorWhite);
+            ((TextView) findViewById(R.id.search_icon)).setTextColor(colors.colorWhite);
             findViewById(R.id.upperBar).setBackgroundResource(R.drawable.rounded_rect_3_white);
             findViewById(R.id.stockMainPage_line).setBackgroundColor(colors.colorGray);
-            ((TextView)findViewById(R.id.main_favors)).setTextColor(colors.colorSelectedOrange);
-            ((TextView)findViewById(R.id.main_charts)).setTextColor(colors.colorNotSelected);
-            ((TextView)findViewById(R.id.main_topics)).setTextColor(colors.colorNotSelected);
+            ((TextView) findViewById(R.id.main_favors)).setTextColor(colors.colorSelectedOrange);
+            ((TextView) findViewById(R.id.main_charts)).setTextColor(colors.colorNotSelected);
+            ((TextView) findViewById(R.id.main_topics)).setTextColor(colors.colorNotSelected);
 
             findViewById(R.id.switchBar).setBackgroundColor(colors.colorLightRed);
             ((TextView) findViewById(R.id.tool_page_text)).setTextColor(colors.colorWhite);
@@ -271,7 +274,7 @@ public class StockMainPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(StockMainPage.this, StockSearchPage.class);
-                intent.putExtra("searchInput","");
+                intent.putExtra("searchInput", "");
                 startActivity(intent);
             }
         });
@@ -280,7 +283,7 @@ public class StockMainPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(StockMainPage.this, StockSearchPage.class);
-                intent.putExtra("searchInput","");
+                intent.putExtra("searchInput", "");
                 startActivity(intent);
             }
         });
@@ -296,7 +299,7 @@ public class StockMainPage extends AppCompatActivity {
         tv_topics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                     tv_topics.setClickable(false);
                     tv_topics.setTextColor(colors.colorSelectedCyan);
                     tv_favors.setClickable(true);
@@ -316,7 +319,7 @@ public class StockMainPage extends AppCompatActivity {
                 try {
                     com.example.finance.common.R<Object> res = null;
                     res = topicApi.GetTopicCount("");
-                    if(res.getCode()==0) {
+                    if (res.getCode() == 0) {
                         Toast.makeText(StockMainPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     } else {
                         count = (Integer) res.getData();
@@ -336,7 +339,7 @@ public class StockMainPage extends AppCompatActivity {
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
-                        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                             tv_favors.setClickable(false);
                             tv_favors.setTextColor(colors.colorSelectedCyan);
                             tv_topics.setClickable(true);
@@ -355,8 +358,8 @@ public class StockMainPage extends AppCompatActivity {
                         curChosen = 1;
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = favorsApi.GetFavorsCount(userId,"","");
-                            if(res.getCode()==0) {
+                            res = favorsApi.GetFavorsCount(userId, "", "");
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(StockMainPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -383,7 +386,7 @@ public class StockMainPage extends AppCompatActivity {
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
-                        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                             tv_charts.setClickable(false);
                             tv_charts.setTextColor(colors.colorSelectedCyan);
                             tv_topics.setClickable(true);
@@ -400,7 +403,7 @@ public class StockMainPage extends AppCompatActivity {
                         }
 
                         curChosen = 2;
-                        count = JSONObject.parseArray(chartsMap.get("items").toString(),String.class).size();
+                        count = JSONObject.parseArray(chartsMap.get("items").toString(), String.class).size();
                        /* try {
                             com.example.finance.common.R<Object> res = null;
                             res = favorsApi.GetChartsCount(userId,"","");
@@ -428,7 +431,7 @@ public class StockMainPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page++;
-                if(page>Math.ceil((float)count/(float)pageSize)) {
+                if (page > Math.ceil((float) count / (float) pageSize)) {
                     page--;
                     return;
                 }
@@ -440,7 +443,7 @@ public class StockMainPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page--;
-                if(page<=0) {
+                if (page <= 0) {
                     page++;
                     return;
                 }
@@ -449,32 +452,33 @@ public class StockMainPage extends AppCompatActivity {
             }
         });
     }
+
     private void mainClicked() {
-        for(int i = mainAL.size() -1; i>=0; i--){
+        for (int i = mainAL.size() - 1; i >= 0; i--) {
             int finalI = i;
             mainAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent();
-                    switch(curChosen) {
-                        case 0:{
+                    switch (curChosen) {
+                        case 0: {
                             intent.setClass(StockMainPage.this, TopicPage.class);
-                            intent.putExtra("topicID",IDs.get(finalI));
+                            intent.putExtra("topicID", IDs.get(finalI));
                             break;
                         }
-                        case 1:{
+                        case 1: {
                             intent.setClass(StockMainPage.this, StockDataPage.class);
-                            intent.putExtra("ts_code",IDs.get(finalI));
-                            intent.putExtra("stock_name",names.get(finalI));
+                            intent.putExtra("ts_code", IDs.get(finalI));
+                            intent.putExtra("stock_name", names.get(finalI));
                             break;
                         }
-                        case 2:{
+                        case 2: {
                             intent.setClass(StockMainPage.this, StockDataPage.class);
-                            intent.putExtra("ts_code",IDs.get(finalI));
-                            intent.putExtra("stock_name",names.get(finalI));
+                            intent.putExtra("ts_code", IDs.get(finalI));
+                            intent.putExtra("stock_name", names.get(finalI));
                             break;
                         }
-                        default:{
+                        default: {
                             break;
                         }
                     }
@@ -490,11 +494,12 @@ public class StockMainPage extends AppCompatActivity {
                     if (parent != null) {
                         ll_res.removeView(mainAL.get(finalI1));
                     }
-                    ll_res.addView(mainAL.get(finalI1),0);
+                    ll_res.addView(mainAL.get(finalI1), 0);
                 }
             });
         }
     }
+
     private void pageTurn() {
         runOnUiThread(new Runnable() {
             @Override
@@ -503,7 +508,7 @@ public class StockMainPage extends AppCompatActivity {
                 for (int i = 0; i < mainAL.size(); i++) {
                     ll_res.removeView(mainAL.get(i));
                 }
-                if(chartAL!=null) {
+                if (chartAL != null) {
                     ll_res.removeView(chartAL);
                     chartAL = null;
                 }
@@ -511,22 +516,22 @@ public class StockMainPage extends AppCompatActivity {
                 IDs.clear();
                 com.example.finance.common.R<Object> res = null;
                 try {
-                    switch(curChosen) {
-                        case 0:{
-                            res = topicApi.GetTopicsByPage("",page,pageSize);
+                    switch (curChosen) {
+                        case 0: {
+                            res = topicApi.GetTopicsByPage("", page, pageSize);
                             break;
                         }
-                        case 1:{
-                            res = favorsApi.GetFavorsByPage(userId,page,pageSize);
+                        case 1: {
+                            res = favorsApi.GetFavorsByPage(userId, page, pageSize);
                             break;
                         }
-                        case 2:{
+                        case 2: {
                             List<Map<String, Object>> ls = new ArrayList<>();
-                            List<Object> items = JSONObject.parseArray(chartsMap.get("items").toString(),Object.class);
-                            List<String> fields = JSONObject.parseArray(chartsMap.get("fields").toString(),String.class);
-                            for (int i = (page-1)*pageSize; i < page*pageSize; i++) {
+                            List<Object> items = JSONObject.parseArray(chartsMap.get("items").toString(), Object.class);
+                            List<String> fields = JSONObject.parseArray(chartsMap.get("fields").toString(), String.class);
+                            for (int i = (page - 1) * pageSize; i < page * pageSize; i++) {
                                 Map<String, Object> tmpMap = new HashMap<>();
-                                List<Object> item = JSONObject.parseArray(items.get(i).toString(),Object.class);
+                                List<Object> item = JSONObject.parseArray(items.get(i).toString(), Object.class);
                                 for (int j = 0; j < item.size(); j++) {
                                     tmpMap.put(fields.get(j), item.get(j));
                                 }
@@ -541,44 +546,44 @@ public class StockMainPage extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(StockMainPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 mainData = (List<Map<String, Object>>) res.getData();
-                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-                if(mainData.size()!=0) tv_noResult.setVisibility(View.GONE);
+                tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
+                if (mainData.size() != 0) tv_noResult.setVisibility(View.GONE);
                 else {
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
                 }
-                for(int i=0;i<mainData.size();i++){
+                for (int i = 0; i < mainData.size(); i++) {
                     switch (curChosen) {
-                        case 0:{
+                        case 0: {
                             mainAL.add(addTopicResult(mainData.get(i), i));
-                            IDs.put(i,"" + mainData.get(i).get("newsId"));
+                            IDs.put(i, "" + mainData.get(i).get("newsId"));
                             break;
                         }
-                        case 1:{
+                        case 1: {
                             mainAL.add(addFavorsResult(mainData.get(i), i));
-                            IDs.put(i,(String)mainData.get(i).get("tsCode"));
-                            names.put(i,(String)mainData.get(i).get("stoName"));
+                            IDs.put(i, (String) mainData.get(i).get("tsCode"));
+                            names.put(i, (String) mainData.get(i).get("stoName"));
                             break;
                         }
-                        case 2:{
+                        case 2: {
                             mainAL.add(addChartResult(mainData.get(i), i));
-                            IDs.put(i,(String)mainData.get(i).get("ts_code"));
-                            names.put(i,(String)mainData.get(i).get("name"));
+                            IDs.put(i, (String) mainData.get(i).get("ts_code"));
+                            names.put(i, (String) mainData.get(i).get("name"));
                             break;
                         }
                     }
                 }
-                if(curChosen == 2) {
+                if (curChosen == 2) {
                     mainClicked();
                     chartAL = new AbsoluteLayout(StockMainPage.this);
-                    chartAL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,140));
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    chartAL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 140));
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         chartAL.setBackgroundColor(colors.colorSuperGray);
                     } else {
                         chartAL.setBackgroundColor(colors.colorWhite);
@@ -587,89 +592,89 @@ public class StockMainPage extends AppCompatActivity {
                     TextView tsCode = new TextView(StockMainPage.this);
                     tsCode.setText("代码");
                     tsCode.setTextSize(17);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         tsCode.setTextColor(colors.colorWhite);
-                    } else{
+                    } else {
                         tsCode.setTextColor(colors.colorGray);
                     }
                     //topicTitle.setTextColor(colors.colorGray);
-                    tsCode.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,0));
+                    tsCode.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
                     chartAL.addView(tsCode);
 
                     TextView name = new TextView(StockMainPage.this);
                     name.setText("名称");
                     name.setTextSize(17);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         name.setTextColor(colors.colorWhite);
-                    } else{
+                    } else {
                         name.setTextColor(colors.colorGray);
                     }
                     //topicTitle.setTextColor(colors.colorGray);
-                    name.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,258,0));
+                    name.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 258, 0));
                     chartAL.addView(name);
 
                     TextView turnover_rate = new TextView(StockMainPage.this);
                     turnover_rate.setText("换手率");
                     turnover_rate.setTextSize(17);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         turnover_rate.setTextColor(colors.colorWhite);
-                    } else{
+                    } else {
                         turnover_rate.setTextColor(colors.colorGray);
                     }
                     //topicTitle.setTextColor(colors.colorGray);
-                    turnover_rate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,428,0));
+                    turnover_rate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 428, 0));
                     chartAL.addView(turnover_rate);
 
                     TextView pct_change = new TextView(StockMainPage.this);
                     pct_change.setText("涨跌幅");
                     pct_change.setTextSize(17);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         pct_change.setTextColor(colors.colorWhite);
-                    } else{
+                    } else {
                         pct_change.setTextColor(colors.colorGray);
                     }
                     //topicTitle.setTextColor(colors.colorGray);
-                    pct_change.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,588,0));
+                    pct_change.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 588, 0));
                     chartAL.addView(pct_change);
 
                     TextView l_amount = new TextView(StockMainPage.this);
                     l_amount.setText("成交额");
                     l_amount.setTextSize(17);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         l_amount.setTextColor(colors.colorWhite);
-                    } else{
+                    } else {
                         l_amount.setTextColor(colors.colorGray);
                     }
                     //topicTitle.setTextColor(colors.colorGray);
-                    l_amount.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,748,0));
+                    l_amount.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 748, 0));
                     chartAL.addView(l_amount);
 
                     TextView l_buy = new TextView(StockMainPage.this);
                     l_buy.setText("买入额");
                     l_buy.setTextSize(17);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         l_buy.setTextColor(colors.colorWhite);
-                    } else{
+                    } else {
                         l_buy.setTextColor(colors.colorGray);
                     }
                     //topicTitle.setTextColor(colors.colorGray);
-                    l_buy.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,918,0));
+                    l_buy.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 918, 0));
                     chartAL.addView(l_buy);
 
                     TextView line = new TextView(StockMainPage.this);
-                    if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+                    if (userSettings != null && (int) userSettings.get("isDark") == 1) {
                         line.setBackgroundColor(colors.colorWhite);
-                    } else{
+                    } else {
                         line.setBackgroundColor(colors.colorGray);
                     }
-                    line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,104));
+                    line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 104));
                     chartAL.addView(line);
 
                     LinearLayout parent = (LinearLayout) chartAL.getParent();
                     if (parent != null) {
                         ll_res.removeView(chartAL);
                     }
-                    ll_res.addView(chartAL,0);
+                    ll_res.addView(chartAL, 0);
 
                 }
             }
@@ -679,65 +684,65 @@ public class StockMainPage extends AppCompatActivity {
     private AbsoluteLayout addTopicResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(StockMainPage.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,140));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 140));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 
         TextView topicTitle = new TextView(StockMainPage.this);
-        topicTitle.setText((String)map.get("title"));
+        topicTitle.setText((String) map.get("title"));
         topicTitle.setTextSize(25);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             topicTitle.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             topicTitle.setTextColor(colors.colorGray);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        topicTitle.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,0));
+        topicTitle.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
         AL.addView(topicTitle);
 
         TextView topicChannel = new TextView(StockMainPage.this);
-        topicChannel.setText((String)map.get("channels"));
+        topicChannel.setText((String) map.get("channels"));
         topicChannel.setTextSize(17);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             topicChannel.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             topicChannel.setTextColor(colors.colorGray);
         }
         //topicChannel.setTextColor(colors.colorGray);
-        topicChannel.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,238,0));
+        topicChannel.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 238, 0));
         AL.addView(topicChannel);
 
         TextView topicDate = new TextView(StockMainPage.this);
-        topicDate.setText((String)map.get("datetime"));
+        topicDate.setText((String) map.get("datetime"));
         topicDate.setTextSize(20);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             topicDate.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             topicDate.setTextColor(colors.colorGray);
         }
         //topicDate.setTextColor(colors.colorGray);
-        topicDate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,100));
+        topicDate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(topicDate);
         TextView line = new TextView(StockMainPage.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             line.setBackgroundColor(colors.colorWhite);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorGray);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,184));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
 
         TextView go = new TextView(StockMainPage.this);
         go.setTextSize(27);
         go.setText(R.string.fa_chevron_right);
-        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,970,50));
+        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             go.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             go.setTextColor(colors.colorGray);
         }
         AL.addView(go);
@@ -748,11 +753,11 @@ public class StockMainPage extends AppCompatActivity {
     private AbsoluteLayout addFavorsResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(StockMainPage.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 190));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 /*
         TextView stockName = new TextView(UserFavorites.this);
@@ -768,94 +773,95 @@ public class StockMainPage extends AppCompatActivity {
         AL.addView(stockName);*/
 
         TextView ID = new TextView(StockMainPage.this);
-        ID.setText((String)map.get("tsCode"));
+        ID.setText((String) map.get("tsCode"));
         ID.setTextSize(22);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             ID.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             ID.setTextColor(colors.colorGray);
         }
-        ID.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,10));
+        ID.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 10));
         AL.addView(ID);
 
         TextView date = new TextView(StockMainPage.this);
-        date.setText((String)map.get("favorDate"));
+        date.setText((String) map.get("favorDate"));
         date.setTextSize(20);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             date.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             date.setTextColor(colors.colorGray);
         }
-        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,100));
+        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(date);
 
 
         TextView go = new TextView(StockMainPage.this);
         go.setTextSize(27);
         go.setText(R.string.fa_chevron_right);
-        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,970,50));
+        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             go.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             go.setTextColor(colors.colorGray);
         }
         //go.setTextColor(color_gray);
         AL.addView(go);
         TextView line = new TextView(StockMainPage.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             line.setBackgroundColor(colors.colorWhite);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorGray);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,184));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
         return AL;
     }
+
     private AbsoluteLayout addChartResult(Map<String, Object> map, int i) {
         DecimalFormat decimalFormat = new DecimalFormat("###,###.#");
         AbsoluteLayout AL = new AbsoluteLayout(StockMainPage.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,110));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 110));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 
         TextView tsCode = new TextView(StockMainPage.this);
-        tsCode.setText((String)map.get("ts_code"));
+        tsCode.setText((String) map.get("ts_code"));
         tsCode.setTextSize(14);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             tsCode.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             tsCode.setTextColor(colors.colorGray);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        tsCode.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,12));
+        tsCode.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 12));
         AL.addView(tsCode);
 
         TextView name = new TextView(StockMainPage.this);
-        name.setText((String)map.get("name"));
+        name.setText((String) map.get("name"));
         name.setTextSize(14);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             name.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             name.setTextColor(colors.colorGray);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        name.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,258,12));
+        name.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 258, 12));
         AL.addView(name);
 
         TextView turnover_rate = new TextView(StockMainPage.this);
         turnover_rate.setText(decimalFormat.format(map.get("turnover_rate")));
         turnover_rate.setTextSize(15);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             turnover_rate.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             turnover_rate.setTextColor(colors.colorGray);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        turnover_rate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,428,12));
+        turnover_rate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 428, 12));
         AL.addView(turnover_rate);
 
         TextView pct_change = new TextView(StockMainPage.this);
@@ -863,25 +869,25 @@ public class StockMainPage extends AppCompatActivity {
         float f2 = bigDecimal.floatValue();
         pct_change.setText(decimalFormat.format(map.get("pct_change")));
         pct_change.setTextSize(15);
-        if(f2 > 0) {
+        if (f2 > 0) {
             pct_change.setTextColor(colors.colorStockRise);
-        } else{
+        } else {
             pct_change.setTextColor(colors.colorStockFall);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        pct_change.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,588,12));
+        pct_change.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 588, 12));
         AL.addView(pct_change);
 
         TextView l_amount = new TextView(StockMainPage.this);
         l_amount.setText(formatNum(map.get("l_amount").toString(), false));
         l_amount.setTextSize(15);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             l_amount.setTextColor(colors.colorWhite);
-        } else{
+        } else {
             l_amount.setTextColor(colors.colorGray);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        l_amount.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,748,12));
+        l_amount.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 748, 12));
         AL.addView(l_amount);
 
         TextView l_buy = new TextView(StockMainPage.this);
@@ -889,22 +895,22 @@ public class StockMainPage extends AppCompatActivity {
         float f1 = bigDecimal2.floatValue();
         l_buy.setText(formatNum(map.get("l_buy").toString(), false));
         l_buy.setTextSize(15);
-        if(f1 > 0) {
+        if (f1 > 0) {
             l_buy.setTextColor(colors.colorStockRise);
-        } else{
+        } else {
             l_buy.setTextColor(colors.colorStockFall);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        l_buy.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,918,12));
+        l_buy.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 918, 12));
         AL.addView(l_buy);
 
         TextView line = new TextView(StockMainPage.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             line.setBackgroundColor(colors.colorWhite);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorGray);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,104));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 104));
         AL.addView(line);
 
         return AL;

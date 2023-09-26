@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.Map;
 
 public class AboutUs extends AppCompatActivity {
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private UserApi userApi;
     private Colors colors;
 
@@ -26,7 +26,7 @@ public class AboutUs extends AppCompatActivity {
     private TextView tv_backBtn;
 
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +35,11 @@ public class AboutUs extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(AboutUs.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -53,6 +53,7 @@ public class AboutUs extends AppCompatActivity {
         initView();
         setListeners();
     }
+
     private void initView() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");/*
         tv_back = findViewById(R.id.back);
@@ -62,11 +63,12 @@ public class AboutUs extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.aboutUs_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.aboutUs_line).setBackgroundColor(colors.colorWhite);
             ((TextView) findViewById(R.id.aboutUs_title)).setTextColor(colors.colorWhite);

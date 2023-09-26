@@ -41,8 +41,8 @@ public class TopicsPage extends AppCompatActivity {
     private LinearLayout ll_res;
     private Toolbar toolbar;
     private TextView tv_backBtn;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_pageNumber;
     private Button btn_pre;
     private Button btn_post;
@@ -50,25 +50,26 @@ public class TopicsPage extends AppCompatActivity {
     private EditText et_topicInput;
     private TextView tv_topicSearch;
 
-    private Map<Integer,String> IDs;
+    private Map<Integer, String> IDs;
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer count = 50;
 
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
-    private class ThreadPage extends Thread{
+    private class ThreadPage extends Thread {
 
-        public ThreadPage(){
+        public ThreadPage() {
             ;
         }
 
         @Override
-        public void run(){
+        public void run() {
             pageTurn();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,11 +77,11 @@ public class TopicsPage extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -94,9 +95,10 @@ public class TopicsPage extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.topics_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.topics_title)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.topic_search)).setTextColor(colors.colorWhite);
@@ -130,7 +132,7 @@ public class TopicsPage extends AppCompatActivity {
         try {
             com.example.finance.common.R<Object> res = null;
             res = topicApi.GetTopicCount(input);
-            if(res.getCode()==0) {
+            if (res.getCode() == 0) {
                 Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
             } else {
                 count = (Integer) res.getData();
@@ -159,10 +161,11 @@ public class TopicsPage extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         ThreadPage threadPage = new ThreadPage();
         threadPage.start();
     }
+
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +177,7 @@ public class TopicsPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page++;
-                if(page>Math.ceil(count/pageSize)) {
+                if (page > Math.ceil(count / pageSize)) {
                     page--;
                     return;
                 }
@@ -186,7 +189,7 @@ public class TopicsPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page--;
-                if(page<=0) {
+                if (page <= 0) {
                     page++;
                     return;
                 }
@@ -210,12 +213,12 @@ public class TopicsPage extends AppCompatActivity {
                     public void run() {
                         input = et_topicInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(TopicsPage.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(TopicsPage.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
                             res = topicApi.GetTopicCount(input);
-                            if(res.getCode()==0) {
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -229,13 +232,13 @@ public class TopicsPage extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = topicApi.GetTopicsByPage(input,page,pageSize);
+                            res = topicApi.GetTopicsByPage(input, page, pageSize);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -263,12 +266,12 @@ public class TopicsPage extends AppCompatActivity {
                     public void run() {
                         input = et_topicInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(TopicsPage.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(TopicsPage.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
                             res = topicApi.GetTopicCount(input);
-                            if(res.getCode()==0) {
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -282,13 +285,13 @@ public class TopicsPage extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = topicApi.GetTopicsByPage(input,page,pageSize);
+                            res = topicApi.GetTopicsByPage(input, page, pageSize);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -306,21 +309,23 @@ public class TopicsPage extends AppCompatActivity {
             }
         });
     }
+
     private void topicClicked() {
-        for(int i = topicAL.size() - 1; i >= 0; i--){
+        for (int i = topicAL.size() - 1; i >= 0; i--) {
             int finalI = i;
             topicAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent();
                     intent.setClass(TopicsPage.this, TopicPage.class);
-                    intent.putExtra("topicID",IDs.get(finalI));
+                    intent.putExtra("topicID", IDs.get(finalI));
                     startActivity(intent);
                 }
             });
-            ll_res.addView(topicAL.get(i),0);
+            ll_res.addView(topicAL.get(i), 0);
         }
     }
+
     private void pageTurn() {
 
         runOnUiThread(new Runnable() {
@@ -333,94 +338,95 @@ public class TopicsPage extends AppCompatActivity {
                 IDs.clear();
                 com.example.finance.common.R<Object> res = null;
                 try {
-                    res = topicApi.GetTopicsByPage(input,page,pageSize);
+                    res = topicApi.GetTopicsByPage(input, page, pageSize);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(TopicsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 topicData = (List<Map<String, Object>>) res.getData();
-                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-                if(topicData.size()!=0) tv_noResult.setVisibility(View.GONE);
+                tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
+                if (topicData.size() != 0) tv_noResult.setVisibility(View.GONE);
                 else {
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
                 }
-                for(int i = 0; i< topicData.size(); i++){
+                for (int i = 0; i < topicData.size(); i++) {
                     topicAL.add(addTopicResult(topicData.get(i), i));
-                    IDs.put(i,"" + topicData.get(i).get("newsId"));
+                    IDs.put(i, "" + topicData.get(i).get("newsId"));
                 }
                 topicClicked();
             }
         });
     }
+
     private AbsoluteLayout addTopicResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(TopicsPage.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 190));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 
         TextView topicTitle = new TextView(TopicsPage.this);
-        topicTitle.setText((String)map.get("title"));
+        topicTitle.setText((String) map.get("title"));
         topicTitle.setTextSize(25);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             topicTitle.setTextColor(colors.colorGray);
-        } else{
+        } else {
             topicTitle.setTextColor(colors.colorWhite);
         }
         //topicTitle.setTextColor(colors.colorGray);
-        topicTitle.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,0));
+        topicTitle.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
         AL.addView(topicTitle);
 
         TextView topicChannel = new TextView(TopicsPage.this);
-        topicChannel.setText((String)map.get("channels"));
+        topicChannel.setText((String) map.get("channels"));
         topicChannel.setTextSize(17);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             topicChannel.setTextColor(colors.colorGray);
-        } else{
+        } else {
             topicChannel.setTextColor(colors.colorWhite);
         }
         //topicChannel.setTextColor(colors.colorGray);
-        topicChannel.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,238,0));
+        topicChannel.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 238, 0));
         AL.addView(topicChannel);
 
         TextView topicDate = new TextView(TopicsPage.this);
-        topicDate.setText((String)map.get("datetime"));
+        topicDate.setText((String) map.get("datetime"));
         topicDate.setTextSize(20);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             topicDate.setTextColor(colors.colorGray);
-        } else{
+        } else {
             topicDate.setTextColor(colors.colorWhite);
         }
         //topicDate.setTextColor(colors.colorGray);
-        topicDate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,100));
+        topicDate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(topicDate);
         TextView line = new TextView(TopicsPage.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             line.setBackgroundColor(colors.colorGray);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorWhite);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,184));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
 
         TextView go = new TextView(TopicsPage.this);
         go.setTextSize(27);
         go.setText(R.string.fa_chevron_right);
-        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,970,50));
+        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             go.setTextColor(colors.colorGray);
-        } else{
+        } else {
             go.setTextColor(colors.colorWhite);
         }
         AL.addView(go);

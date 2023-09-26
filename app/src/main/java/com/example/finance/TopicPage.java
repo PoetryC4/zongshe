@@ -17,7 +17,6 @@ import com.example.finance.api.UserApi;
 import com.example.finance.common.Colors;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class TopicPage extends AppCompatActivity {
@@ -26,8 +25,8 @@ public class TopicPage extends AppCompatActivity {
     private UserApi userApi;
     private Colors colors;
     private String topicID;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_title;
     private TextView tv_content;
     private TextView tv_channel;
@@ -35,9 +34,9 @@ public class TopicPage extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
-    private Map<String,Object> topicData = null;
+    private Map<String, Object> topicData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +47,11 @@ public class TopicPage extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(TopicPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -68,8 +67,8 @@ public class TopicPage extends AppCompatActivity {
     }
 
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.topic_line).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.topic_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.title)).setTextColor(colors.colorWhite);
@@ -95,7 +94,7 @@ public class TopicPage extends AppCompatActivity {
         tv_backBtn = findViewById(R.id.backBtn);
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         //setSupportActionBar(toolbar);
         Thread thread = new Thread() {
             @Override
@@ -104,7 +103,7 @@ public class TopicPage extends AppCompatActivity {
                 try {
                     com.example.finance.common.R<Object> res = null;
                     res = topicApi.GetTopicById(topicID);
-                    if (res.getCode()==0) {
+                    if (res.getCode() == 0) {
                         Looper.prepare();
                         Toast.makeText(TopicPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                         Looper.loop();
@@ -127,6 +126,7 @@ public class TopicPage extends AppCompatActivity {
         // 启动线程
         thread.start();
     }
+
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

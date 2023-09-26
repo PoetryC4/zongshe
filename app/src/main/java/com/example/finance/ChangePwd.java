@@ -37,7 +37,7 @@ public class ChangePwd extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
     private String email;
 
@@ -47,13 +47,13 @@ public class ChangePwd extends AppCompatActivity {
         setContentView(R.layout.change_pwd);
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
-        if(!settings.getString("UserId", "").isEmpty())
+        if (!settings.getString("UserId", "").isEmpty())
             userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(ChangePwd.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -69,6 +69,7 @@ public class ChangePwd extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void initViews() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");/*
         tv_back = findViewById(R.id.back);
@@ -84,11 +85,12 @@ public class ChangePwd extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.pwdChange_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.pwdChange_line).setBackgroundColor(colors.colorWhite);
             ((TextView) findViewById(R.id.pwd_txt)).setTextColor(colors.colorRedInput);
@@ -143,39 +145,39 @@ public class ChangePwd extends AppCompatActivity {
                         boolean PSWupperCase = false;
                         boolean PSWnumber = false;
 
-                        if(txtPSWS.length()<6){
+                        if (txtPSWS.length() < 6) {
                             tv_pwdFeedback.setText("密码长度不得小于6");
-                        }
-                        else{
+                        } else {
                             tv_pwdFeedback.setText("");
                             char preCh = 0;
                             int consi = 0;
-                            for(int i=0;i<txtPSWS.length();i++){
-                                if(consi>=3){
+                            for (int i = 0; i < txtPSWS.length(); i++) {
+                                if (consi >= 3) {
                                     tv_pwdFeedback.setText("密码不得有连续三个相同字符");
                                     break;
                                 } else {
                                     tv_pwdFeedback.setText("");
                                 }
-                                if(txtPSWS.charAt(i)!=preCh){
-                                    preCh=txtPSWS.charAt(i);
-                                    consi=1;
-                                }
-                                else{
+                                if (txtPSWS.charAt(i) != preCh) {
+                                    preCh = txtPSWS.charAt(i);
+                                    consi = 1;
+                                } else {
                                     consi++;
                                 }
-                                if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
-                                if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
-                                if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
-                                if(i==txtPSWS.length()-1){
-                                    isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
-                                    if(!isPSWTypesEnough){
+                                if (txtPSWS.charAt(i) <= '9' && txtPSWS.charAt(i) >= '0')
+                                    PSWnumber = true;
+                                if (txtPSWS.charAt(i) <= 'z' && txtPSWS.charAt(i) >= 'a')
+                                    PSWlowerCase = true;
+                                if (txtPSWS.charAt(i) <= 'Z' && txtPSWS.charAt(i) >= 'A')
+                                    PSWupperCase = true;
+                                if (i == txtPSWS.length() - 1) {
+                                    isPSWTypesEnough = PSWlowerCase && PSWupperCase && PSWnumber;
+                                    if (!isPSWTypesEnough) {
                                         tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
                                     } else {
                                         tv_pwdFeedback.setText("");
                                     }
-                                }
-                                else {
+                                } else {
                                     tv_pwdFeedback.setText("");
                                 }
                             }
@@ -209,7 +211,7 @@ public class ChangePwd extends AppCompatActivity {
                 String txtPSWS = et_changPwd.getText().toString();
                 String txtConfirmPSWS = et_pwdVerify.getText().toString();
 
-                if(!txtPSWS.equals(txtConfirmPSWS)){
+                if (!txtPSWS.equals(txtConfirmPSWS)) {
                     tv_pwdVerifyFeedback.setText("两次输入密码不一致!");
                 } else {
                     tv_pwdVerifyFeedback.setText("");
@@ -244,46 +246,46 @@ public class ChangePwd extends AppCompatActivity {
 
                         boolean isPSWConfirmValid = true;
 
-                        if(txtPSWS.length()<6){
-                            isPSWLengthValid=false;
+                        if (txtPSWS.length() < 6) {
+                            isPSWLengthValid = false;
                             tv_pwdFeedback.setText("密码长度不得小于6");
-                        }
-                        else{
+                        } else {
                             char preCh = 0;
                             int consi = 0;
-                            for(int i=0;i<txtPSWS.length();i++){
-                                if(consi>=3){
-                                    isPSWConsistent=true;
+                            for (int i = 0; i < txtPSWS.length(); i++) {
+                                if (consi >= 3) {
+                                    isPSWConsistent = true;
                                     tv_pwdFeedback.setText("密码不得有连续三个相同字符");
                                     break;
                                 }
-                                if(txtPSWS.charAt(i)!=preCh){
-                                    preCh=txtPSWS.charAt(i);
-                                    consi=1;
-                                }
-                                else{
+                                if (txtPSWS.charAt(i) != preCh) {
+                                    preCh = txtPSWS.charAt(i);
+                                    consi = 1;
+                                } else {
                                     consi++;
                                 }
-                                if(txtPSWS.charAt(i)<='9'&&txtPSWS.charAt(i)>='0') PSWnumber=true;
-                                if(txtPSWS.charAt(i)<='z'&&txtPSWS.charAt(i)>='a') PSWlowerCase=true;
-                                if(txtPSWS.charAt(i)<='Z'&&txtPSWS.charAt(i)>='A') PSWupperCase=true;
-                                if(i==txtPSWS.length()-1){
-                                    isPSWTypesEnough=PSWlowerCase&&PSWupperCase&&PSWnumber;
-                                    if(!isPSWTypesEnough){
+                                if (txtPSWS.charAt(i) <= '9' && txtPSWS.charAt(i) >= '0')
+                                    PSWnumber = true;
+                                if (txtPSWS.charAt(i) <= 'z' && txtPSWS.charAt(i) >= 'a')
+                                    PSWlowerCase = true;
+                                if (txtPSWS.charAt(i) <= 'Z' && txtPSWS.charAt(i) >= 'A')
+                                    PSWupperCase = true;
+                                if (i == txtPSWS.length() - 1) {
+                                    isPSWTypesEnough = PSWlowerCase && PSWupperCase && PSWnumber;
+                                    if (!isPSWTypesEnough) {
                                         tv_pwdFeedback.setText("密码至少要有一个大写字母，一个小写字母，一个数字");
                                     }
                                 }
                             }
                         }
-                        isPSWValid=isPSWLengthValid&&isPSWTypesEnough&&(!isPSWConsistent);
-                        if(!txtPSWS.equals(txtConfirmPSWS)){
+                        isPSWValid = isPSWLengthValid && isPSWTypesEnough && (!isPSWConsistent);
+                        if (!txtPSWS.equals(txtConfirmPSWS)) {
                             tv_pwdVerifyFeedback.setText("两次输入密码不一致!");
-                        }
-                        else {
+                        } else {
                             try {
                                 com.example.finance.common.R<String> res = null;
                                 res = userApi.UpdatePwd(email, txtPSWS);
-                                if(res.getCode()==0) {
+                                if (res.getCode() == 0) {
                                     Looper.prepare();
                                     Toast.makeText(ChangePwd.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                     Looper.loop();

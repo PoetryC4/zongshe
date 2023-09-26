@@ -33,8 +33,8 @@ public class ChangePwdVerify extends AppCompatActivity {
     private UserApi userApi;
     private Colors colors;
 
-    private int email_verify_code=-1;
-    private boolean isEmailValid=false;
+    private int email_verify_code = -1;
+    private boolean isEmailValid = false;
 
     private TextView tv_sendCode;//发送验证码
     /*private TextView tv_back;*/
@@ -46,14 +46,13 @@ public class ChangePwdVerify extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
     @SuppressLint("HandlerLeak")
-    private Handler mhandler = new Handler(){
-        public void handleMessage(Message message){
-            if(message.what>0){
-                tv_sendCode.setText("有效时间"+message.what+"秒");
-            }
-            else{
+    private Handler mhandler = new Handler() {
+        public void handleMessage(Message message) {
+            if (message.what > 0) {
+                tv_sendCode.setText("有效时间" + message.what + "秒");
+            } else {
                 tv_sendCode.setClickable(true);
                 tv_sendCode.setText("发送验证码");
             }
@@ -67,11 +66,11 @@ public class ChangePwdVerify extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(ChangePwdVerify.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -85,6 +84,7 @@ public class ChangePwdVerify extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void initViews() {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");/*
         tv_back = findViewById(R.id.back);
@@ -100,11 +100,12 @@ public class ChangePwdVerify extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.pwdVerify_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.pwdVerify_line).setBackgroundColor(colors.colorWhite);
             ((TextView) findViewById(R.id.email_txt)).setTextColor(colors.colorRedInput);
@@ -152,10 +153,9 @@ public class ChangePwdVerify extends AppCompatActivity {
                 String emailTxt = et_email.getText().toString();
                 if (!emailTxt.matches("[\\w\\.\\-]+@([\\w\\-]+\\.)+[\\w\\-]+")) {
                     tv_emailFeedback.setText("不正确的邮箱格式");
-                }
-                else {
+                } else {
                     tv_emailFeedback.setText("");
-                    if(!emailTxt.equals("")) {
+                    if (!emailTxt.equals("")) {
                         // 输入后的监听
                         com.example.finance.common.R<String> res = null;
                         try {
@@ -188,7 +188,7 @@ public class ChangePwdVerify extends AppCompatActivity {
                     public void run() {
                         // 在这里定义线程执行的任务
                         String emailTxt = et_email.getText().toString();
-                        if(!emailTxt.equals("")) {
+                        if (!emailTxt.equals("")) {
                             // 输入后的监听
                             com.example.finance.common.R<String> res = null;
                             try {
@@ -198,39 +198,39 @@ public class ChangePwdVerify extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            if(res.getCode() == 1) {
+                            if (res.getCode() == 1) {
                                 tv_emailFeedback.setText("该邮箱不存在");
                             }
-                            if(res.getCode() == 0) {
+                            if (res.getCode() == 0) {
 
                                 String txtEmailS = et_email.getText().toString();
 
-                                email_verify_code=(int)Math.floor(Math.random()*90000+10000);
+                                email_verify_code = (int) Math.floor(Math.random() * 90000 + 10000);
                                 System.out.println(email_verify_code);
-                                int rs=send_code_func(txtEmailS,email_verify_code);
-                                if(rs==-1){
+                                int rs = send_code_func(txtEmailS, email_verify_code);
+                                if (rs == -1) {
                                     tv_emailFeedback.setText("无效邮箱地址");
-                                }
-                                else {
+                                } else {
                                     tv_emailFeedback.setText("");
                                     tv_sendCode.setClickable(false);
-                                    isEmailValid=true;
+                                    isEmailValid = true;
 
-                                    Timer timer=new Timer();
+                                    Timer timer = new Timer();
                                     timer.schedule(new TimerTask() {
-                                        public int sec=60;
+                                        public int sec = 60;
+
                                         @Override
                                         public void run() {
                                             Message message = new Message();
                                             message.what = sec;
                                             mhandler.sendMessage(message);
-                                            if(sec==0){
-                                                email_verify_code=-1;
+                                            if (sec == 0) {
+                                                email_verify_code = -1;
                                                 timer.cancel();
                                             }
                                             sec--;
                                         }
-                                    },1000,1000);
+                                    }, 1000, 1000);
 
                                 }
                             }
@@ -250,19 +250,17 @@ public class ChangePwdVerify extends AppCompatActivity {
                 String txtCodeS = "";
                 System.out.println(txtEmailS);
 
-                if(!isEmailValid){
+                if (!isEmailValid) {
                     tv_emailFeedback.setText("该邮箱无效");
-                }
-                else{
-                    if(email_verify_code!=-1&&Integer.parseInt(et_code.getText().toString())==email_verify_code){
+                } else {
+                    if (email_verify_code != -1 && Integer.parseInt(et_code.getText().toString()) == email_verify_code) {
                         //监听按钮，如果点击，就跳转
                         Intent intent = new Intent();
                         //前一个（MainActivity.this）是目前页面，后面一个是要跳转的下一个页面
                         intent.setClass(ChangePwdVerify.this, ChangePwd.class);
                         intent.putExtra("email", txtEmailS);
                         startActivity(intent);
-                    }
-                    else{
+                    } else {
                         tv_codeFeedback.setText("验证码不正确");
                     }
                 }

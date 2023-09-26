@@ -13,15 +13,15 @@ public class StartSplash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.start_splash);
-        Thread myThread=new Thread(){//创建子线程
+        Thread myThread = new Thread() {//创建子线程
             @Override
             public void run() {
-                try{
+                try {
                     sleep(1111);
-                    Intent it=new Intent(getApplicationContext(), StockMainPage.class);//启动MainActivity
+                    Intent it = new Intent(getApplicationContext(), StockMainPage.class);//启动MainActivity
                     startActivity(it);
                     finish();//关闭当前活动
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

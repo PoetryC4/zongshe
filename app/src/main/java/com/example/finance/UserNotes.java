@@ -44,8 +44,8 @@ public class UserNotes extends AppCompatActivity {
     private List<Map<String, Object>> noteData;
     private ScrollView sv_resView;
     private LinearLayout ll_res;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_addNotes;
     private TextView tv_pageNumber;
     private Button btn_pre;
@@ -56,25 +56,26 @@ public class UserNotes extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView tv_backBtn;
 
-    private Map<Integer,String> IDs;
+    private Map<Integer, String> IDs;
     private Integer page = 1;
     private Integer pageSize = 10;
     private Integer count = 0;
-    
+
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
-    private class ThreadPage extends Thread{
+    private class ThreadPage extends Thread {
 
-        public ThreadPage(){
+        public ThreadPage() {
             ;
         }
 
         @Override
-        public void run(){
+        public void run() {
             pageTurn();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,12 +83,12 @@ public class UserNotes extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
-        userId=settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        userId = settings.getString("UserId", "").toString();
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -101,9 +102,10 @@ public class UserNotes extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.userNotes_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.userNotes_title)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.add_notes)).setTextColor(colors.colorBlue);
@@ -141,8 +143,8 @@ public class UserNotes extends AppCompatActivity {
             public void run() {
                 try {
                     com.example.finance.common.R<Object> res = null;
-                    res = noteApi.GetNoteCount(userId,input);
-                    if(res.getCode()==0) {
+                    res = noteApi.GetNoteCount(userId, input);
+                    if (res.getCode() == 0) {
                         Looper.prepare();
                         Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                         Looper.loop();
@@ -179,11 +181,12 @@ public class UserNotes extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         ThreadPage threadPage = new ThreadPage();
         threadPage.start();
 
     }
+
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +198,7 @@ public class UserNotes extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page++;
-                if(page>Math.ceil((float)count/(float)pageSize)) {
+                if (page > Math.ceil((float) count / (float) pageSize)) {
                     page--;
                     return;
                 }
@@ -207,7 +210,7 @@ public class UserNotes extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 page--;
-                if(page<=0) {
+                if (page <= 0) {
                     page++;
                     return;
                 }
@@ -230,12 +233,12 @@ public class UserNotes extends AppCompatActivity {
                     public void run() {
                         input = et_noteInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(UserNotes.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserNotes.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = noteApi.GetNoteCount(userId,input);
-                            if(res.getCode()==0) {
+                            res = noteApi.GetNoteCount(userId, input);
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -249,13 +252,13 @@ public class UserNotes extends AppCompatActivity {
                         }
                         com.example.finance.common.R<Object> res = null;
                         try {
-                            res = noteApi.GetNotesByPage(userId,page,pageSize,input);
+                            res = noteApi.GetNotesByPage(userId, page, pageSize, input);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -282,12 +285,12 @@ public class UserNotes extends AppCompatActivity {
                     public void run() {
                         input = et_noteInput.getText().toString();
                         Looper.prepare();
-                        Toast.makeText(UserNotes.this, "您输入的是"+input, Toast.LENGTH_LONG).show();
+                        Toast.makeText(UserNotes.this, "您输入的是" + input, Toast.LENGTH_LONG).show();
                         Looper.loop();
                         try {
                             com.example.finance.common.R<Object> res = null;
-                            res = noteApi.GetNoteCount(userId,input);
-                            if(res.getCode()==0) {
+                            res = noteApi.GetNoteCount(userId, input);
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -302,13 +305,13 @@ public class UserNotes extends AppCompatActivity {
                         com.example.finance.common.R<Object> res = null;
 
                         try {
-                            res = noteApi.GetNotesByPage(userId,page,pageSize,input);
+                            res = noteApi.GetNotesByPage(userId, page, pageSize, input);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(res.getCode()==0) {
+                        if (res.getCode() == 0) {
                             Looper.prepare();
                             Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                             Looper.loop();
@@ -330,15 +333,16 @@ public class UserNotes extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(UserNotes.this, NoteModify.class);
-                intent.putExtra("new","1");
+                intent.putExtra("new", "1");
                 startActivity(intent);
                 System.out.println("dsdf");
             }
         });
     }
+
     private void noteClicked() {
         //for(int i=0;i<noteAL.size();i++)
-        for(int i=noteAL.size()-1;i>=0;i--){
+        for (int i = noteAL.size() - 1; i >= 0; i--) {
             int finalI = i;
             noteAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -354,7 +358,7 @@ public class UserNotes extends AppCompatActivity {
                         }
                     });
                     Intent intent = new Intent(UserNotes.this, NoteRead.class);
-                    intent.putExtra("note_id",IDs.get(finalI));
+                    intent.putExtra("note_id", IDs.get(finalI));
                     intentActivityResultLauncher.launch(intent);/*
                     Intent intent = new Intent();
                     intent.setClass(UserNotes.this, NoteRead.class);
@@ -362,9 +366,10 @@ public class UserNotes extends AppCompatActivity {
                     startActivity(intent);*/
                 }
             });
-            ll_res.addView(noteAL.get(i),0);
+            ll_res.addView(noteAL.get(i), 0);
         }
     }
+
     private void pageTurn() {
         runOnUiThread(new Runnable() {
             @Override
@@ -376,93 +381,93 @@ public class UserNotes extends AppCompatActivity {
                 IDs.clear();
                 com.example.finance.common.R<Object> res = null;
                 try {
-                    res = noteApi.GetNotesByPage(userId,page,pageSize,input);
+                    res = noteApi.GetNotesByPage(userId, page, pageSize, input);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserNotes.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 noteData = (List<Map<String, Object>>) res.getData();
-                tv_pageNumber.setText(page+"/"+(int)Math.ceil((float)count/(float)pageSize)+"页");
-                if(noteData.size()!=0) {
+                tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
+                if (noteData.size() != 0) {
                     btn_post.setVisibility(View.VISIBLE);
                     btn_pre.setVisibility(View.VISIBLE);
                     tv_pageNumber.setVisibility(View.VISIBLE);
                     tv_noResult.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
                     tv_noResult.setVisibility(View.VISIBLE);
                 }
-                for(int i=0;i<noteData.size();i++){
+                for (int i = 0; i < noteData.size(); i++) {
                     noteAL.add(addNoteResult(noteData.get(i), i));
-                    IDs.put(i,""+noteData.get(i).get("noteId"));
+                    IDs.put(i, "" + noteData.get(i).get("noteId"));
                 }
                 noteClicked();
             }
         });
     }
+
     private AbsoluteLayout addNoteResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(UserNotes.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,190));
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
-            AL.setBackgroundColor(i%2 == 1?colors.colorGray:colors.colorSuperGray);
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 190));
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
-            AL.setBackgroundColor(i%2 == 1?colors.colorWhiteish:colors.colorWhite);
+            AL.setBackgroundColor(i % 2 == 1 ? colors.colorWhiteish : colors.colorWhite);
         }
 
         TextView title = new TextView(UserNotes.this);
-        title.setText((String)map.get("title"));
+        title.setText((String) map.get("title"));
         title.setTextSize(25);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             title.setTextColor(colors.colorGray);
-        } else{
+        } else {
             title.setTextColor(colors.colorWhite);
         }
         //title.setTextColor(colors.colorGray);
-        title.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,0));
+        title.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
         AL.addView(title);
 
         TextView date = new TextView(UserNotes.this);
         //date.setText((String)map.get("created_date"));
-        date.setText((String)map.get("noteDate"));
+        date.setText((String) map.get("noteDate"));
         date.setTextSize(20);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             date.setTextColor(colors.colorGray);
-        } else{
+        } else {
             date.setTextColor(colors.colorWhite);
         }
         //date.setTextColor(colors.colorGray);
-        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,38,100));
+        date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(date);
 
 
         TextView go = new TextView(UserNotes.this);
         go.setTextSize(27);
         go.setText(R.string.fa_chevron_right);
-        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT,AbsoluteLayout.LayoutParams.WRAP_CONTENT,970,50));
+        go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             go.setTextColor(colors.colorGray);
-        } else{
+        } else {
             go.setTextColor(colors.colorWhite);
         }
         //go.setTextColor(colors.colorGray);
         AL.addView(go);
         TextView line = new TextView(UserNotes.this);
-        if(userSettings != null && (int) userSettings.get("isDark") == 0) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             line.setBackgroundColor(colors.colorGray);
-        } else{
+        } else {
             line.setBackgroundColor(colors.colorWhite);
         }
-        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT,6,0,184));
+        line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
 
         return AL;

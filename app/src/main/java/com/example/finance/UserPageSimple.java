@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.service.autofill.UserData;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
@@ -54,8 +53,8 @@ public class UserPageSimple extends AppCompatActivity {
     private LinearLayout ll_blank2;
 
     private String userId = "";
-    private Map<String,Object> userSettings = null;
-    private Map<String,Object> userData = null;
+    private Map<String, Object> userSettings = null;
+    private Map<String, Object> userData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +63,12 @@ public class UserPageSimple extends AppCompatActivity {
 
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
-        userId=settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        userId = settings.getString("UserId", "").toString();
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(UserPageSimple.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -87,7 +86,7 @@ public class UserPageSimple extends AppCompatActivity {
     }
 
     private void changeMode(boolean isDark) {
-        if(isDark) {
+        if (isDark) {
             findViewById(R.id.userPageSimple_body).setBackgroundColor(colors.colorSuperGray);
             ((TextView) findViewById(R.id.username)).setTextColor(colors.colorBlue);
             ((TextView) findViewById(R.id.createDate)).setTextColor(colors.colorBlue);
@@ -198,27 +197,28 @@ public class UserPageSimple extends AppCompatActivity {
             al_notLoggedIn.setVisibility(View.GONE);
             tv_username.setText((CharSequence) userData.get("user_name"));
             tv_createDate.setText((CharSequence) userData.get("create_date"));
-        }
-        else{
+        } else {
             al_userAvatar.setVisibility(View.GONE);
             al_userContent.setVisibility(View.GONE);
             al_userFunc.setVisibility(View.GONE);
             ll_blank2.setVisibility(View.VISIBLE);
         }
-        if(userSettings != null && (int) userSettings.get("isDark") == 1) {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             tv_modeSwitch.setText(R.string.fa_sun_o);
             tv_modeSwitch.setHint("1");
             tv_modeSwitch.setTypeface(fontAwe);
         }
 
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
+
     private void setListeners() {
         tv_modeSwitch.setOnClickListener(new View.OnClickListener() {
             final Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
             @Override
             public void onClick(View view) {
-                if(Objects.equals(tv_modeSwitch.getHint().toString(),"0")) {
+                if (Objects.equals(tv_modeSwitch.getHint().toString(), "0")) {
                     tv_modeSwitch.setHint("1");
                     tv_modeSwitch.setText(R.string.fa_sun_o);
                     tv_modeSwitch.setTypeface(fontAwe);
@@ -233,7 +233,7 @@ public class UserPageSimple extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            if(!userId.isEmpty()) {
+                            if (!userId.isEmpty()) {
                                 try {
                                     userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
                                 } catch (IOException e) {
@@ -262,7 +262,7 @@ public class UserPageSimple extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            if(!userId.isEmpty()) {
+                            if (!userId.isEmpty()) {
                                 try {
                                     userSettings = (Map<String, Object>) userApi.GetSettingsById(userId).getData();
                                 } catch (IOException e) {

@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -43,8 +41,8 @@ public class StockSearchPage extends AppCompatActivity {
     private UserApi userApi;
 
     private String searchInput;
-/*
-    private TextView tv_back;*/
+    /*
+        private TextView tv_back;*/
     private TextView tv_Delete;
     private EditText et_Input;
     private ListView lv_Tips;
@@ -58,7 +56,7 @@ public class StockSearchPage extends AppCompatActivity {
     private ArrayAdapter<String> historyAdapter;
 
     private String userId = "";
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +65,11 @@ public class StockSearchPage extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -89,9 +87,10 @@ public class StockSearchPage extends AppCompatActivity {
         lv_Tips.setAdapter(historyAdapter);
         setListener();
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.stockSearch_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.stockSearch_upper).setBackgroundColor(colors.colorBlue);
             ((TextView) findViewById(R.id.search_input)).setTextColor(colors.colorWhite);
@@ -127,17 +126,17 @@ public class StockSearchPage extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        if(searchInput == null || searchInput.isEmpty()) {
+        if (searchInput == null || searchInput.isEmpty()) {
             tv_Delete.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             et_Input.setText(searchInput);
             tv_Delete.setVisibility(View.VISIBLE);
         }
         tv_Search.setTypeface(fontAwe);
         tv_tips = findViewById(R.id.tips);
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
+
     private void setListener() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +160,7 @@ public class StockSearchPage extends AppCompatActivity {
                         try {
                             com.example.finance.common.R<String> res = null;
                             res = userApi.DeleteUserSearchHistory(userId);
-                            if(res.getCode()==0) {
+                            if (res.getCode() == 0) {
                                 Looper.prepare();
                                 Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -238,7 +237,7 @@ public class StockSearchPage extends AppCompatActivity {
         et_Input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(i == EditorInfo.IME_ACTION_SEARCH) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
                     lv_Tips.setVisibility(View.GONE);
                     startSearch(et_Input.getText().toString());
                 }
@@ -248,21 +247,23 @@ public class StockSearchPage extends AppCompatActivity {
         tv_Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(et_Input.getText().toString().isEmpty()){
+                if (et_Input.getText().toString().isEmpty()) {
                     et_Input.setText(getRecomHint());
                 }
                 startSearch(et_Input.getText().toString());
             }
         });
     }
-    private String getRecomHint(){
+
+    private String getRecomHint() {
         //获取热搜
         return "1024";
     }
+
     private void setAutoComAdapter(String text) throws IOException, InterruptedException {
         //模糊搜索 可能的结果
-        com.example.finance.common.R<Object> res = stockApi.GetAlikeNames(text,7);
-        if(res.getCode()==0) {
+        com.example.finance.common.R<Object> res = stockApi.GetAlikeNames(text, 7);
+        if (res.getCode() == 0) {
             Looper.prepare();
             Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
             Looper.loop();
@@ -271,14 +272,15 @@ public class StockSearchPage extends AppCompatActivity {
         /*List<String> resL = new ArrayList<>();
         resL.add("A");
         resL.add("B");*/
-            if(userSettings != null && (int) userSettings.get("isDark") == 0) {
-                autoComAdapter = new ArrayAdapter<String>(this, R.layout.my_simple_expandable_list_item_white,resL);
+            if (userSettings != null && (int) userSettings.get("isDark") == 0) {
+                autoComAdapter = new ArrayAdapter<String>(this, R.layout.my_simple_expandable_list_item_white, resL);
             } else {
-                autoComAdapter = new ArrayAdapter<String>(this, R.layout.my_simple_expandable_list_item_gray,resL);
+                autoComAdapter = new ArrayAdapter<String>(this, R.layout.my_simple_expandable_list_item_gray, resL);
             }
         }
     }
-    private void setHistoryAdapter(String userID){
+
+    private void setHistoryAdapter(String userID) {
         //获取搜索历史
         com.example.finance.common.R<Object> res = null;
         try {
@@ -288,7 +290,7 @@ public class StockSearchPage extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(res.getCode()==0) {
+        if (res.getCode() == 0) {
             Looper.prepare();
             Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
             Looper.loop();
@@ -309,6 +311,7 @@ public class StockSearchPage extends AppCompatActivity {
             }
         }
     }
+
     private void startSearch(String input) {/*
         try {
             com.example.finance.common.R<String> res = null;
@@ -332,7 +335,7 @@ public class StockSearchPage extends AppCompatActivity {
             }
         });
         Intent intent = new Intent(StockSearchPage.this, StockSearchResult.class);
-        intent.putExtra("searchInput",input);
+        intent.putExtra("searchInput", input);
         intentActivityResultLauncher.launch(intent);/*
         Intent intent = new Intent();
         intent.setClass(StockSearchPage.this, StockSearchResult.class);

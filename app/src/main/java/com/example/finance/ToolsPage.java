@@ -43,7 +43,7 @@ public class ToolsPage extends AppCompatActivity {
     private AbsoluteLayout al_ai_helper;
     private AbsoluteLayout al_charts;
 
-    private Map<String,Object> userSettings = null;
+    private Map<String, Object> userSettings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +52,11 @@ public class ToolsPage extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("UserInfo", 0);
 
         userId = settings.getString("UserId", "").toString();
-        if(!userId.isEmpty()) {
+        if (!userId.isEmpty()) {
             try {
                 com.example.finance.common.R<Object> res = null;
                 res = userApi.GetSettingsById(userId);
-                if(res.getCode()==0) {
+                if (res.getCode() == 0) {
                     Toast.makeText(ToolsPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                 } else {
                     userSettings = (Map<String, Object>) res.getData();
@@ -70,9 +70,10 @@ public class ToolsPage extends AppCompatActivity {
         initViews();
         setListeners();
     }
+
     private void changeMode(boolean isDark) {
-        
-        if(isDark) {
+
+        if (isDark) {
             findViewById(R.id.tools_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.tools_head).setBackgroundColor(colors.colorBlue);
             ((TextView) findViewById(R.id.predictor_text)).setTextColor(colors.colorWhite);
@@ -156,13 +157,14 @@ public class ToolsPage extends AppCompatActivity {
         tv_backBtn = findViewById(R.id.backBtn);
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
-        if(userSettings != null && (int)userSettings.get("isNew") == 1) {
+        if (userSettings != null && (int) userSettings.get("isNew") == 1) {
             al_predictor.setVisibility(View.GONE);
             al_warning.setVisibility(View.GONE);
         }
-        if(userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
+        if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         //setSupportActionBar(toolbar);
     }
+
     private void setListeners() {
         tv_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +177,7 @@ public class ToolsPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(ToolsPage.this, StockSearchPage.class);
-                intent.putExtra("searchInput","");
+                intent.putExtra("searchInput", "");
                 startActivity(intent);
             }
         });
@@ -184,7 +186,7 @@ public class ToolsPage extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(ToolsPage.this, StockSearchPage.class);
-                intent.putExtra("searchInput","");
+                intent.putExtra("searchInput", "");
                 startActivity(intent);
             }
         });
