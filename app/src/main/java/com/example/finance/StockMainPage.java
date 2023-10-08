@@ -514,7 +514,6 @@ public class StockMainPage extends AppCompatActivity {
                     switch (curChosen) {
                         case 0: {
                             res = topicApi.GetTopicsByPage("", page, pageSize);
-                            System.out.println(res.getData().toString());
                             break;
                         }
                         case 1: {

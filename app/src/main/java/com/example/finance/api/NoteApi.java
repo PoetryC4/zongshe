@@ -40,7 +40,7 @@ public class NoteApi {
     public static R<Object> GetNotesByPage(String userId,Integer page,Integer pageSize,String input) throws IOException, InterruptedException {
         List<String> parameters = new ArrayList<>();
         List<Object> values = new ArrayList<>();
-        parameters.add("id");
+        parameters.add("userId");
         parameters.add("page");
         parameters.add("pageSize");
         parameters.add("input");
@@ -157,7 +157,7 @@ public class NoteApi {
     public static R<Object> GetNoteCount(String userId,String input) throws IOException, InterruptedException {
         List<String> parameters = new ArrayList<>();
         List<Object> values = new ArrayList<>();
-        parameters.add("id");
+        parameters.add("userId");
         parameters.add("input");
         values.add(userId);
         values.add(input);

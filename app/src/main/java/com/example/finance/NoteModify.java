@@ -87,7 +87,7 @@ public class NoteModify extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        Thread thread = new Thread() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (isNew == 0) {
@@ -122,10 +122,8 @@ public class NoteModify extends AppCompatActivity {
                     et_title.setText("");
                 }
             }
-        };
+        });
 
-        // 启动线程
-        thread.start();
         if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
 

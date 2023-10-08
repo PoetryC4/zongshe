@@ -348,15 +348,6 @@ public class UserNotes extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult result) {
-                            //此处是跳转的result回调方法
-                            if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
-                                pageTurn();
-                            }
-                        }
-                    });
                     Intent intent = new Intent(UserNotes.this, NoteRead.class);
                     intent.putExtra("note_id", IDs.get(finalI));
                     intentActivityResultLauncher.launch(intent);/*
@@ -370,6 +361,15 @@ public class UserNotes extends AppCompatActivity {
         }
     }
 
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            //此处是跳转的result回调方法
+            if (result.getResultCode() == RESULT_CANCELED || (result.getData() != null && result.getResultCode() == Activity.RESULT_OK)) {
+                pageTurn();
+            }
+        }
+    });
     private void pageTurn() {
         runOnUiThread(new Runnable() {
             @Override

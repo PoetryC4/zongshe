@@ -503,15 +503,12 @@ public class StockDataPage extends AppCompatActivity {
                     tv_cashflowPart.setClickable(true);
                     tv_cashflowPart.setTextColor(colors.colorGray);
                 }
-                Thread thread = new Thread() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         IncomeInit();
                     }
-                };
-
-                // 启动线程
-                thread.start();
+                });
             }
         });
         tv_balancePart.setOnClickListener(new View.OnClickListener() {
@@ -532,15 +529,12 @@ public class StockDataPage extends AppCompatActivity {
                     tv_cashflowPart.setClickable(true);
                     tv_cashflowPart.setTextColor(colors.colorGray);
                 }
-                Thread thread = new Thread() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         BalanceInit();
                     }
-                };
-
-                // 启动线程
-                thread.start();
+                });
             }
         });
         tv_cashflowPart.setOnClickListener(new View.OnClickListener() {
@@ -562,15 +556,12 @@ public class StockDataPage extends AppCompatActivity {
                     tv_incomePart.setTextColor(colors.colorGray);
                 }
 
-                Thread thread = new Thread() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         CashflowInit();
                     }
-                };
-
-                // 启动线程
-                thread.start();
+                });
             }
         });
         /*

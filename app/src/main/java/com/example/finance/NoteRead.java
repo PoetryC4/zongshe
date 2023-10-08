@@ -84,7 +84,7 @@ public class NoteRead extends AppCompatActivity {
         tv_backBtn.setTypeface(fontAwe);
         toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        Thread thread = new Thread() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -106,10 +106,7 @@ public class NoteRead extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        };
-
-        // 启动线程
-        thread.start();
+        });
         if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
     }
 
@@ -143,15 +140,6 @@ public class NoteRead extends AppCompatActivity {
         tv_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        //此处是跳转的result回调方法
-                        if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
-                            finish();
-                        }
-                    }
-                });
                 Intent intent = new Intent(NoteRead.this, NoteModify.class);
                 intent.putExtra("new", "0");
                 intent.putExtra("note_id", noteId);
@@ -171,4 +159,14 @@ public class NoteRead extends AppCompatActivity {
             }
         });*/
     }
+
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            //此处是跳转的result回调方法
+            if (result.getResultCode() == RESULT_CANCELED || (result.getData() != null && result.getResultCode() == Activity.RESULT_OK)) {
+                finish();
+            }
+        }
+    });
 }

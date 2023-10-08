@@ -337,15 +337,6 @@ public class UserFavorites extends AppCompatActivity {
             favorsAL.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult result) {
-                            //此处是跳转的result回调方法
-                            if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
-                                pageTurn();
-                            }
-                        }
-                    });
                     Intent intent = new Intent(UserFavorites.this, StockDataPage.class);
                     intent.putExtra("ts_code", IDs.get(finalI));
                     intent.putExtra("stock_name", names.get(finalI));
@@ -473,4 +464,14 @@ public class UserFavorites extends AppCompatActivity {
         AL.addView(line);
         return AL;
     }
+
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            //此处是跳转的result回调方法
+            if (result.getResultCode() == RESULT_CANCELED || (result.getData() != null && result.getResultCode() == Activity.RESULT_OK)) {
+                pageTurn();
+            }
+        }
+    });
 }

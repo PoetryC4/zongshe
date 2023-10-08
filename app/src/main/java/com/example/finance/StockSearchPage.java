@@ -335,7 +335,7 @@ public class StockSearchPage extends AppCompatActivity {
         @Override
         public void onActivityResult(ActivityResult result) {
             //此处是跳转的result回调方法
-            if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+            if (result.getResultCode() == RESULT_CANCELED || (result.getData() != null && result.getResultCode() == Activity.RESULT_OK)) {
                 setHistoryAdapter("1");
                 lv_Tips.setAdapter(historyAdapter);
             }
