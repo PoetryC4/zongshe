@@ -123,7 +123,8 @@ public class StockMainPage extends AppCompatActivity {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                String topList = Tushare.tushareApi("top_list", "trade_date=" + getCurTime.yestodayTime());
+                // String topList = Tushare.tushareApi("top_list", "trade_date=" + getCurTime.yestodayTime());
+                String topList = Tushare.tushareApi("top_list", "trade_date=" + "20230927");
                 Map map = JSON.parseObject(topList, Map.class);
                 if (!map.containsKey("code") || (Integer) map.get("code") == 0) {
                     Looper.prepare();
@@ -137,7 +138,6 @@ public class StockMainPage extends AppCompatActivity {
 
         // 启动线程
         thread.start();
-
 
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         tv_user = findViewById(R.id.user_page);
@@ -489,11 +489,6 @@ public class StockMainPage extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    View view = mainAL.get(finalI1);
-                    LinearLayout parent = (LinearLayout) view.getParent();
-                    if (parent != null) {
-                        ll_res.removeView(mainAL.get(finalI1));
-                    }
                     ll_res.addView(mainAL.get(finalI1), 0);
                 }
             });
@@ -519,6 +514,7 @@ public class StockMainPage extends AppCompatActivity {
                     switch (curChosen) {
                         case 0: {
                             res = topicApi.GetTopicsByPage("", page, pageSize);
+                            System.out.println(res.getData().toString());
                             break;
                         }
                         case 1: {
@@ -529,6 +525,10 @@ public class StockMainPage extends AppCompatActivity {
                             List<Map<String, Object>> ls = new ArrayList<>();
                             List<Object> items = JSONObject.parseArray(chartsMap.get("items").toString(), Object.class);
                             List<String> fields = JSONObject.parseArray(chartsMap.get("fields").toString(), String.class);
+                            if (items.size() == 0) {
+                                res = com.example.finance.common.R.error("获取失败");
+                                break;
+                            }
                             for (int i = (page - 1) * pageSize; i < page * pageSize; i++) {
                                 Map<String, Object> tmpMap = new HashMap<>();
                                 List<Object> item = JSONObject.parseArray(items.get(i).toString(), Object.class);
@@ -552,8 +552,14 @@ public class StockMainPage extends AppCompatActivity {
                 }
                 mainData = (List<Map<String, Object>>) res.getData();
                 tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
-                if (mainData.size() != 0) tv_noResult.setVisibility(View.GONE);
+                if (mainData.size() != 0) {
+                    tv_noResult.setVisibility(View.GONE);
+                    btn_post.setVisibility(View.VISIBLE);
+                    btn_pre.setVisibility(View.VISIBLE);
+                    tv_pageNumber.setVisibility(View.VISIBLE);
+                }
                 else {
+                    tv_noResult.setVisibility(View.VISIBLE);
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
@@ -579,8 +585,8 @@ public class StockMainPage extends AppCompatActivity {
                         }
                     }
                 }
+                mainClicked();
                 if (curChosen == 2) {
-                    mainClicked();
                     chartAL = new AbsoluteLayout(StockMainPage.this);
                     chartAL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 140));
                     if (userSettings != null && (int) userSettings.get("isDark") == 1) {
@@ -670,10 +676,6 @@ public class StockMainPage extends AppCompatActivity {
                     line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 104));
                     chartAL.addView(line);
 
-                    LinearLayout parent = (LinearLayout) chartAL.getParent();
-                    if (parent != null) {
-                        ll_res.removeView(chartAL);
-                    }
                     ll_res.addView(chartAL, 0);
 
                 }
@@ -684,7 +686,7 @@ public class StockMainPage extends AppCompatActivity {
     private AbsoluteLayout addTopicResult(Map<String, Object> map, int i) {
         Typeface fontAwe = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         AbsoluteLayout AL = new AbsoluteLayout(StockMainPage.this);
-        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 140));
+        AL.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 190));
         if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             AL.setBackgroundColor(i % 2 == 1 ? colors.colorGray : colors.colorSuperGray);
         } else {
@@ -694,10 +696,10 @@ public class StockMainPage extends AppCompatActivity {
         TextView topicTitle = new TextView(StockMainPage.this);
         topicTitle.setText((String) map.get("title"));
         topicTitle.setTextSize(25);
-        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
-            topicTitle.setTextColor(colors.colorWhite);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             topicTitle.setTextColor(colors.colorGray);
+        } else {
+            topicTitle.setTextColor(colors.colorWhite);
         }
         //topicTitle.setTextColor(colors.colorGray);
         topicTitle.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
@@ -706,10 +708,10 @@ public class StockMainPage extends AppCompatActivity {
         TextView topicChannel = new TextView(StockMainPage.this);
         topicChannel.setText((String) map.get("channels"));
         topicChannel.setTextSize(17);
-        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
-            topicChannel.setTextColor(colors.colorWhite);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             topicChannel.setTextColor(colors.colorGray);
+        } else {
+            topicChannel.setTextColor(colors.colorWhite);
         }
         //topicChannel.setTextColor(colors.colorGray);
         topicChannel.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 238, 0));
@@ -718,19 +720,19 @@ public class StockMainPage extends AppCompatActivity {
         TextView topicDate = new TextView(StockMainPage.this);
         topicDate.setText((String) map.get("datetime"));
         topicDate.setTextSize(20);
-        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
-            topicDate.setTextColor(colors.colorWhite);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             topicDate.setTextColor(colors.colorGray);
+        } else {
+            topicDate.setTextColor(colors.colorWhite);
         }
         //topicDate.setTextColor(colors.colorGray);
         topicDate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(topicDate);
         TextView line = new TextView(StockMainPage.this);
-        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
-            line.setBackgroundColor(colors.colorWhite);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             line.setBackgroundColor(colors.colorGray);
+        } else {
+            line.setBackgroundColor(colors.colorWhite);
         }
         line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
@@ -740,13 +742,12 @@ public class StockMainPage extends AppCompatActivity {
         go.setText(R.string.fa_chevron_right);
         go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
-            go.setTextColor(colors.colorWhite);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
             go.setTextColor(colors.colorGray);
+        } else {
+            go.setTextColor(colors.colorWhite);
         }
         AL.addView(go);
-
         return AL;
     }
 

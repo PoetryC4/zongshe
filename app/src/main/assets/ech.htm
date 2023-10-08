@@ -16,17 +16,15 @@
         const data = {
             tsCode: ts_code,
         };
-        const url = 'http://43.139.245.208:9999/sys/daily/Kday?tsCode='+ts_code
         setTimeout(()=>{
             var stData;
-            axios.get(url, data)
+            axios.post('http://43.139.245.208:9999/sys/daily/Kday?tsCode='+ts_code, data)
             .then(response => {
                     //stData = JSON.parse(this.responseText);
                     //stData = stData.data;
-                    stData = JSON.parse(response.data)
+                    stData = response.data.data
                     let getDailyStockR = []
                     let row = []
-                    // for(let i=0;i<stData.getDailyStock.length;i++) {
                     for(let i=0;i<stData.length;i++) {
                         row = []
                         row.push(stData[i].tradeDate)

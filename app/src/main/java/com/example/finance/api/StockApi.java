@@ -94,7 +94,7 @@ public class StockApi {
     public static R<Object> GetLatest(String tsCode) throws IOException, InterruptedException {
         String[] parameters = {"tsCode"};
         String[] values = {tsCode};
-        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"daily/info","GET");
+        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"daily/info","POST");
         ts.start();
         while(ts.a==null){
             Thread.sleep(100);
@@ -167,9 +167,13 @@ public class StockApi {
     }*/
 
     public static R<Object> GetAlikeCount(String input) throws IOException, InterruptedException {
-        String[] parameters = {"input"};
-        String[] values = {input};
-        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"stockInfo/getnum","GET");
+        /*String[] parameters = {"input"};
+        String[] values = {input};*/
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("input");
+        values.add(input);
+        ThreadStock ts=new ThreadStock(parameters,values,"stockInfo/getnum","POST");
         ts.start();
         while(ts.a==null){
             Thread.sleep(100);
@@ -243,7 +247,7 @@ public class StockApi {
     public static R<Object> GetCashflow(String tsCode) throws IOException, InterruptedException {
         String[] parameters = {"id"};
         String[] values = {tsCode};
-        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"cashFlow/show","GET");
+        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"cashFlow/show","POST");
         ts.start();
         while(ts.a==null){
             Thread.sleep(100);
@@ -263,7 +267,7 @@ public class StockApi {
     public static R<Object> GetBalance(String tsCode) throws IOException, InterruptedException {
         String[] parameters = {"id"};
         String[] values = {tsCode};
-        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"balanceSheet/show","GET");
+        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"balanceSheet/show","POST");
         ts.start();
         while(ts.a==null){
             Thread.sleep(100);
@@ -280,7 +284,7 @@ public class StockApi {
     public static R<Object> GetIncome(String tsCode) throws IOException, InterruptedException {
         String[] parameters = {"id"};
         String[] values = {tsCode};
-        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"income/show","GET");
+        ThreadStock_2 ts=new ThreadStock_2(parameters,values,"income/show","POST");
         ts.start();
         while(ts.a==null){
             Thread.sleep(100);

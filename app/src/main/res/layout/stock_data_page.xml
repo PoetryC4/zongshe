@@ -77,11 +77,12 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:translationY="30dp"
+            android:visibility="gone"
             android:background="@color/gray_1"/>
 
 
         <TextView
-            android:id="@+id/stock_data_col"
+            android:id="@+id/stock_chart_col"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:translationX="251dp"
@@ -92,7 +93,7 @@
             android:textSize="20sp"/>
 
         <TextView
-            android:id="@+id/stock_chart_col"
+            android:id="@+id/stock_data_col"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:translationX="85dp"

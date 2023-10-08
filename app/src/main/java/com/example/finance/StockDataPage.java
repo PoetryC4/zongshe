@@ -117,11 +117,11 @@ public class StockDataPage extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        Intent intent = getIntent();/*
+        Intent intent = getIntent();
         ts_code = intent.getStringExtra("ts_code");
-        stock_name = intent.getStringExtra("stock_name");*/
-        ts_code = "000012.SZ";
-        stock_name = "test";
+        stock_name = intent.getStringExtra("stock_name");
+        /*ts_code = "000012.SZ";
+        stock_name = "test";*/
         //hzyNote
         Thread thread = new Thread() {
             @Override
@@ -308,7 +308,7 @@ public class StockDataPage extends AppCompatActivity {
             findViewById(R.id.stockInfoDetail).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.stockDataPage_data).setBackgroundColor(colors.colorBlueish);
             findViewById(R.id.stockDataPage_chart).setBackgroundColor(colors.colorBlueish);
-            findViewById(R.id.stockDataPage_body).setBackgroundColor(colors.colorBlue);
+            findViewById(R.id.stockDataPage_body).setBackgroundColor(colors.colorSuperGray);
             findViewById(R.id.stockDataPage_upper).setBackgroundColor(colors.colorDarkBlue);
             ((TextView) findViewById(R.id.stockName)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.predictButton)).setTextColor(colors.colorWhite);
@@ -347,7 +347,7 @@ public class StockDataPage extends AppCompatActivity {
             findViewById(R.id.stockInfoDetail).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.stockDataPage_data).setBackgroundColor(colors.colorRedish);
             findViewById(R.id.stockDataPage_chart).setBackgroundColor(colors.colorRedish);
-            findViewById(R.id.stockDataPage_body).setBackgroundColor(colors.colorRed);
+            findViewById(R.id.stockDataPage_body).setBackgroundColor(colors.colorWhite);
             findViewById(R.id.stockDataPage_upper).setBackgroundColor(colors.colorLightRed);
             ((TextView) findViewById(R.id.stockName)).setTextColor(colors.colorGray);
             ((TextView) findViewById(R.id.predictButton)).setTextColor(colors.colorGray);
@@ -714,9 +714,7 @@ public class StockDataPage extends AppCompatActivity {
             com.example.finance.common.R<Object> res = null;
             res = stockApi.GetCashflow(ts_code);
             if (res.getCode() == 0) {
-                Looper.prepare();
                 Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                Looper.loop();
                 return;
             } else {
                 detailData = (Map<String, Object>) res.getData();
@@ -829,9 +827,7 @@ public class StockDataPage extends AppCompatActivity {
             com.example.finance.common.R<Object> res = null;
             res = stockApi.GetBalance(ts_code);
             if (res.getCode() == 0) {
-                Looper.prepare();
                 Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                Looper.loop();
                 return;
             } else {
                 detailData = (Map<String, Object>) res.getData();
@@ -994,9 +990,7 @@ public class StockDataPage extends AppCompatActivity {
             com.example.finance.common.R<Object> res = null;
             res = stockApi.GetIncome(ts_code);
             if (res.getCode() == 0) {
-                Looper.prepare();
                 Toast.makeText(StockDataPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-                Looper.loop();
                 return;
             } else {
                 detailData = (Map<String, Object>) res.getData();

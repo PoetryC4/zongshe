@@ -291,9 +291,7 @@ public class StockSearchPage extends AppCompatActivity {
             e.printStackTrace();
         }
         if (res.getCode() == 0) {
-            Looper.prepare();
             Toast.makeText(StockSearchPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
-            Looper.loop();
         } else {
             List<String> resL = new ArrayList<>();
             for (int i = 0; i < ((List<Map<String, Object>>) res.getData()).size(); i++) {
@@ -324,16 +322,7 @@ public class StockSearchPage extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
-        ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                //此处是跳转的result回调方法
-                if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
-                    setHistoryAdapter("1");
-                    lv_Tips.setAdapter(historyAdapter);
-                }
-            }
-        });
+
         Intent intent = new Intent(StockSearchPage.this, StockSearchResult.class);
         intent.putExtra("searchInput", input);
         intentActivityResultLauncher.launch(intent);/*
@@ -342,4 +331,14 @@ public class StockSearchPage extends AppCompatActivity {
         intent.putExtra("searchInput",input);
         startActivity(intent);*/
     }
+    ActivityResultLauncher<Intent> intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            //此处是跳转的result回调方法
+            if (result.getData() != null && result.getResultCode() == Activity.RESULT_OK) {
+                setHistoryAdapter("1");
+                lv_Tips.setAdapter(historyAdapter);
+            }
+        }
+    });
 }

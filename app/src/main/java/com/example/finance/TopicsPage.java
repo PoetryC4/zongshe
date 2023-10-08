@@ -350,8 +350,14 @@ public class TopicsPage extends AppCompatActivity {
                 }
                 topicData = (List<Map<String, Object>>) res.getData();
                 tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
-                if (topicData.size() != 0) tv_noResult.setVisibility(View.GONE);
+                if (topicData.size() != 0) {
+                    tv_noResult.setVisibility(View.GONE);
+                    btn_post.setVisibility(View.VISIBLE);
+                    btn_pre.setVisibility(View.VISIBLE);
+                    tv_pageNumber.setVisibility(View.VISIBLE);
+                }
                 else {
+                    tv_noResult.setVisibility(View.VISIBLE);
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);

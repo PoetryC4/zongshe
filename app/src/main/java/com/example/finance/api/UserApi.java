@@ -56,8 +56,8 @@ public class UserApi {
         @Override
 
         public void run(){
-            //resStr = GetURLContent.RequestWithBody("http","43.139.245.208","6765","/user/"+mapping,parameters,values);
-            resStr = GetURLContent.RequestWithBody("http","10.0.2.2","6765","/user/"+mapping,parameters,values);
+            // resStr = GetURLContent.RequestWithBody("http","10.0.2.2","6765","/user/"+mapping,parameters,values);
+            resStr = GetURLContent.RequestWithBody("http","43.139.245.208","6765","/user/"+mapping,parameters,values);
             //System.out.println("resStr:"+resStr);
             a = 1;
         }
@@ -89,6 +89,30 @@ public class UserApi {
             }
             System.out.println("url:"+url);
             resStr = GetURLContent.getContent(url.toString(),this.method);
+            //System.out.println("resStr:"+resStr);
+            a = 1;
+        }
+    }
+    static class ThreadUser_4 extends Thread{
+        Integer a;
+        String resStr;
+        List<String> parameters;
+        List<Object> values;
+        String mapping;
+        String method;
+
+        public ThreadUser_4(List<String> parameters,List<Object> values,String mapping,String method){
+            this.parameters = parameters;
+            this.values = values;
+            this.mapping = mapping;
+            this.method = method;
+        }
+
+        @Override
+
+        public void run(){
+            // resStr = GetURLContent.RequestWithBody("http","10.0.2.2","6765","/user/"+mapping,parameters,values);
+            resStr = GetURLContent.RequestWithBody("http","43.139.245.208","9999","/sys/brosehistory/"+mapping,parameters,values);
             //System.out.println("resStr:"+resStr);
             a = 1;
         }
@@ -204,9 +228,13 @@ public class UserApi {
     }*/
 
     public static R<Object> UserSearchHistory(String userId) throws IOException, InterruptedException {
-        String[] parameters = {"userid"};
-        String[] values = {userId};
-        ThreadUser_3 tu=new ThreadUser_3(parameters,values,"search","GET");
+        /*List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("userid");
+        values.add(userId);*/
+        String[] parameters = new String[]{"userid"};
+        String[] values = new String[]{userId};
+        ThreadUser_3 tu=new ThreadUser_3(parameters,values,"search","POST");
         tu.start();
         while(tu.a==null){
             Thread.sleep(100);

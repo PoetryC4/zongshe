@@ -324,11 +324,16 @@ public class StockSearchResult extends AppCompatActivity {
                 if (input != null && !input.isEmpty()) {
                     tv_result.setText("\"" + input + "\"的搜索结果");
                 }
-                if (data.size() != 0) tv_noResult.setVisibility(View.GONE);
-                else {
+                if (data.size() != 0) {
+                    btn_post.setVisibility(View.VISIBLE);
+                    btn_pre.setVisibility(View.VISIBLE);
+                    tv_pageNumber.setVisibility(View.VISIBLE);
+                    tv_noResult.setVisibility(View.GONE);
+                } else {
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
+                    tv_noResult.setVisibility(View.VISIBLE);
                 }
                 for (int i = 0; i < data.size(); i++) {
                     stocks.add(addStockResult(data.get(i), i));

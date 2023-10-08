@@ -79,7 +79,7 @@ public class TopicApi {
         values.add(input);
         values.add(page);
         values.add(pageSize);
-        ThreadTopic tt=new ThreadTopic(parameters,values,"new","GET");
+        ThreadTopic tt=new ThreadTopic(parameters,values,"new","POST");
         tt.start();
         while(tt.a==null){
             Thread.sleep(100);
@@ -108,7 +108,7 @@ public class TopicApi {
             return R.error("获取错误!");
         }
         return R.success(map.get("data"));
-    }
+    }*/
 
     public static R<Object> GetTopicCount(String input) throws IOException, InterruptedException {
         List<String> parameters = new ArrayList<>();
@@ -126,11 +126,15 @@ public class TopicApi {
             return R.error("获取错误!");
         }
         return R.success(map.get("data"));
-    }*/
+    }
     public static R<Object> GetTopicById(String topicId) throws IOException, InterruptedException {
-        String[] parameters = {"id"};
-        String[] values = {topicId};
-        ThreadTopic_2 tt=new ThreadTopic_2(parameters,values,"getone","GET");
+        /*String[] parameters = {"newsId"};
+        String[] values = {topicId};*/
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("newsId");
+        values.add(topicId);
+        ThreadTopic tt=new ThreadTopic(parameters,values,"getone","POST");
         tt.start();
         while(tt.a==null){
             Thread.sleep(100);
@@ -143,7 +147,7 @@ public class TopicApi {
         return R.success(map.get("data"));
     }
 
-    public static R<Object> GetTopicCount(String input) throws IOException, InterruptedException {
+    /*public static R<Object> GetTopicCount(String input) throws IOException, InterruptedException {
         String[] parameters = {"input"};
         String[] values = {input};
         ThreadTopic_2 tt=new ThreadTopic_2(parameters,values,"newnum","GET");
@@ -157,5 +161,5 @@ public class TopicApi {
             return R.error("获取错误!");
         }
         return R.success(map.get("data"));
-    }
+    }*/
 }

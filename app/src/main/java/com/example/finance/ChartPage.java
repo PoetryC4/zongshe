@@ -169,7 +169,8 @@ public class ChartPage extends AppCompatActivity {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                String topList = Tushare.tushareApi("top_list", "trade_date=" + getCurTime.yestodayTime());
+                // String topList = Tushare.tushareApi("top_list", "trade_date=" + getCurTime.yestodayTime());
+                String topList = Tushare.tushareApi("top_list", "trade_date=" + "20230927");
                 Map map = JSON.parseObject(topList, Map.class);
                 if (!map.containsKey("code") || (Integer) map.get("code") == 0) {
                     Looper.prepare();
@@ -267,23 +268,33 @@ public class ChartPage extends AppCompatActivity {
                 List<Map<String, Object>> ls = new ArrayList<>();
                 List<Object> items = JSONObject.parseArray(chartsMap.get("items").toString(), Object.class);
                 List<String> fields = JSONObject.parseArray(chartsMap.get("fields").toString(), String.class);
-                for (int i = (page - 1) * pageSize; i < page * pageSize; i++) {
-                    Map<String, Object> tmpMap = new HashMap<>();
-                    List<Object> item = JSONObject.parseArray(items.get(i).toString(), Object.class);
-                    for (int j = 0; j < item.size(); j++) {
-                        tmpMap.put(fields.get(j), item.get(j));
+                if (items.size() == 0) {
+                    res = com.example.finance.common.R.error("获取失败");
+                } else {
+                    for (int i = (page - 1) * pageSize; i < page * pageSize; i++) {
+                        Map<String, Object> tmpMap = new HashMap<>();
+                        List<Object> item = JSONObject.parseArray(items.get(i).toString(), Object.class);
+                        for (int j = 0; j < item.size(); j++) {
+                            tmpMap.put(fields.get(j), item.get(j));
+                        }
+                        ls.add(tmpMap);
                     }
-                    ls.add(tmpMap);
+                    res = com.example.finance.common.R.success(ls);
                 }
-                res = com.example.finance.common.R.success(ls);
                 if (res.getCode() == 0) {
                     Toast.makeText(ChartPage.this, res.getMsg(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 data = (List<Map<String, Object>>) res.getData();
                 tv_pageNumber.setText(page + "/" + (int) Math.ceil((float) count / (float) pageSize) + "页");
-                if (data.size() != 0) tv_noResult.setVisibility(View.GONE);
+                if (data.size() != 0) {
+                    tv_noResult.setVisibility(View.GONE);
+                    btn_post.setVisibility(View.VISIBLE);
+                    btn_pre.setVisibility(View.VISIBLE);
+                    tv_pageNumber.setVisibility(View.VISIBLE);
+                }
                 else {
+                    tv_noResult.setVisibility(View.VISIBLE);
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
                     tv_pageNumber.setVisibility(View.GONE);
