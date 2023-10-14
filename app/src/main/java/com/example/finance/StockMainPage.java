@@ -695,10 +695,10 @@ public class StockMainPage extends AppCompatActivity {
         TextView topicTitle = new TextView(StockMainPage.this);
         topicTitle.setText((String) map.get("title"));
         topicTitle.setTextSize(25);
-        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
-            topicTitle.setTextColor(colors.colorGray);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             topicTitle.setTextColor(colors.colorWhite);
+        } else {
+            topicTitle.setTextColor(colors.colorGray);
         }
         //topicTitle.setTextColor(colors.colorGray);
         topicTitle.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 0));
@@ -707,10 +707,10 @@ public class StockMainPage extends AppCompatActivity {
         TextView topicChannel = new TextView(StockMainPage.this);
         topicChannel.setText((String) map.get("channels"));
         topicChannel.setTextSize(17);
-        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
-            topicChannel.setTextColor(colors.colorGray);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             topicChannel.setTextColor(colors.colorWhite);
+        } else {
+            topicChannel.setTextColor(colors.colorGray);
         }
         //topicChannel.setTextColor(colors.colorGray);
         topicChannel.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 238, 0));
@@ -719,19 +719,19 @@ public class StockMainPage extends AppCompatActivity {
         TextView topicDate = new TextView(StockMainPage.this);
         topicDate.setText((String) map.get("datetime"));
         topicDate.setTextSize(20);
-        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
-            topicDate.setTextColor(colors.colorGray);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             topicDate.setTextColor(colors.colorWhite);
+        } else {
+            topicDate.setTextColor(colors.colorGray);
         }
         //topicDate.setTextColor(colors.colorGray);
         topicDate.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(topicDate);
         TextView line = new TextView(StockMainPage.this);
-        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
-            line.setBackgroundColor(colors.colorGray);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             line.setBackgroundColor(colors.colorWhite);
+        } else {
+            line.setBackgroundColor(colors.colorGray);
         }
         line.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.MATCH_PARENT, 6, 0, 184));
         AL.addView(line);
@@ -741,10 +741,10 @@ public class StockMainPage extends AppCompatActivity {
         go.setText(R.string.fa_chevron_right);
         go.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 970, 50));
         go.setTypeface(fontAwe);
-        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
-            go.setTextColor(colors.colorGray);
-        } else {
+        if (userSettings != null && (int) userSettings.get("isDark") == 1) {
             go.setTextColor(colors.colorWhite);
+        } else {
+            go.setTextColor(colors.colorGray);
         }
         AL.addView(go);
         return AL;
@@ -794,6 +794,16 @@ public class StockMainPage extends AppCompatActivity {
         date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(date);
 
+        TextView score = new TextView(StockMainPage.this);
+        score.setText((String) map.get("score"));// TODO 评分
+        score.setTextSize(20);
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
+            score.setTextColor(colors.colorGray);
+        } else {
+            score.setTextColor(colors.colorWhite);
+        }
+        score.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 438, 100));
+        AL.addView(score);
 
         TextView go = new TextView(StockMainPage.this);
         go.setTextSize(27);

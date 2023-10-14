@@ -63,6 +63,7 @@ public class StockDataPage extends AppCompatActivity {
     private TextView tv_vol;
     private TextView tv_amount;
     private TextView tv_favor;
+    private TextView tv_threshold;
     private TextView tv_predict;
     private LinearLayout ll_details;
     private TextView tv_cashflowPart;
@@ -120,9 +121,9 @@ public class StockDataPage extends AppCompatActivity {
         Intent intent = getIntent();
         ts_code = intent.getStringExtra("ts_code");
         stock_name = intent.getStringExtra("stock_name");
+        //测试用
         /*ts_code = "000012.SZ";
         stock_name = "test";*/
-        //hzyNote
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -254,6 +255,7 @@ public class StockDataPage extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         tv_favor = findViewById(R.id.favorButton);
+        tv_threshold = findViewById(R.id.warningThresholdButton);
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -272,9 +274,11 @@ public class StockDataPage extends AppCompatActivity {
                 } else {
                     if (Objects.equals(res.getData(), "N")) {
                         tv_favor.setText("加自选");
+                        tv_threshold.setVisibility(View.GONE);
                         isFavored = 0;
                     } else {
                         tv_favor.setText("取消自选");
+                        tv_threshold.setVisibility(View.VISIBLE);
                         isFavored = 1;
                     }
                 }
@@ -313,6 +317,7 @@ public class StockDataPage extends AppCompatActivity {
             ((TextView) findViewById(R.id.stockName)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.predictButton)).setTextColor(colors.colorWhite);
             ((TextView) findViewById(R.id.favorButton)).setTextColor(colors.colorWhite);
+            ((TextView) findViewById(R.id.warningThresholdButton)).setTextColor(colors.colorWhite);
             findViewById(R.id.stockDataPage_leftPanel).setBackgroundResource(R.drawable.rounded_rect_2_gray);
             ((TextView) findViewById(R.id.percChange)).setTextColor(colors.colorCyan);
             ((TextView) findViewById(R.id.percChangeTxt)).setTextColor(colors.colorWhite);
@@ -352,6 +357,7 @@ public class StockDataPage extends AppCompatActivity {
             ((TextView) findViewById(R.id.stockName)).setTextColor(colors.colorGray);
             ((TextView) findViewById(R.id.predictButton)).setTextColor(colors.colorGray);
             ((TextView) findViewById(R.id.favorButton)).setTextColor(colors.colorGray);
+            ((TextView) findViewById(R.id.warningThresholdButton)).setTextColor(colors.colorGray);
             findViewById(R.id.stockDataPage_leftPanel).setBackgroundResource(R.drawable.rounded_rect_2_white);
             ((TextView) findViewById(R.id.percChange)).setTextColor(colors.colorOrange);
             ((TextView) findViewById(R.id.percChangeTxt)).setTextColor(colors.colorGray);
@@ -447,11 +453,12 @@ public class StockDataPage extends AppCompatActivity {
         tv_favor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Thread thread = new Thread() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         isFavored = isFavored == 1 ? 0 : 1;
                         if (isFavored == 1) {
+                            tv_threshold.setVisibility(View.VISIBLE);
                             tv_favor.setText("取消自选");
                             try {
                                 if ((favorsApi.AddFavors(userId, getCurTime.curTime(), ts_code)).getCode() == 0) {
@@ -465,6 +472,7 @@ public class StockDataPage extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         } else {
+                            tv_threshold.setVisibility(View.GONE);
                             tv_favor.setText("加自选");
                             try {
                                 if ((favorsApi.DeleteFavors(userId, ts_code)).getCode() == 0) {
@@ -479,10 +487,7 @@ public class StockDataPage extends AppCompatActivity {
                             }
                         }
                     }
-                };
-
-                // 启动线程
-                thread.start();
+                });
             }
         });
         tv_incomePart.setOnClickListener(new View.OnClickListener() {
@@ -670,6 +675,16 @@ public class StockDataPage extends AppCompatActivity {
                 tv_news.setTextColor(colors.colorNotSelected);
             }
         });*/
+
+        tv_threshold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(StockDataPage.this, ThresholdSetting.class);
+                intent.putExtra("ts_code", ts_code);
+                startActivity(intent);
+            }
+        });
     }
 
     private String FormulatingNumbers(Float a) {

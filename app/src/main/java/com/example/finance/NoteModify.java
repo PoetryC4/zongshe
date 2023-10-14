@@ -65,6 +65,14 @@ public class NoteModify extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }else {
+            Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_LONG).show();
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            finish();
         }
         Intent intent = getIntent();
         isNew = Integer.parseInt(intent.getStringExtra("new"));

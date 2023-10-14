@@ -96,7 +96,7 @@ public class TopicPage extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         if (userSettings != null) changeMode((int) userSettings.get("isDark") == 1);
         //setSupportActionBar(toolbar);
-        Thread thread = new Thread() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 // 在这里定义线程执行的任务
@@ -121,10 +121,8 @@ public class TopicPage extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        };
+        });
 
-        // 启动线程
-        thread.start();
     }
 
     private void setListeners() {

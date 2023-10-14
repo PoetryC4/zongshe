@@ -210,6 +210,23 @@ public class UserApi {
         if(!map.containsKey("code") || (Integer) map.get("code")==0) return R.error("修改失败");
         return R.success("修改成功");
     }
+    public static R<String> UpdatePhone(String email, String phone) throws IOException, InterruptedException {
+        List<String> parameters = new ArrayList<>();
+        List<Object> values = new ArrayList<>();
+        parameters.add("email");
+        parameters.add("phone");
+        values.add(email);
+        values.add(phone);
+        ThreadUser_2 tu=new ThreadUser_2(parameters,values,"updatePhone","POST");
+        tu.start();
+        while(tu.a==null){
+            Thread.sleep(100);
+        }
+        if (Objects.equals("E", tu.resStr)) return R.error("获取错误!");
+        Map map = JSON.parseObject(tu.resStr,Map.class);
+        if(!map.containsKey("code") || (Integer) map.get("code")==0) return R.error("修改失败");
+        return R.success("修改成功");
+    }
 
 /*    public static R<Object> UserSearchHistory(String userId) throws IOException, InterruptedException {
         List<String> parameters = new ArrayList<>();

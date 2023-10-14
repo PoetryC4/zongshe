@@ -12,6 +12,7 @@
         android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <!-- Needed only if your app looks for Bluetooth devices.
          You must add an attribute to this permission, or declare the
@@ -121,6 +122,21 @@
             />
         <activity
             android:name="com.example.finance.AIhelperPage"
+            android:windowSoftInputMode="adjustNothing"
+            android:usesCleartextTraffic="true"
+            />
+        <activity
+            android:name="com.example.finance.ChangePhone"
+            android:windowSoftInputMode="adjustNothing"
+            android:usesCleartextTraffic="true"
+            />
+        <activity
+            android:name="com.example.finance.ChangePhoneVerify"
+            android:windowSoftInputMode="adjustNothing"
+            android:usesCleartextTraffic="true"
+            />
+        <activity
+            android:name="com.example.finance.ThresholdSetting"
             android:windowSoftInputMode="adjustNothing"
             android:usesCleartextTraffic="true"
             />

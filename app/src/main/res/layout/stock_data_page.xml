@@ -43,12 +43,23 @@
             android:textColor="@color/gray_2"
             android:textSize="20sp" />
         <TextView
+            android:id="@+id/warningThresholdButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:translationX="160dp"
+            android:translationY="10dp"
+            android:text="预警阈值"
+            android:textColor="@color/gray_2"
+            android:textSize="20sp"/>
+        <TextView
             android:id="@+id/favorButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            android:translationX="240dp"
+            android:translationX="260dp"
             android:translationY="10dp"
             android:text="加自选"
             android:textColor="@color/gray_2"

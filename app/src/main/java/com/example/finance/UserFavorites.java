@@ -101,6 +101,14 @@ public class UserFavorites extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        } else {
+            Toast.makeText(getApplicationContext(), "请先登录", Toast.LENGTH_LONG).show();
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            finish();
         }
         initViews();
         setListeners();
@@ -380,8 +388,7 @@ public class UserFavorites extends AppCompatActivity {
                     btn_post.setVisibility(View.VISIBLE);
                     btn_pre.setVisibility(View.VISIBLE);
                     tv_pageNumber.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     tv_noResult.setVisibility(View.VISIBLE);
                     btn_post.setVisibility(View.GONE);
                     btn_pre.setVisibility(View.GONE);
@@ -440,6 +447,17 @@ public class UserFavorites extends AppCompatActivity {
         }
         date.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 38, 100));
         AL.addView(date);
+
+        TextView score = new TextView(UserFavorites.this);
+        score.setText((String) map.get("score"));// TODO 评分
+        score.setTextSize(20);
+        if (userSettings != null && (int) userSettings.get("isDark") == 0) {
+            score.setTextColor(colors.colorGray);
+        } else {
+            score.setTextColor(colors.colorWhite);
+        }
+        score.setLayoutParams(new AbsoluteLayout.LayoutParams(AbsoluteLayout.LayoutParams.WRAP_CONTENT, AbsoluteLayout.LayoutParams.WRAP_CONTENT, 438, 100));
+        AL.addView(score);
 
 
         TextView go = new TextView(UserFavorites.this);
